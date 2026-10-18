@@ -1,0 +1,465 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "EDS_OPENSEARCH_API",
+    "description" : "This is the EUMETSAT Data Store OPENSEARCH API.\nIt implements OGC 13-026r9, OGC 17-047, OGC 17-003, and OGC 17-084. It adheres to the CEOS OpenSearch Best Practices v1.2. \nFor more information on the EO extensions for OpenSearch, visit https://www.ogc.org/standards/opensearch",
+    "termsOfService" : "https://www.eumetsat.int/terms/",
+    "license" : {
+      "name" : "License: not yet defined. For the time being: confidential and private",
+      "url" : "https://www.eumetsat.int"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://api.eumetsat.int/data/search-products/1.0.0"
+  }, {
+    "url" : "http://api.eumetsat.int/data/search-products/1.0.0"
+  } ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Search",
+    "description" : "Search EUMETSAT Online EO Data",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "https://www.eumetsat.int"
+    }
+  } ],
+  "paths" : {
+    "/os" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Search products",
+        "description" : "Search products",
+        "operationId" : "searchProducts",
+        "parameters" : [ {
+          "name" : "format",
+          "in" : "query",
+          "description" : "Format of response encoding: xml or json",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "pi",
+          "in" : "query",
+          "description" : "eo:parentIdentifier: the collection identifier",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "c",
+          "in" : "query",
+          "description" : "Count: Number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 500,
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "si",
+          "in" : "query",
+          "description" : "StartIndex: start index of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "pw",
+          "in" : "query",
+          "description" : "StartPage: startPage of records to return.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "bbox",
+          "in" : "query",
+          "description" : "geo:box: Inventory which has a spatial extent overlapping this bounding box. The box is defined by - west, south, east, north - coordinates of longitude, latitude, in a EPSG:4326 decimal degrees (e.g. &bbox=2.0,10.0,10.0,52.0& )",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "geo",
+          "in" : "query",
+          "description" : "geo:geometry: a custom geomtery in Well Known Text format, in a EPSG:4326 decimal degrees (e.g. &geo=POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2,2 3,3 3,3 2,2 2))& )",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "sru:sort: result sorting, ingestion time and sesning time are supported",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "set",
+          "in" : "query",
+          "description" : "eum:elementSetName, element set to return for each hit, default is full",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "full", "brief" ]
+          }
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "geo:uid",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "title",
+          "in" : "query",
+          "description" : "eo:title: can be used to define a wildcard search on the product title (product identifier), use set notation as OR and space as AND operator between multiple search terms",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sat",
+          "in" : "query",
+          "description" : "eo:platformShortName: Mission / Satellite",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "eo:productType: Product Type",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "dtstart",
+          "in" : "query",
+          "description" : "time:start: Temporal Start",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "dtend",
+          "in" : "query",
+          "description" : "time:end: Temporal End",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "publication",
+          "in" : "query",
+          "description" : "eo:publicationDate: publication date",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "zone",
+          "in" : "query",
+          "description" : "eum:tileZone: Equi7grid main continental zone",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "t6",
+          "in" : "query",
+          "description" : "eum:tile600km: Equi7grid 600km tile",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "timeliness",
+          "in" : "query",
+          "description" : "eo:timeliness: Timeliness",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "orbit",
+          "in" : "query",
+          "description" : "eo:orbitNumber: Orbit Number, must be a positive integer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "relorbit",
+          "in" : "query",
+          "description" : "eo:relativeOrbitNumber: Relative Orbit Number, must be a positive integer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "orbitdir",
+          "in" : "query",
+          "description" : "eo:orbitDirection: Orbit Direction",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cycle",
+          "in" : "query",
+          "description" : "eum:cycleNumber: Cycle Number, must be a positive integer",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer"
+          }
+        }, {
+          "name" : "fire",
+          "in" : "query",
+          "description" : "eum:fireDetected: Fire Detected",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "coverage",
+          "in" : "query",
+          "description" : "eum:coverage: Coverage",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "repeatCycleIdentifier",
+          "in" : "query",
+          "description" : "eum:repeatCycleIdentifier: Repeat Cycle",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "subRegionIdentifier",
+          "in" : "query",
+          "description" : "eum:subRegionIdentifier: Sub-Region",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "centerOfLongitude",
+          "in" : "query",
+          "description" : "eum:centerOfLongitude: Sub Sat Longitude",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "compositeType",
+          "in" : "query",
+          "description" : "eo:compositeType: Temporal Resolution",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "statisticType",
+          "in" : "query",
+          "description" : "eum:statisticType: Statistics",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "spatialResolution",
+          "in" : "query",
+          "description" : "eum:spatialResolution: Spatial Resolution",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is a representation of the search.",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/osdd" : {
+      "get" : {
+        "tags" : [ "Description Document" ],
+        "summary" : "OpenSearch Description Document ",
+        "description" : "Get the OSDD, either for the complete catalogue or for one specific collection",
+        "operationId" : "descriptionDocument",
+        "parameters" : [ {
+          "name" : "pi",
+          "in" : "query",
+          "description" : "eo:parentIdentifier: the collection identifier",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is a representation of the search.",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "UnauthorizedError" : {
+        "description" : "Authentication information is missing or invalid",
+        "headers" : {
+          "WWW_Authenticate" : {
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "default" : {
+        "type" : "oauth2",
+        "flows" : {
+          "implicit" : {
+            "authorizationUrl" : "https://api.eumetsat.int/authorize",
+            "scopes" : { }
+          }
+        }
+      }
+    }
+  }
+}

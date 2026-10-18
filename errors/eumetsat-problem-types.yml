@@ -1,0 +1,74 @@
+generated: '2026-10-18'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/eumetsat-data-store-browse-openapi.yml
+- openapi/eumetsat-data-store-cart-openapi.yml
+- openapi/eumetsat-data-store-download-openapi.yml
+- openapi/eumetsat-data-store-search-openapi.yml
+- openapi/eumetsat-data-store-subscription-openapi.yml
+- openapi/eumetsat-data-tailor-openapi.yml
+- openapi/eumetsat-dtws-openapi.yml
+- openapi/eumetsat-health-check-openapi.yml
+- openapi/eumetsat-product-navigator-csw-openapi.yml
+- openapi/eumetsat-product-navigator-openapi.yml
+- openapi/eumetsat-user-info-openapi.yml
+- openapi/eumetsat-user-preferences-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 192
+  statuses_declared: 8
+problems:
+- status: 400
+  title: Bad Request
+  description: The client request has errors.
+  operations: 52
+  media_types: []
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Authentication information is missing or invalid
+  operations: 48
+  media_types: []
+  schema: null
+- status: 403
+  title: Forbidden
+  description: Forbidden
+  operations: 21
+  media_types: []
+  schema: null
+- status: 404
+  title: Not Found
+  description: The requested resource was not found.
+  operations: 57
+  media_types:
+  - application/json
+  schema: Error
+- status: 405
+  title: Method Not Allowed
+  description: The HTTP method specified in the request is not allowed for this resource.
+  operations: 39
+  media_types: []
+  schema: null
+- status: 409
+  title: Conflict
+  description: Item already present on the cart
+  operations: 1
+  media_types: []
+  schema: null
+- status: 500
+  title: Internal Server Error
+  description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service
+    is down. Error details will be contained in
+  operations: 53
+  media_types: []
+  schema: null
+- status: default
+  title: null
+  description: null
+  operations: 38
+  media_types: []
+  schema: null

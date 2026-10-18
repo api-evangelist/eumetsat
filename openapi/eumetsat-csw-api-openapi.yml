@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Csw API
+  version: 0.0.1
+  description: 'Operations tagged Csw across 2 of this provider''s published API definitions: eumetsat-product-navigator-openapi.json, eumetsat-product-navigator-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/product-navigator/0.0.1
+- url: http://api.eumetsat.int/product-navigator/0.0.1
+security:
+- default: []
+tags:
+- name: Csw
+paths:
+  /csw/_search:
+    get:
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Csw
+      summary: Get csw search
+      x-summary-source: derived
+      operationId: getCswSearch
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+        description: Request Body
+      tags:
+      - Csw
+      summary: Create csw search
+      x-summary-source: derived
+      operationId: postCswSearch
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/product-navigator/0.0.1
+    - url: http://api.eumetsat.int/product-navigator/0.0.1
+  /csw/*:
+    get:
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Csw
+      summary: Get csw *
+      x-summary-source: derived
+      operationId: getCsw*
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/product-navigator/0.0.1
+    - url: http://api.eumetsat.int/product-navigator/0.0.1
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-product-navigator-openapi.json
+- eumetsat-product-navigator-openapi.yml

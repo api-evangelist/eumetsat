@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat User Info API Controller API
+  version: 0.0.2
+  contact:
+    name: CGI EOSS
+    url: https://cgi.com/
+    email: address@cgi.com
+  license:
+    name: LICENSE TBD
+    url: LICENSE TBD
+  termsOfService: Terms of service TBD
+  description: 'Operations tagged user-info-api-controller across 2 of this provider''s published API definitions: eumetsat-user-info-openapi.json, eumetsat-user-info-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/userInfo/0.0.2
+- url: http://api.eumetsat.int/userInfo/0.0.2
+security:
+- default: []
+tags:
+- name: user-info-api-controller
+  description: User Info Api Controller
+paths:
+  /user:
+    get:
+      tags:
+      - user-info-api-controller
+      summary: Retrieves user info
+      operationId: userInfoUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/userInfo/0.0.2
+    - url: http://api.eumetsat.int/userInfo/0.0.2
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-user-info-openapi.json
+- eumetsat-user-info-openapi.yml

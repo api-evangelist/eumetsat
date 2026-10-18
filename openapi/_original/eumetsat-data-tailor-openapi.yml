@@ -1,0 +1,2968 @@
+# x-archived-from: eumetsat-data-tailor-openapi.yml
+# x-archived-on: 2026-10-18
+openapi: 3.0.1
+info:
+  title: Data Tailor Web Service (DTWS)
+  description: The DTWS is a service based on EUMETSAT Data Tailor, hosted in the EUMETSAT Cloud. It provides customisation services to external users and to other services in the Cloud, notably the Data Store. This is its Web API for application-to-application usage, based on a REST design.
+  version: 0.1.0
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+security:
+- default: []
+paths:
+  /info:
+    get:
+      description: Returns general information about the Data Tailor configuration in its currently installed version.
+      operationId: GET_info
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /user_info:
+    get:
+      description: Returns information about the configuration for user with user_id identifier.
+      operationId: GET_user_info
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_info'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /report_quota:
+    get:
+      description: Provides a report of user space occupation. The information returned includes (a) the current user quota; (b) the space occupied by the user folder; (c) the percentage of space occupied by the user folder with respect to the set quota; (d) user workspace directory size; (e) user log directory size; (f) output directory size. The user can choose the units this information will be displayed in.
+      operationId: GET_report_quota
+      parameters:
+      - name: unit_size
+        in: query
+        description: The report will express sizes in the chosen units. Defaults to 'GB', can be set to either 'B', 'MB' and 'GB'.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportQuota'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /customisations:
+    get:
+      description: Retrieves information on the customisations corresponding to the given list of Uuid identifiers.
+      operationId: GET_customisations
+      parameters:
+      - name: user_id
+        in: query
+        description: Only return the customisations executed by the corresponding user.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: backend
+        in: query
+        description: Only show customisations with backend of given ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only show customisations with input product of given product ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Only show customisations in given status.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: return_size
+        in: query
+        description: Also return disk size occupied by customisation products and logs.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: start_time
+        in: query
+        description: Only show customisations starting at given time.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: stop_time
+        in: query
+        description: Only show customisations ending at given time
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: today
+        in: query
+        description: Only show customisations which were run today
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: step
+        in: query
+        description: Only show customisations which included the given step
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: maximum number of results returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customisation'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Launches a customisation with the given chain configuration. If successful, returns a corresponding Uuid identifier.
+      operationId: POST_customisations
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - product_paths
+              properties:
+                shapefile_stream:
+                  type: string
+                  description: Shapefile describing a Region of Interest (ROI).
+                  format: binary
+                product_paths:
+                  type: string
+                  description: list of product paths separated by |||.
+                chain_config:
+                  type: string
+                  description: Serialised JSON representation of the configuration of a customisation chain.
+                basket_config:
+                  type: string
+                  description: Serialised JSON representation of a Data Store Basket.
+                chain_name:
+                  type: string
+                  description: Key name of an existing functional chain.
+                sensing_start:
+                  type: string
+                  description: Desired sensing start time (YYYYMMDDThhmmssZ).
+                sensing_stop:
+                  type: string
+                  description: Desired sensing stop time (YYYYMMDDThhmmssZ).
+        required: true
+      responses:
+        '200':
+          description: customisation identifier (uuid)
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    delete:
+      description: Deletes all information pertaining to the customisations corresponding to the given list of Uuid identifiers.
+      operationId: DELETE_customisations
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /customisations/delete:
+    patch:
+      description: Patch API method to delete output products and logs of customisations corresponding to the given list of Uuid identifiers.
+      operationId: PATCH_customisations_delete
+      requestBody:
+        description: list of customisation IDs of which products and logs will be deleted.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Uuids'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Uuids'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /customisations/{customisationId}:
+    get:
+      description: Retrieves information on the customisation corresponding to the given Uuid identifier.
+      operationId: GET_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customisation'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Updates information on the customisation corresponding to the given Uuid identifier.
+      operationId: PUT_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customisation'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Customisation'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Deletes information on the customisation corresponding to the given Uuid identifier.
+      operationId: DELETE_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /customisations/{customisationId}/log:
+    get:
+      description: Returns log of the customisation corresponding to the given Uuid identifier.
+      operationId: GET_customisations-customisationId-log
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /download:
+    get:
+      description: Allows users to download an output file from a given path.
+      operationId: GET_download
+      parameters:
+      - name: path
+        in: query
+        description: path of output file to download
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /dir_entries:
+    get:
+      description: Returns the list of files in a directory and its size.
+      operationId: GET_dir_entries
+      parameters:
+      - name: dir_path
+        in: query
+        description: Path of directory from which to query entries.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: maximum number of entries shown
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      - name: offset
+        in: query
+        description: directory sub-levels shown
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - dir_size
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DirEntry'
+                  dir_size:
+                    type: integer
+                example:
+                  total: 2
+                  dir_size: 2
+                  data:
+                  - path: ./Documents
+                    is_dir: true
+                    st_size: 345
+                    st_mtime: 1560168369.1
+                  - path: ./README.txt
+                    is_dir: false
+                    st_size: 345
+                    st_mtime: 1560168369.1
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /products:
+    get:
+      description: Retrieves information on currently supported input product types.
+      operationId: GET_products
+      parameters:
+      - name: name
+        in: query
+        description: Only return information on product with this name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: only return products information starting from offset^th product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: maximum number of products of which to return information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                example:
+                  total: 2
+                  data:
+                  - id: MSGFIRG
+                    name: Active Fire Monitoring (GRIB) - MSG
+                    bands:
+                      fire_detection_indicator:
+                        name: Fire detection indicator
+                        number: 1
+                    pn_id:
+                    - EO:EUM:DAT:MSG:FIR
+                    - EO:EUM:DAT:MSG:FIR-IODC
+                  - id: IASISND02
+                    name: IASI Combined Sounding Products - Metop
+                    bands: []
+                    pn_id: EO:EUM:DAT:METOP:IASSND02
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows the user to add support for additional input products and specify the corresponding information.
+      operationId: POST_products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Basket'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Basket'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /products/{productId}:
+    get:
+      description: Retrieves information on supported input product of given productId identifier.
+      operationId: GET_products-productId
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /products/{productId}/bands:
+    get:
+      description: Retrieves information on the bands/channels of the supported input product with given productId identifier.
+      operationId: GET_products-productId-bands
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: backend
+        in: query
+        description: Only return information pertaining to given backend.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from the offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Return a maximum number of results.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Band'
+                example:
+                  total: 2
+                  data:
+                  - bands:
+                      fire_detection_indicator:
+                        name: Fire detection indicator
+                        number: 1
+                  - bands:
+                      channel_1:
+                        name: 0.633µm
+                        number: 1
+                      channel_2:
+                        name: 0.842µm
+                        number: 2
+                      channel_3:
+                        name: 1.606µm / 3.722µm
+                        number: 3
+                      channel_4:
+                        name: 10.785µm
+                        number: 4
+                      channel_5:
+                        name: 11.937µm
+                        number: 5
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /body_selections:
+    get:
+      description: Retrieves information on existing body selection configurations.
+      operationId: GET_body_selections
+      parameters:
+      - name: product
+        in: query
+        description: Only retrieve results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only retrieve results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Body_Selection'
+                example:
+                  total: 1
+                  data:
+                  - id: body_selection_FDHSI_1
+                    name: Body Selection 1
+                    product: FDHSI
+                    format: geotiff
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows the user to create new custom body selection configurations.
+      operationId: POST_body_selections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Selection'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Body_Selection'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /body_selections/{body_selectionId}:
+    get:
+      description: Retrieves information on the existing body selection configuration with given identifier.
+      operationId: GET_body_selections-body_selectionId
+      parameters:
+      - name: body_selectionId
+        in: path
+        description: Pre-configured body_selection ID (e.g. body selection 1).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Body_Selection'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Updates existing customisation chain configuration with given body_selectionId identifier.
+      operationId: PUT_body_selections-body_selectionId
+      parameters:
+      - name: body_selectionId
+        in: path
+        description: Pre-configured body_selection ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Selection'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Body_Selection'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Deletes all files and information on the existing body_selection with given body_selectionId identifier.
+      operationId: DELETE_body_selections-body_selectionId
+      parameters:
+      - name: body_selectionId
+        in: path
+        description: Pre-configured body_selection ID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /chains:
+    get:
+      description: Retrieves information on existing customisation chain configurations.
+      operationId: GET_chains
+      parameters:
+      - name: product
+        in: query
+        description: Only return chains corresponding to customisations of given product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return chains corresponding to customisations of given format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace an item ID with its configuration.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chain'
+                example:
+                  total: 4
+                  data:
+                  - id: sst_western_europe
+                    name: SST - Western Europe
+                    product: GLBSST
+                    format: geotiff
+                    projection: geographic
+                    roi: western_europe
+                    filter: 'bands: - sea_surface_temperature'
+                  - id: sea_surface_temperature
+                    name: Sea Surface Temperature
+                    product: GLBSST
+                    format: geotiff
+                    filter: 'bands: - sea_surface_temperature'
+                  - id: mhsl1_aggregation_orbit
+                    name: Aggregation Orbit
+                    product: MHSL1
+                    format: geotiff
+                    aggregation: orbit
+                  - id: ascatl1szf_aggregation_orbit
+                    name: Aggregation Orbit
+                    product: ASCATL1SZF
+                    format: geotiff
+                    aggregation: orbit
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows the user to create new chains with custom desired configurations.
+      operationId: POST_chains
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chain'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Chain'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /chains/{chainId}:
+    get:
+      description: Retrieves information on the existing customisation chain configuration with given chainId identifier.
+      operationId: GET_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chain'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Updates existing customisation chain configuration with given chainId identifier.
+      operationId: PUT_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chain'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Chain'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Deletes all files and information on the existing customisation chain configuration with given chainId identifier.
+      operationId: DELETE_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /rois:
+    get:
+      description: Retrieves information on pre-configured regions of interest.
+      operationId: GET_rois
+      parameters:
+      - name: product
+        in: query
+        description: only return ROIs which can be applied when customising given input product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: only return ROIs which can be applied when given output format is selected
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Roi'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows the user to add and eventually use custom ROI boxes.
+      operationId: POST_rois
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roi'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Roi'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /rois/{roiId}:
+    get:
+      description: Retrieves information on the pre-configured region of interest with given RoiId identifier.
+      operationId: GET_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Roi'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Updates the pre-configured region of interest with given RoiId identifier.
+      operationId: PUT_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roi'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Roi'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Deletes the pre-configured region of interest with given RoiId identifier.
+      operationId: DELETE_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /formats:
+    get:
+      description: Retrieves information on supported output formats.
+      operationId: GET_formats
+      parameters:
+      - name: product
+        in: query
+        description: Only return formats to which the given product can be converted.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return info from offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: maximum number of results to be returned.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Format'
+                example:
+                  total: 3
+                  data:
+                  - id: netcdf4
+                    name: NetCDF4
+                    ext: .nc
+                    description: NetCDF is an abstraction that supports a view of data as a collection of self-describing, portable objects that can be accessed through a simple interface. Array values may be accessed directly, without knowing details of how the data are stored.
+                  - id: jpeg_rgb
+                    name: JPEG (RGB)
+                    ext: .jpg
+                    description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+                  - id: png_grayscale
+                    name: PNG (grayscale multi-file)
+                    ext: .png
+                    description: PNG files are represented as one band (greyscale) datasets with Byte valued bands.
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /formats/{formatId}:
+    get:
+      description: Retrieves information on the supported output format with given formatId identifier.
+      operationId: GET_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Format ID (e.g. BUFR).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Format'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /filters:
+    get:
+      description: Retrieves information on currently available band filters.
+      operationId: GET_filters
+      parameters:
+      - name: format
+        in: query
+        description: Only return filters corresponding to given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return filters corresponding to product of given name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace each item ID with its configuration
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Filter'
+                example:
+                  total: 2
+                  data:
+                  - product: AVHRRL1
+                    bands:
+                    - channel_1
+                    - channel_2
+                    - channel_3
+                    id: avhrrl1_natural_color
+                    name: Natural color
+                  - product: HRSEVIRI
+                    bands:
+                    - channel_1
+                    - channel_2
+                    - channel_3
+                    id: hrseviri_natural_color
+                    name: Natural color
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows the user to add custom filters.
+      operationId: POST_filters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /filters/{filterId}:
+    get:
+      description: Retrieves information on the available band filter with given filterId identifier.
+      operationId: GET_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace item ID with its configuration
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Updates available band filter with given filterId identifier.
+      operationId: PUT_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Deletes available band filter with given filterId identifier.
+      operationId: DELETE_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /aggregations:
+    get:
+      description: Returns the list of supported aggregation types for given backends, formats, products.
+      operationId: GET_aggregations
+      parameters:
+      - name: backend
+        in: query
+        description: Only return results supported with given backend
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported with given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return results supported with given input product type
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Aggregation'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /projections:
+    get:
+      description: Returns the list of available projections for given backends, formats, products.
+      operationId: GET_projections
+      parameters:
+      - name: backend
+        in: query
+        description: Only return results supported with given backend
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported with given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return results supported with given input product type
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Projection'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /projections/{projectionId}:
+    get:
+      description: Retrieves information on the available projection with given projectionId identifier.
+      operationId: GET_projections-projectionId
+      parameters:
+      - name: projectionId
+        in: path
+        description: Projection ID (e.g. gall_stereographic).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projection'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklooks:
+    get:
+      description: Retrieves the list of available pre-configured quicklook configurations.
+      operationId: GET_quicklooks
+      parameters:
+      - name: product
+        in: query
+        description: Only retrieve results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only retrieve results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Quicklook'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    post:
+      description: Allows users to configure custom quicklook outputs.
+      operationId: POST_quicklooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quicklook'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Quicklook'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /quicklooks/{quicklookId}:
+    get:
+      description: Retrieves information on the available quicklook configuration with given quicklookId identifier.
+      operationId: GET_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quicklook'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+    put:
+      description: Allows users to update the quicklook configuration with given quicklookId.
+      operationId: PUT_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quicklook'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Quicklook'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+    delete:
+      description: Allows users to delete the quicklook configuration with given quicklookId.
+      operationId: DELETE_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_formats:
+    get:
+      description: Retrieves the list of available quicklook formats.
+      operationId: GET_quicklook_formats
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_formats/{formatId}:
+    get:
+      description: Retrieves information on the available quicklook format with given formatId identifier.
+      operationId: GET_quicklook_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Quicklook format ID (e.g. jpeg_rgb).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_nodatacolors:
+    get:
+      description: Retrieves the list of supported colours to express <no data> in quicklook, if any.
+      operationId: GET_quicklook_nodatacolors
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_nodatacolors/{nodatacolorId}:
+    get:
+      description: Retrieves information on the supported colour to express <no data> in quicklook, with given nodatacolorId identifier.
+      operationId: GET_quicklook_nodatacolors-nodatacolorId
+      parameters:
+      - name: nodatacolorId
+        in: path
+        description: ID of the color to be used to express 'no data' in quicklooks (e.g. red).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_resample_methods:
+    get:
+      description: Returns the list of supported resampling methods applicable to quicklook output images, if any.
+      operationId: GET_quicklook_resample_methods
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output product format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_resample_methods/{resample_methodId}:
+    get:
+      description: Returns the resample method applicable to quicklook output images, corresponding to the given ID.
+      operationId: GET_quicklook_resample_methods-resample_methodId
+      parameters:
+      - name: resample_methodId
+        in: path
+        description: Pre-configured quicklook resampling method ID (e.g. bilinear).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_stretch_methods:
+    get:
+      description: Returns the list of supported stretch methods applicable to quicklook output images, if any.
+      operationId: GET_quicklook_stretch_methods
+      parameters:
+      - name: format
+        in: query
+        description: Only return quicklook stretch methods supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return quicklook stretch methods supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookStretchMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /quicklook_stretch_methods/{stretch_methodId}:
+    get:
+      description: Returns the stretch method applicable to quicklook output images, corresponding to the given ID.
+      operationId: GET_quicklook_stretch_methods-stretch_methodId
+      parameters:
+      - name: stretch_methodId
+        in: path
+        description: Pre-configured quicklook stretch method ID (e.g. min_max).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookStretchMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /resample_methods:
+    get:
+      description: Returns the list of available resampling methods for the customisation of a given product into a given output format.
+      operationId: GET_resample_methods
+      parameters:
+      - name: product
+        in: query
+        description: Only return resample methods supported for given input product type
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return resample methods supported for given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResampleMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /stretch_methods:
+    get:
+      description: Returns the list of available stretch methods, if any.
+      operationId: GET_stretch_methods
+      parameters:
+      - name: product
+        in: query
+        description: Only return stretch methods supported for given product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return stretch methods supported for given format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StretchMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /aggregation_analyse:
+    post:
+      description: Shows the result of the aggregation analysis for a given product and for the chosen input files.
+      operationId: POST_aggregation_analyse
+      requestBody:
+        description: Only show results with given status.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Status'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+  /compressions:
+    get:
+      description: Returns the list of available compressed formats for output files.
+      operationId: GET_compressions
+      parameters:
+      - name: product
+        in: query
+        description: Only return compressions available for given product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return compressions available for given format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Compression'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /features:
+    get:
+      description: Retrieves the list of supported customisation functions (excluding re-format).
+      operationId: GET_features
+      parameters:
+      - name: product
+        in: query
+        description: Only return features corresponding to given product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return features corresponding to given format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feature'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /backends:
+    get:
+      description: Retrieves the list of available backends.
+      operationId: GET_backends
+      parameters:
+      - name: format
+        in: query
+        description: Only return backends relevant to given format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return backends relevant to given product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Backend'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+  /backends/{backendId}:
+    get:
+      description: Retrieves information on the available backend with given backendId identifier.
+      operationId: GET_backends-backendId
+      parameters:
+      - name: backendId
+        in: path
+        description: Registered backend ID (e.g. epct_plugin_gis).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backend'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+components:
+  schemas:
+    Info:
+      required:
+      - epct_version
+      - installed_plugins
+      - registered_backends
+      type: object
+      properties:
+        epct_version:
+          type: string
+          example: 3.0.0
+        installed_plugins:
+          type: array
+          items:
+            type: string
+            example: epct-plugin-gis, 3.0.0
+        registered_backends:
+          type: array
+          items:
+            type: string
+      description: General information about the Data Tailor configuration.
+    User_info:
+      required:
+      - config
+      - etc_dir
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: data_tailor
+        etc_dir:
+          type: string
+          example: /home/data_tailor/miniconda3/envs/my_env/etc/epct
+        config:
+          type: array
+          items:
+            type: string
+      description: Information about the configuration for user of ID user_id.
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+      description: Status of the customisation.
+    ReportQuota:
+      required:
+      - log_dir_size
+      - output_dir_size
+      - space_usage
+      - space_user_percentage
+      - user_quota
+      - workspace_dir_size
+      type: object
+      properties:
+        user_quota:
+          type: number
+        space_user_percentage:
+          type: number
+        space_usage:
+          type: number
+        workspace_dir_size:
+          type: number
+        log_dir_size:
+          type: number
+        output_dir_size:
+          type: number
+        nr_customisations:
+          type: number
+          example: 1
+      description: Report of user space occupation. Only works with valid input user-folder path.
+    Customisation:
+      required:
+      - backend_id
+      - creation_time
+      - id
+      - product_id
+      - status
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: john
+        creation_time:
+          type: string
+          example: 20220518T084016Z
+        backend_id:
+          type: string
+          example: epct_eps_native
+        product_id:
+          type: string
+          example: AMSAL1
+        required_processing_steps:
+          type: array
+          items:
+            type: string
+            example: format
+        processing_duration:
+          type: integer
+        status:
+          type: string
+          example: KILLED
+        id:
+          type: string
+          example: 3f94e79d
+      description: List of customisations
+    DirEntry:
+      required:
+      - is_dir
+      - path
+      type: object
+      properties:
+        path:
+          type: string
+        is_dir:
+          type: boolean
+        st_size:
+          type: integer
+        st_mtime:
+          type: number
+      description: List files in directory.
+      example:
+        path: ./README.txt
+        is_dir: false
+        st_size: 345
+        st_mtime: 1560168369.1
+    Product:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: MSGFIRG
+        name:
+          type: string
+          example: Active Fire Monitoring (GRIB) - MSG
+        description:
+          type: string
+          example: Fire detector indicator
+        bands:
+          type: object
+          properties: {}
+          example: fire_detection_indicator
+        pn_id:
+          type: string
+          example: EO:EUM:DAT:MSG:FIR
+      description: List of supported input product types.
+      example:
+        id: MSGFIRG
+        name: Active Fire Monitoring (GRIB) - MSG
+        bands:
+          fire_detection_indicator:
+            name: Fire detection indicator
+            number: 1
+        pn_id:
+        - EO:EUM:DAT:MSG:FIR
+        - EO:EUM:DAT:MSG:FIR-IODC
+    Body_Selection:
+      required:
+      - body_selection
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: body_selection_1
+        name:
+          type: string
+          example: Body Selection 1
+        description:
+          type: string
+          example: Body segments selection
+        body_selection:
+          type: array
+          example: '[1,2,4,7]'
+        product:
+          type: string
+          example: FCIL1FDHSI
+      description: Body segments selection
+    Chain:
+      required:
+      - format
+      - id
+      - name
+      - product
+      type: object
+      properties:
+        id:
+          type: string
+          example: sst_western_europe
+        name:
+          type: string
+          example: SST - Western Europe
+        description:
+          type: string
+          example: Sea Surface Temperature band with ROI over Western Europe and geographic projection
+        product:
+          type: string
+          example: GLBSST
+        format:
+          type: string
+          example: geotiff
+        aggregation:
+          type: string
+        projection:
+          type: string
+          example: geographic
+        roi:
+          $ref: '#/components/schemas/Roi'
+        filter:
+          $ref: '#/components/schemas/Filter'
+      description: Configurations of customisation processes.
+    Roi:
+      required:
+      - NSWE
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: western_europe
+        name:
+          type: string
+          example: Western Europe
+        NSWE:
+          type: array
+          items:
+            type: number
+        description:
+          type: string
+      description: List of available pre-configured Regions Of Interest (ROIs).
+    Format:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        ext:
+          type: string
+        description:
+          type: string
+      description: List of supported output formats.
+      example:
+        id: jpeg_rgb
+        name: JPEG (RGB)
+        ext: .jpg
+        description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+    Filter:
+      required:
+      - bands
+      - id
+      - name
+      - product
+      type: object
+      properties:
+        product:
+          type: string
+          example: AVHRRL1
+        bands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Band'
+        id:
+          type: string
+          example: avhrrl1_natural_color
+        name:
+          type: string
+          example: Natural Color
+      description: List of available filters per product.
+    Band:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: channel_1
+        name:
+          type: string
+          example: Channel 1
+        description:
+          type: string
+      description: List of bands.
+    Aggregation:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: orbit
+        name:
+          type: string
+          example: Orbit
+        description:
+          type: string
+          example: Aggregate entire orbit
+      description: List of supported aggregation types, if any.
+    Projection:
+      required:
+      - id
+      - name
+      - unit
+      type: object
+      properties:
+        id:
+          type: string
+          example: mollweide
+        name:
+          type: string
+          example: Mollweide
+        unit:
+          type: string
+          example: meter
+        description:
+          type: string
+          example: The Mollweide projection is an equal-area, pseudo-cylindrical map projection generally used for global maps of the world or night sky
+      description: List of available projections.
+    Quicklook:
+      required:
+      - filter
+      - format
+      - id
+      - name
+      - product
+      - resample_method
+      - stretch_method
+      type: object
+      properties:
+        id:
+          type: string
+          example: hrseviri_png
+        name:
+          type: string
+          example: PNG size 100% - keep aspect ratio
+        resample_method:
+          type: string
+          example: cubic
+        stretch_method:
+          type: string
+          example: min_max
+        product:
+          type: string
+          example: HRSEVIRI
+        format:
+          type: string
+          example: png_rgb
+        nodatacolor:
+          type: string
+          example: transparent
+        filter:
+          type: object
+          properties: {}
+          example: hrseviri_natural_color
+      description: Pre-configured quicklook configurations.
+    QuicklookFormat:
+      required:
+      - ext
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: jpeg_rgb
+        name:
+          type: string
+          example: JPEG (RGB)
+        comment:
+          type: string
+          example: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+        ext:
+          type: string
+          example: .jpg
+      description: List of supported output formats for quicklook, if any.
+    QuicklookNodatacolor:
+      required:
+      - id
+      - name
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+          example: white
+        name:
+          type: string
+          example: white
+        description:
+          type: string
+          example: Nodata values are plotted in white color in the quick-look
+        value:
+          type: array
+          items:
+            type: integer
+      description: List of supported colours to express <no data> in quicklook, if any.
+    QuicklookResampleMethod:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: bilinear
+        name:
+          type: string
+          example: Bilinear resampling
+      description: List of supported resampling methods applicable to quicklooks, if any.
+    QuicklookStretchMethod:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: min_max
+        name:
+          type: string
+          example: Min - Max
+        description:
+          type: string
+          example: Stretch between minimum and maximum values
+      description: List of supported stretch methods applicable to quicklooks, if any.
+    ResampleMethod:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: bilinear
+        name:
+          type: string
+          example: Bilinear resampling
+      description: List of available resampling methods, if any.
+    StretchMethod:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: min_max
+        name:
+          type: string
+          example: Min - Max
+        description:
+          type: string
+          example: Stretch between minimum and maximum values
+      description: List of available stretch methods, if any.
+    Log:
+      required:
+      - log_content
+      type: object
+      properties:
+        log_content:
+          type: string
+      description: Customisation log file.
+    Compression:
+      required:
+      - archiver
+      - description
+      - ext
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: zip
+        name:
+          type: string
+          example: Zip
+        description:
+          type: string
+          example: Archive file compressed using zip algorithm.
+        ext:
+          type: string
+          example: .zip
+        archiver:
+          type: string
+          example: zip
+      description: List of available types of output files compression.
+    Feature:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: aggregation
+      description: List of supported customisation functions (excluding re-format).
+    Backend:
+      required:
+      - aggregations
+      - execute
+      - features
+      - formats
+      - id
+      - name
+      - products
+      - projections
+      - quicklook_formats
+      - quicklook_nodatacolors
+      - quicklook_resample_methods
+      - quicklook_stretch_methods
+      type: object
+      properties:
+        id:
+          type: string
+          example: epct_plugin_umarf_openmtp
+        name:
+          type: string
+          example: epct_plugin_umarf_openmtp
+        products:
+          type: array
+          items:
+            type: string
+            example: MVIRI
+        formats:
+          type: array
+          items:
+            type: string
+            example: open_mtp
+        features:
+          type: array
+          items:
+            type: string
+            example: filter
+        projections:
+          type: array
+          items:
+            type: string
+            example: mollweide
+        aggregations:
+          type: array
+          items:
+            type: string
+            example: disk
+        quicklook_formats:
+          type: array
+          items:
+            type: string
+            example: jpeg_rgb
+        quicklook_nodatacolors:
+          type: array
+          items:
+            type: string
+            example: black
+        quicklook_stretch_methods:
+          type: array
+          items:
+            type: string
+            example: min_max
+        quicklook_resample_methods:
+          type: array
+          items:
+            type: string
+            example: bilinear
+        execute:
+          type: string
+          example: epct_plugin_umarf.executable:run
+      description: List of available backends.
+    Basket:
+      required:
+      - basket
+      type: object
+      properties:
+        basket:
+          type: string
+      description: XML Basket from Data Store
+      example:
+        basket: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><metalink xmlns=\"urn:ietf:params:xml:ns:metalink\"><file name=""></file></metalink>
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+      description: Error messages.
+      example:
+        message: path not found or not accessible
+    Uuids:
+      required:
+      - uuids
+      type: object
+      properties:
+        uuids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+      description: List of customisation uuids.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}

@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Aggregation Analyse API
+  version: '1.0'
+  description: 'Operations tagged Aggregation Analyse across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Aggregation Analyse
+paths:
+  /aggregation_analyse:
+    post:
+      description: Shows the result of the aggregation analysis for a given product and for the chosen input files.
+      operationId: POST_aggregation_analyse
+      requestBody:
+        description: Only show results with given status.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Status'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Aggregation Analyse
+      summary: POST aggregation analyse
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+      description: Status of the customisation.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

@@ -1,0 +1,159 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Compressions API
+  version: '1.0'
+  description: 'Operations tagged Compressions across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Compressions
+paths:
+  /compressions:
+    get:
+      description: Returns the list of available compressed formats for output files.
+      operationId: GET_compressions
+      parameters:
+      - name: product
+        in: query
+        description: Only return compressions available for given product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return compressions available for given format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Compression'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Compressions
+      summary: GET compressions
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+      description: Error messages.
+      example:
+        message: path not found or not accessible
+    Compression:
+      required:
+      - archiver
+      - description
+      - ext
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: zip
+        name:
+          type: string
+          example: Zip
+        description:
+          type: string
+          example: Archive file compressed using zip algorithm.
+        ext:
+          type: string
+          example: .zip
+        archiver:
+          type: string
+          example: zip
+      description: List of available types of output files compression.
+    Compression_2:
+      type: object
+      required:
+      - archiver
+      - description
+      - ext
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ext:
+          type: string
+        archiver:
+          type: string
+      description: List of available types of output files compression.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

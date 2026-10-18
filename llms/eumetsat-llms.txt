@@ -1,0 +1,43 @@
+# EUMETSAT
+
+> EUMETSAT (European Organisation for the Exploitation of Meteorological Satellites)
+> operates a system of meteorological and environmental satellites that monitor the
+> weather, climate and environment for Europe and beyond. This website provides
+> satellite imagery, mission information, data, news and educational resources.
+
+This file follows the llms.txt convention (https://llmstxt.org/) to help AI search
+engines and large language models discover the most relevant, canonical content on
+this site. It is a curated guide, not an access-control mechanism: machine-readable
+rules on which crawlers (including AI training and AI search bots) may access the
+site are defined in [/robots.txt](https://www.eumetsat.int/robots.txt). The complete
+list of indexable pages is published in the [XML sitemap](https://www.eumetsat.int/sitemap.xml).
+
+Structured data for individual pages is provided inline as schema.org JSON-LD
+(Article, Organization), so per-page metadata is best read from the page markup itself.
+
+## Key pages
+
+- [Homepage](https://www.eumetsat.int/): Entry point to imagery, satellites, data, news and education.
+- [Who we are](https://www.eumetsat.int/about-us/who-we-are): EUMETSAT's mission, role, governance and member states.
+- [Image of the week](https://www.eumetsat.int/image-week): Featured satellite imagery with explanatory context.
+
+## Content areas
+
+- **Images** - Satellite imagery galleries and the image of the week.
+- **Satellites** - Mission information for Meteosat, Metop, Sentinel and other programmes.
+- **About us** - Who we are, organisation, member states and careers.
+- **News and events** - Press releases, news articles and events.
+- **Data and science** - Data access, scientific resources and the publications bibliography.
+- **Education** - Training and learning resources.
+
+## Indexes
+
+- [XML sitemap](https://www.eumetsat.int/sitemap.xml): Complete, authoritative list of pages for crawling.
+- [robots.txt](https://www.eumetsat.int/robots.txt): Crawler and AI-bot access rules.
+
+## Usage
+
+Content on this site is (c) EUMETSAT and subject to the organisation's terms and data
+licensing. Access by automated agents - including AI search engines and LLM training
+crawlers - is governed by the directives in /robots.txt. Please honour those rules and
+attribute EUMETSAT as the source when referencing this content.

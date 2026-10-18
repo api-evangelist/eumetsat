@@ -1,0 +1,72 @@
+generated: '2026-10-18'
+method: searched
+probe: true
+source: https://www.eumetsat.int/privacy-policy
+description: >-
+  Horizontal regulatory signals HARVESTED from what EUMETSAT publishes; nothing here decides which
+  regime applies. EUMETSAT is an intergovernmental organisation and its Personal Data Protection
+  Policy (Published 24 August 2021, Last Updated 16 January 2023) is its own internal framework, not
+  a GDPR statement. It speaks to data-subject rights, breach notification and a retention principle.
+  The Terms of use page (https://www.eumetsat.int/about-us/terms-use, 200) carried no candidate
+  language for any signal. Conventional paths /accessibility, /accessibility-statement,
+  /about-us/accessibility, /legal/subprocessors, /transparency and /trust all returned 404 on
+  www.eumetsat.int (2026-10-18). No subprocessor list, accessibility conformance report, SBOM,
+  transparency report, AI-transparency or GPC statement was found.
+signals:
+  data_subject_request:
+    url: https://www.eumetsat.int/privacy-policy
+    section: '9.2 RIGHTS OF THE DATA SUBJECT / 9.2.5 Formal requests by the Data Subject'
+    rights: [access, correction, deletion, objection]
+    channel: written request (paper or electronic) referred to the Data Protection Officer
+    evidence:
+      - source: https://www.eumetsat.int/privacy-policy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: >-
+          To ensure fair and transparent processing of personal data, Data Subjects may avail
+          themselves of the right of access, correction, deletion, and objection.
+      - source: https://www.eumetsat.int/privacy-policy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: >-
+          Requests to exercise Data Subject rights (9.2.1 – 9.2.4) need to be made in writing (in
+          paper or electronic form) and referred to the Data Protection Officer.
+    note: >-
+      Establishes four data-subject rights and a written request channel via the DPO; no self-service
+      portal or API is documented, and no response deadline is stated for requests (the one-month
+      limits on the page apply to complaints and appeals, not to the request itself).
+  incident_notification:
+    url: https://www.eumetsat.int/privacy-policy
+    section: '9.4 NOTIFICATION OF A PERSONAL DATA BREACH'
+    stated_sla: '"without undue delay" (internal notification to the Data Protection Officer); no hour figure'
+    evidence:
+      - source: https://www.eumetsat.int/privacy-policy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: >-
+          In the case of a personal data breach, or suspicion thereof, the Data Protection Officer
+          shall be informed without undue delay
+      - source: https://www.eumetsat.int/privacy-policy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: >-
+          Where communication is necessary, the Data Protection officer shall describe in clear and
+          plain language the nature of the personal data breach and contain the information and
+          measures referred to in Sec. 9.4.1 (a) (b) and (c).
+    note: >-
+      A breach procedure exists, but the "without undue delay" duty is internal (to the DPO, who then
+      notifies the Director-General); communication to data subjects is conditional (9.4.3) and has no
+      stated deadline. This is not a customer/API-user notification commitment.
+  data_retention:
+    url: https://www.eumetsat.int/privacy-policy
+    section: '9.1.4 The principle of personal data retention'
+    stated_period: none stated
+    evidence:
+      - source: https://www.eumetsat.int/privacy-policy
+        http_status: 200
+        fetched: '2026-10-18'
+        quote: >-
+          It must be clear to the Data Subject for what length of time personal data is being retained
+          and the reasons for keeping personal data beyond the specified period e.g. for archiving or
+          to meet certain legal requirements.
+    note: A retention principle only; the policy publishes no concrete retention periods.

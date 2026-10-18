@@ -1,0 +1,834 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Data-Store Cart API",
+    "version" : "0.0.1",
+    "title" : "DS_Cart_API",
+    "termsOfService" : "Terms of service TBD",
+    "contact" : {
+      "name" : "CGI EOSS",
+      "url" : "https://cgi.com/",
+      "email" : "address@cgi.com"
+    },
+    "license" : {
+      "name" : "LICENSE TBD",
+      "url" : "LICENSE TBD"
+    }
+  },
+  "host" : "api.eumetsat.int",
+  "basePath" : "/cart-api/0.0.1",
+  "tags" : [ {
+    "name" : "cart-controller",
+    "description" : "Cart Controller"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "paths" : {
+    "/carts/{username}" : {
+      "get" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Retrieve the cart content in XML-Metalink format",
+        "operationId" : "retrieveCartAsMetalinkUsingGET",
+        "produces" : [ "application/metalink4+xml;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The request completed successfully",
+            "schema" : {
+              "$ref" : "#/definitions/Metalink"
+            }
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to get items from the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/carts/{username}/items" : {
+      "get" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Retrieve a paginated view of the cart items in JSON format",
+        "operationId" : "retrieveCartItemsUsingGET",
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The request completed successfully",
+            "schema" : {
+              "$ref" : "#/definitions/PagedResources«CartItemResource»"
+            }
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to get items from the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "post" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Create a new cart item.",
+        "operationId" : "addCartItemUsingPOST",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "cartItem",
+          "description" : "cartItem",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CartItemDto"
+          }
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CartItemResource"
+            }
+          },
+          "201" : {
+            "description" : "Cart item created",
+            "schema" : {
+              "$ref" : "#/definitions/CartItemResource"
+            }
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to modify the cart"
+          },
+          "403" : {
+            "description" : "Can't add item on the cart (quota limit reached)"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "409" : {
+            "description" : "Item already present on the cart"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "delete" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Remove all the items from the cart.",
+        "operationId" : "emptyCartUsingDELETE_1",
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "204" : {
+            "description" : "All the items were dropped from the cart"
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to modify the cart content"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "patch" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Create multiple cart items, if they do not already exist.",
+        "operationId" : "addCartItemsUsingPATCH",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "cartItemsDto",
+          "description" : "cartItemsDto",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/CartItemDto"
+            }
+          }
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The items not already on the cart have been created",
+            "schema" : {
+              "$ref" : "#/definitions/Resources«CartItemResource»"
+            }
+          },
+          "204" : {
+            "description" : "No Content"
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to modify the cart"
+          },
+          "403" : {
+            "description" : "Can't add item on the cart (quota limit reached)"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/carts/{username}/items/deleted" : {
+      "patch" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Delete a set of cart items identified by their IDs.",
+        "operationId" : "deleteCartItemsUsingPATCH",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "idsToDelete",
+          "description" : "idsToDelete",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "204" : {
+            "description" : "The items have been removed from the cart"
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to modify the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/carts/{username}/items/search" : {
+      "post" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Check whether a set of cart items, identified by their download URLs, are present on the cart or not. The response body will contain only the items matching the input URLs. ",
+        "operationId" : "getItemsByDownloadUrlUsingPOST",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "urisDto",
+          "description" : "urisDto",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SearchCriteriaDto"
+          }
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The search completed successfully",
+            "schema" : {
+              "$ref" : "#/definitions/Resources«CartItemResource»"
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to search items on the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/carts/{username}/items/{itemId}" : {
+      "get" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Retrieve a single cart item.",
+        "operationId" : "retrieveCartItemUsingGET",
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "itemId",
+          "in" : "path",
+          "description" : "itemId",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The search completed successfully",
+            "schema" : {
+              "$ref" : "#/definitions/CartItemResource"
+            }
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to search items on the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "delete" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Remove a single item from the cart.",
+        "operationId" : "emptyCartUsingDELETE",
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "name" : "itemId",
+          "in" : "path",
+          "description" : "itemId",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "204" : {
+            "description" : "The item was dropped from the cart"
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to modify the cart content"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/carts/{username}/summary" : {
+      "get" : {
+        "tags" : [ "cart-controller" ],
+        "summary" : "Retrieve a summary of the cart.",
+        "operationId" : "computeCartSummaryUsingGET",
+        "produces" : [ "application/hal+json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The request completed successfully",
+            "schema" : {
+              "$ref" : "#/definitions/CartSummaryResource"
+            }
+          },
+          "400" : {
+            "description" : "The request is not valid"
+          },
+          "401" : {
+            "description" : "User is not authorized to get the summary of the cart"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "deprecated" : false,
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "default" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://api.eumetsat.int/authorize",
+      "flow" : "implicit"
+    }
+  },
+  "definitions" : {
+    "CartItemDto" : {
+      "type" : "object",
+      "properties" : {
+        "downloadUri" : {
+          "type" : "string"
+        },
+        "fileChecksum" : {
+          "type" : "string"
+        },
+        "fileName" : {
+          "type" : "string"
+        },
+        "itemId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "productType" : {
+          "type" : "string"
+        },
+        "satellite" : {
+          "type" : "string"
+        },
+        "sensingStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "sensingStop" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "title" : "CartItemDto"
+    },
+    "CartItemResource" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "link",
+            "attribute" : false,
+            "wrapped" : false
+          },
+          "items" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "cartItem" : {
+          "$ref" : "#/definitions/CartItemDto"
+        }
+      },
+      "title" : "CartItemResource"
+    },
+    "CartSummaryDto" : {
+      "type" : "object",
+      "properties" : {
+        "cartCapacity" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "homogeneousProductTypes" : {
+          "type" : "boolean"
+        },
+        "numberOfItems" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "title" : "CartSummaryDto"
+    },
+    "CartSummaryResource" : {
+      "type" : "object",
+      "properties" : {
+        "_links" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "link",
+            "attribute" : false,
+            "wrapped" : false
+          },
+          "items" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "cartSummary" : {
+          "$ref" : "#/definitions/CartSummaryDto"
+        }
+      },
+      "title" : "CartSummaryResource"
+    },
+    "Link" : {
+      "type" : "object",
+      "properties" : {
+        "deprecation" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "deprecation",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "href" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "href",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "hreflang" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "hreflang",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "media" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "media",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "rel" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "rel",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "templated" : {
+          "type" : "boolean"
+        },
+        "title" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "title",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "xml" : {
+            "name" : "type",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        }
+      },
+      "title" : "Link"
+    },
+    "Metalink" : {
+      "type" : "object",
+      "properties" : {
+        "fileOrGeneratorOrOrigin" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : { }
+          }
+        }
+      },
+      "title" : "Metalink",
+      "xml" : {
+        "name" : "metalink",
+        "attribute" : false,
+        "wrapped" : false
+      }
+    },
+    "PageMetadata" : {
+      "type" : "object",
+      "properties" : {
+        "number" : {
+          "type" : "integer",
+          "format" : "int64",
+          "xml" : {
+            "name" : "number",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int64",
+          "xml" : {
+            "name" : "size",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "totalElements" : {
+          "type" : "integer",
+          "format" : "int64",
+          "xml" : {
+            "name" : "totalElements",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        },
+        "totalPages" : {
+          "type" : "integer",
+          "format" : "int64",
+          "xml" : {
+            "name" : "totalPages",
+            "attribute" : true,
+            "wrapped" : false
+          }
+        }
+      },
+      "title" : "PageMetadata"
+    },
+    "PagedResources«CartItemResource»" : {
+      "type" : "object",
+      "properties" : {
+        "_embedded" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "embedded",
+            "attribute" : false,
+            "wrapped" : true
+          },
+          "items" : {
+            "$ref" : "#/definitions/CartItemResource"
+          }
+        },
+        "_links" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "link",
+            "attribute" : false,
+            "wrapped" : false
+          },
+          "items" : {
+            "$ref" : "#/definitions/Link"
+          }
+        },
+        "page" : {
+          "$ref" : "#/definitions/PageMetadata"
+        }
+      },
+      "title" : "PagedResources«CartItemResource»",
+      "xml" : {
+        "name" : "pagedEntities",
+        "attribute" : false,
+        "wrapped" : false
+      }
+    },
+    "Resources«CartItemResource»" : {
+      "type" : "object",
+      "properties" : {
+        "_embedded" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "embedded",
+            "attribute" : false,
+            "wrapped" : true
+          },
+          "items" : {
+            "$ref" : "#/definitions/CartItemResource"
+          }
+        },
+        "_links" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "link",
+            "attribute" : false,
+            "wrapped" : false
+          },
+          "items" : {
+            "$ref" : "#/definitions/Link"
+          }
+        }
+      },
+      "title" : "Resources«CartItemResource»"
+    },
+    "SearchCriteriaDto" : {
+      "type" : "object",
+      "properties" : {
+        "downloadUris" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/URI"
+          }
+        }
+      },
+      "title" : "SearchCriteriaDto"
+    }
+  }
+}

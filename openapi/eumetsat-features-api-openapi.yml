@@ -1,0 +1,90 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Features API
+  version: '1.0'
+  description: 'Operations tagged Features across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Features
+paths:
+  /features:
+    get:
+      description: Retrieves the list of supported customisation functions (excluding re-format).
+      operationId: GET_features
+      parameters:
+      - name: product
+        in: query
+        description: Only return features corresponding to given product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return features corresponding to given format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feature'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Features
+      summary: GET features
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Feature:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          example: aggregation
+      description: List of supported customisation functions (excluding re-format).
+    Feature_2:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+      description: List of supported customisation functions (excluding re-format).
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

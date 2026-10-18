@@ -1,0 +1,173 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Projections API
+  version: '1.0'
+  description: 'Operations tagged Projections across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Projections
+paths:
+  /projections:
+    get:
+      description: Returns the list of available projections for given backends, formats, products.
+      operationId: GET_projections
+      parameters:
+      - name: backend
+        in: query
+        description: Only return results supported with given backend
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported with given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return results supported with given input product type
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Projection'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Projections
+      summary: GET projections
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /projections/{projectionId}:
+    get:
+      description: Retrieves information on the available projection with given projectionId identifier.
+      operationId: GET_projections-projectionId
+      parameters:
+      - name: projectionId
+        in: path
+        description: Projection ID (e.g. gall_stereographic).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projection'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Projections
+      summary: GET projections projection id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Projection:
+      required:
+      - id
+      - name
+      - unit
+      type: object
+      properties:
+        id:
+          type: string
+          example: mollweide
+        name:
+          type: string
+          example: Mollweide
+        unit:
+          type: string
+          example: meter
+        description:
+          type: string
+          example: The Mollweide projection is an equal-area, pseudo-cylindrical map projection generally used for global maps of the world or night sky
+      description: List of available projections.
+    Projection_2:
+      type: object
+      required:
+      - id
+      - name
+      - unit
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        unit:
+          type: string
+        description:
+          type: string
+      description: List of available projections.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

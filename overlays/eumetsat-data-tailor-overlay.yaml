@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: EUMETSAT Data Tailor Web Service (EPCS) overlay
+  version: 1.0.0
+extends: ../openapi/_original/eumetsat-data-tailor-openapi.yml
+generated: '2026-10-18'
+method: generated
+source: openapi/eumetsat-data-tailor-openapi.yml
+actions:
+- target: $.info
+  description: Attach API Evangelist catalog metadata (derived from apis.yml)
+  update:
+    x-api-evangelist-provider: eumetsat
+    x-api-name: EUMETSAT Data Tailor Web Service (EPCS)
+    x-base-url: https://api.eumetsat.int/epcs/0.1.0
+    x-human-url: https://user.eumetsat.int/data-access

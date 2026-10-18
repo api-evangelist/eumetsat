@@ -1,0 +1,364 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Products API
+  version: '1.0'
+  description: 'Operations tagged Products across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Products
+paths:
+  /products:
+    get:
+      description: Retrieves information on currently supported input product types.
+      operationId: GET_products
+      parameters:
+      - name: name
+        in: query
+        description: Only return information on product with this name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: only return products information starting from offset^th product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: maximum number of products of which to return information
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                example:
+                  total: 2
+                  data:
+                  - id: MSGFIRG
+                    name: Active Fire Monitoring (GRIB) - MSG
+                    bands:
+                      fire_detection_indicator:
+                        name: Fire detection indicator
+                        number: 1
+                    pn_id:
+                    - EO:EUM:DAT:MSG:FIR
+                    - EO:EUM:DAT:MSG:FIR-IODC
+                  - id: IASISND02
+                    name: IASI Combined Sounding Products - Metop
+                    bands: []
+                    pn_id: EO:EUM:DAT:METOP:IASSND02
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Products
+      summary: GET products
+      x-summary-source: derived
+    post:
+      description: Allows the user to add support for additional input products and specify the corresponding information.
+      operationId: POST_products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Basket'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Basket'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Products
+      summary: POST products
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /products/{productId}:
+    get:
+      description: Retrieves information on supported input product of given productId identifier.
+      operationId: GET_products-productId
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Products
+      summary: GET products product id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /products/{productId}/bands:
+    get:
+      description: Retrieves information on the bands/channels of the supported input product with given productId identifier.
+      operationId: GET_products-productId-bands
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: backend
+        in: query
+        description: Only return information pertaining to given backend.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from the offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Return a maximum number of results.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Band'
+                example:
+                  total: 2
+                  data:
+                  - bands:
+                      fire_detection_indicator:
+                        name: Fire detection indicator
+                        number: 1
+                  - bands:
+                      channel_1:
+                        name: 0.633µm
+                        number: 1
+                      channel_2:
+                        name: 0.842µm
+                        number: 2
+                      channel_3:
+                        name: 1.606µm / 3.722µm
+                        number: 3
+                      channel_4:
+                        name: 10.785µm
+                        number: 4
+                      channel_5:
+                        name: 11.937µm
+                        number: 5
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Products
+      summary: GET products product id bands
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Basket:
+      required:
+      - basket
+      type: object
+      properties:
+        basket:
+          type: string
+      description: XML Basket from Data Store
+      example:
+        basket: <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><metalink xmlns=\"urn:ietf:params:xml:ns:metalink\"><file name=""></file></metalink>
+    Product:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: MSGFIRG
+        name:
+          type: string
+          example: Active Fire Monitoring (GRIB) - MSG
+        description:
+          type: string
+          example: Fire detector indicator
+        bands:
+          type: object
+          properties: {}
+          example: fire_detection_indicator
+        pn_id:
+          type: string
+          example: EO:EUM:DAT:MSG:FIR
+      description: List of supported input product types.
+      example:
+        id: MSGFIRG
+        name: Active Fire Monitoring (GRIB) - MSG
+        bands:
+          fire_detection_indicator:
+            name: Fire detection indicator
+            number: 1
+        pn_id:
+        - EO:EUM:DAT:MSG:FIR
+        - EO:EUM:DAT:MSG:FIR-IODC
+    Band:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: channel_1
+        name:
+          type: string
+          example: Channel 1
+        description:
+          type: string
+      description: List of bands.
+    Product_2:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        bands:
+          type: object
+          properties: {}
+        pn_id:
+          type: string
+      description: List of supported input product types.
+      example:
+        id: MSGFIRG
+        name: Active Fire Monitoring (GRIB) - MSG
+        bands:
+          fire_detection_indicator:
+            name: Fire detection indicator
+            number: 1
+        pn_id:
+        - EO:EUM:DAT:MSG:FIR
+        - EO:EUM:DAT:MSG:FIR-IODC
+    Band_2:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      description: List of bands.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

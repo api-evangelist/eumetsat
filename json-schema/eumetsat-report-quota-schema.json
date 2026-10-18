@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-report-quota-schema.json",
+  "title": "ReportQuota",
+  "description": "Report of user space occupation. Only works with valid input user-folder path.",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/ReportQuota",
+  "required": [
+    "log_dir_size",
+    "output_dir_size",
+    "space_usage",
+    "space_user_percentage",
+    "user_quota",
+    "workspace_dir_size"
+  ],
+  "type": "object",
+  "properties": {
+    "user_quota": {
+      "type": "number"
+    },
+    "space_user_percentage": {
+      "type": "number"
+    },
+    "space_usage": {
+      "type": "number"
+    },
+    "workspace_dir_size": {
+      "type": "number"
+    },
+    "log_dir_size": {
+      "type": "number"
+    },
+    "output_dir_size": {
+      "type": "number"
+    },
+    "nr_customisations": {
+      "type": "number"
+    }
+  }
+}

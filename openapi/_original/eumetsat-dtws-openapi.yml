@@ -1,0 +1,2118 @@
+# x-archived-from: eumetsat-dtws-openapi.yml
+# x-archived-on: 2026-10-18
+swagger: '2.0'
+info:
+  description: The DTWS is a service based on EUMETSAT Data Tailor, hosted in the EUMETSAT Cloud. It provides customisation services to external users and to other services in the Cloud, notably the Data Store, and in future the EUMETSAT Eumetview-NG. This is its Web API for application-to-application usage, based on a REST design.
+  version: 1.0.0
+  title: Data Tailor Web Service (DTWS)
+host: api.eumetsat.int
+basePath: /dtws/1.0.0
+schemes:
+- https
+- http
+consumes:
+- application/json
+- form/multipart
+produces:
+- application/json
+security:
+- default: []
+paths:
+  /customisations/delete:
+    patch:
+      operationId: PATCH_customisations_delete
+      parameters:
+      - in: body
+        name: body
+        description: list of customisation IDs of which products and logs will be deleted.
+        required: true
+        schema:
+          $ref: '#/definitions/Uuids'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /customisations:
+    get:
+      operationId: GET_customisations
+      parameters:
+      - name: user_id
+        in: query
+        required: false
+        type: string
+      - name: backend
+        in: query
+        required: false
+        type: string
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: status
+        in: query
+        required: false
+        type: string
+      - name: return_size
+        in: query
+        required: false
+        type: string
+      - name: start_time
+        in: query
+        required: false
+        type: string
+      - name: stop_time
+        in: query
+        required: false
+        type: string
+      - name: today
+        in: query
+        required: false
+        type: boolean
+      - name: step
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Customisation'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_customisations
+      consumes:
+      - multipart/form-data
+      parameters:
+      - name: shapefile_stream
+        in: formData
+        description: Shapefile describing a Region of Interest (ROI).
+        required: false
+        type: file
+      - name: product_paths
+        in: formData
+        description: list of product paths separated by |||.
+        required: true
+        type: string
+      - name: chain_config
+        in: formData
+        description: Serialised JSON representation of the configuration of a customisation chain.
+        required: false
+        type: string
+      - name: basket_config
+        in: formData
+        description: Serialised JSON representation of a Data Store Basket.
+        required: false
+        type: string
+      - name: chain_name
+        in: formData
+        description: Key name of an existing functional chain.
+        required: false
+        type: string
+      - name: sensing_start
+        in: formData
+        description: Desired sensing start time (YYYYMMDDThhmmssZ).
+        required: false
+        type: string
+      - name: sensing_stop
+        in: formData
+        description: Desired sensing stop time (YYYYMMDDThhmmssZ).
+        required: false
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_customisations
+      parameters:
+      - in: body
+        name: body
+        description: List of customisation IDs of which products and logs will be deleted.
+        required: true
+        schema:
+          $ref: '#/definitions/Uuids'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /customisations/{customisationId}:
+    get:
+      operationId: GET_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Customisation'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      operationId: PUT_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Customisation'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /customisations/{customisationId}/log:
+    get:
+      operationId: GET_customisations-customisationId-log
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Log'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /products:
+    get:
+      operationId: GET_products
+      parameters:
+      - name: name
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Product'
+            example:
+              total: 2
+              data:
+              - id: MSGFIRG
+                name: Active Fire Monitoring (GRIB) - MSG
+                bands:
+                  fire_detection_indicator:
+                    name: Fire detection indicator
+                    number: 1
+                pn_id:
+                - EO:EUM:DAT:MSG:FIR
+                - EO:EUM:DAT:MSG:FIR-IODC
+              - id: IASISND02
+                name: IASI Combined Sounding Products - Metop
+                bands: []
+                pn_id: EO:EUM:DAT:METOP:IASSND02
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_products
+      parameters:
+      - name: basket
+        in: path
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Product'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /products/{productId}:
+    get:
+      operationId: GET_products-productId
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Product'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /products/{productId}/bands:
+    get:
+      operationId: GET_products-productId-bands
+      parameters:
+      - name: productId
+        in: path
+        description: Product ID (e.g. HRSEVIRI).
+        required: true
+        type: string
+      - name: backend
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Band'
+            example:
+              total: 2
+              data:
+              - bands:
+                  fire_detection_indicator:
+                    name: Fire detection indicator
+                    number: 1
+              - bands:
+                  channel_1:
+                    name: 0.633µm
+                    number: 1
+                  channel_2:
+                    name: 0.842µm
+                    number: 2
+                  channel_3:
+                    name: 1.606µm / 3.722µm
+                    number: 3
+                  channel_4:
+                    name: 10.785µm
+                    number: 4
+                  channel_5:
+                    name: 11.937µm
+                    number: 5
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /formats:
+    get:
+      operationId: GET_formats
+      parameters:
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Format'
+            example:
+              total: 3
+              data:
+              - id: netcdf4
+                name: NetCDF4
+                ext: .nc
+                description: NetCDF is an abstraction that supports a view of data as a collection of self-describing, portable objects that can be accessed through a simple interface. Array values may be accessed directly, without knowing details of how the data are stored.
+              - id: jpeg_rgb
+                name: JPEG (RGB)
+                ext: .jpg
+                description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+              - id: png_grayscale
+                name: PNG (grayscale multi-file)
+                ext: .png
+                description: PNG files are represented as one band (greyscale) datasets with Byte valued bands.
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /formats/{formatId}:
+    get:
+      operationId: GET_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Format ID (e.g. BUFR).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Format'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /dir_entries:
+    get:
+      operationId: GET_dir_entries
+      parameters:
+      - name: dir_path
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/DirEntry'
+            example:
+              total: 2
+              data:
+              - path: ./Documents
+                is_dir: true
+                st_size: 345
+                st_mtime: 1560168369.1
+              - path: ./README.txt
+                is_dir: false
+                st_size: 345
+                st_mtime: 1560168369.1
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /chains:
+    get:
+      operationId: GET_chains
+      parameters:
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: expanded
+        in: query
+        required: false
+        type: boolean
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Chain'
+            example:
+              total: 4
+              data:
+              - id: sst_western_europe
+                name: SST - Western Europe
+                product: GLBSST
+                format: geotiff
+                projection: geographic
+                roi: western_europe
+                filter: 'bands: - sea_surface_temperature'
+              - id: sea_surface_temperature
+                name: Sea Surface Temperature
+                product: GLBSST
+                format: geotiff
+                filter: 'bands: - sea_surface_temperature'
+              - id: mhsl1_aggregation_orbit
+                name: Aggregation Orbit
+                product: MHSL1
+                format: geotiff
+                aggregation: orbit
+              - id: ascatl1szf_aggregation_orbit
+                name: Aggregation Orbit
+                product: ASCATL1SZF
+                format: geotiff
+                aggregation: orbit
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_chains
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Chain'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /chains/{chainId}:
+    get:
+      operationId: GET_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        type: string
+      - name: expanded
+        in: query
+        required: false
+        type: boolean
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Chain'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      operationId: PUT_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Chain'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /filters:
+    get:
+      operationId: GET_filters
+      parameters:
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: expanded
+        in: query
+        required: false
+        type: boolean
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Filter'
+            example:
+              total: 2
+              data:
+              - product: AVHRRL1
+                bands:
+                - channel_1
+                - channel_2
+                - channel_3
+                id: avhrrl1_natural_color
+                name: Natural color
+              - product: HRSEVIRI
+                bands:
+                - channel_1
+                - channel_2
+                - channel_3
+                id: hrseviri_natural_color
+                name: Natural color
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_filters
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Filter'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /filters/{filterId}:
+    get:
+      operationId: GET_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        type: string
+      - name: expanded
+        in: query
+        required: false
+        type: boolean
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Filter'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      operationId: PUT_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Filter'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /features:
+    get:
+      operationId: GET_features
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Feature'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /backends:
+    get:
+      operationId: GET_backends
+      parameters:
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Backend'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /backends/{backendId}:
+    get:
+      operationId: GET_backends-backendId
+      parameters:
+      - name: backendId
+        in: path
+        description: Registered backend ID (e.g. epct_plugin_gis).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Backend'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /aggregations:
+    get:
+      operationId: GET_aggregations
+      parameters:
+      - name: backend
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Aggregation'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /projections:
+    get:
+      operationId: GET_projections
+      parameters:
+      - name: backend
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Projection'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /projections/{projectionId}:
+    get:
+      operationId: GET_projections-projectionId
+      parameters:
+      - name: projectionId
+        in: path
+        description: Projection ID (e.g. gall_stereographic).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Projection'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklooks:
+    get:
+      operationId: GET_quicklooks
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Quicklook'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_quicklooks
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quicklook'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklooks/{quicklookId}:
+    get:
+      operationId: GET_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quicklook'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      operationId: PUT_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quicklook'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_quicklooks-quicklookId
+      parameters:
+      - name: quicklookId
+        in: path
+        description: Pre-configured quicklook configuration ID (e.g. avhrrl1_jpeg_rgb).
+        required: true
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_formats:
+    get:
+      operationId: GET_quicklook_formats
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_formats/{formatId}:
+    get:
+      operationId: GET_quicklook_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Quicklook format ID (e.g. jpeg_rgb).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_nodatacolors:
+    get:
+      operationId: GET_quicklook_nodatacolors
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_nodatacolors/{nodatacolorId}:
+    get:
+      operationId: GET_quicklook_nodatacolors-nodatacolorId
+      parameters:
+      - name: nodatacolorId
+        in: path
+        description: ID of the color to be used to express 'no data' in quicklooks (e.g. red).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_resample_methods:
+    get:
+      operationId: GET_quicklook_resample_methods
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_resample_methods/{resample_methodId}:
+    get:
+      operationId: GET_quicklook_resample_methods-resample_methodId
+      parameters:
+      - name: resample_methodId
+        in: path
+        description: Pre-configured quicklook resampling method ID (e.g. bilinear).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_stretch_methods:
+    get:
+      operationId: GET_quicklook_stretch_methods
+      parameters:
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/QuicklookStretchMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /quicklook_stretch_methods/{stretch_methodId}:
+    get:
+      operationId: GET_quicklook_stretch_methods-stretch_methodId
+      parameters:
+      - name: stretch_methodId
+        in: path
+        description: Pre-configured quicklook stretch method ID (e.g. min_max).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/QuicklookStretchMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /resample_methods:
+    get:
+      operationId: GET_resample_methods
+      parameters:
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/ResampleMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /report_quota:
+    get:
+      operationId: GET_report_quota
+      parameters:
+      - name: unit_size
+        in: query
+        required: false
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/ReportQuota'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /rois:
+    get:
+      operationId: GET_rois
+      parameters:
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Roi'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      operationId: POST_rois
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Roi'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /rois/{roiId}:
+    get:
+      operationId: GET_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Roi'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    put:
+      operationId: PUT_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        type: string
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Roi'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      operationId: DELETE_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        type: string
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /stretch_methods:
+    get:
+      operationId: GET_stretch_methods
+      parameters:
+      - name: product
+        in: query
+        required: false
+        type: string
+      - name: format
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/StretchMethod'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /aggregation_analyse:
+    post:
+      operationId: POST_aggregation_analyse
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Status'
+      responses:
+        default:
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /info:
+    get:
+      operationId: GET_info
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Info'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /user_info:
+    get:
+      operationId: GET_user_info
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User_info'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /download:
+    get:
+      operationId: GET_download
+      parameters:
+      - name: path
+        in: query
+        required: true
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: file
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /compressions:
+    get:
+      operationId: GET_compressions
+      parameters:
+      - name: product
+        in: query
+        required: true
+        type: string
+      - name: format
+        in: query
+        required: true
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+      - name: limit
+        in: query
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            required:
+            - data
+            - total
+            properties:
+              total:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Compression'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+  default:
+    type: oauth2
+    authorizationUrl: https://api.eumetsat.int/authorize
+    flow: implicit
+definitions:
+  Customisation:
+    type: object
+    required:
+    - backend_id
+    - creation_time
+    - id
+    - product_id
+    - status
+    - user_id
+    properties:
+      user_id:
+        type: string
+      creation_time:
+        type: string
+      backend_id:
+        type: string
+      product_id:
+        type: string
+      required_processing_steps:
+        type: array
+        items:
+          type: string
+      processing_duration:
+        type: integer
+      status:
+        type: string
+      id:
+        type: string
+    description: List of customisations
+  Product:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      bands:
+        type: object
+        properties: {}
+      pn_id:
+        type: string
+    description: List of supported input product types.
+    example:
+      id: MSGFIRG
+      name: Active Fire Monitoring (GRIB) - MSG
+      bands:
+        fire_detection_indicator:
+          name: Fire detection indicator
+          number: 1
+      pn_id:
+      - EO:EUM:DAT:MSG:FIR
+      - EO:EUM:DAT:MSG:FIR-IODC
+  DirEntry:
+    type: object
+    required:
+    - is_dir
+    - path
+    properties:
+      path:
+        type: string
+      is_dir:
+        type: boolean
+      st_size:
+        type: integer
+      st_mtime:
+        type: number
+    description: List files in directory.
+    example:
+      path: ./README.txt
+      is_dir: false
+      st_size: 345
+      st_mtime: 1560168369.1
+  Chain:
+    type: object
+    required:
+    - format
+    - id
+    - name
+    - product
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      product:
+        type: string
+      format:
+        type: string
+      aggregation:
+        type: string
+      projection:
+        type: string
+      roi:
+        $ref: '#/definitions/Roi'
+      filter:
+        type: object
+        properties: {}
+    description: Configurations of customisation processes.
+  Format:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      ext:
+        type: string
+      description:
+        type: string
+    description: List of supported output formats.
+    example:
+      id: jpeg_rgb
+      name: JPEG (RGB)
+      ext: .jpg
+      description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+  Backend:
+    type: object
+    required:
+    - aggregations
+    - execute
+    - features
+    - formats
+    - id
+    - name
+    - products
+    - projections
+    - quicklook_formats
+    - quicklook_nodatacolors
+    - quicklook_resample_methods
+    - quicklook_stretch_methods
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      products:
+        type: array
+        items:
+          type: string
+      formats:
+        type: array
+        items:
+          type: string
+      features:
+        type: array
+        items:
+          type: string
+      projections:
+        type: array
+        items:
+          type: string
+      aggregations:
+        type: array
+        items:
+          type: string
+      quicklook_formats:
+        type: array
+        items:
+          type: string
+      quicklook_nodatacolors:
+        type: array
+        items:
+          type: string
+      quicklook_stretch_methods:
+        type: array
+        items:
+          type: string
+      quicklook_resample_methods:
+        type: array
+        items:
+          type: string
+      execute:
+        type: string
+    description: List of available backends.
+  Aggregation:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+    description: List of supported aggregation types, if any.
+  Band:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+    description: List of bands.
+  Projection:
+    type: object
+    required:
+    - id
+    - name
+    - unit
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      unit:
+        type: string
+      description:
+        type: string
+    description: List of available projections.
+  Roi:
+    type: object
+    required:
+    - NSWE
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      NSWE:
+        type: array
+        items:
+          type: number
+      description:
+        type: string
+    description: List of available pre-configured Regions Of Interest (ROIs).
+  Uuids:
+    type: object
+    required:
+    - uuids
+    properties:
+      uuids:
+        type: array
+        items:
+          type: string
+      description:
+        type: string
+    description: List of customisation uuids.
+  Feature:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+    description: List of supported customisation functions (excluding re-format).
+  Filter:
+    type: object
+    required:
+    - bands
+    - id
+    - name
+    - product
+    properties:
+      product:
+        type: string
+      bands:
+        type: array
+        items:
+          $ref: '#/definitions/Band'
+      id:
+        type: string
+      name:
+        type: string
+    description: List of available filters per product.
+  ResampleMethod:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    description: List of available resampling methods, if any.
+  ReportQuota:
+    type: object
+    required:
+    - log_dir_size
+    - output_dir_size
+    - space_usage
+    - space_user_percentage
+    - user_quota
+    - workspace_dir_size
+    properties:
+      user_quota:
+        type: number
+      space_user_percentage:
+        type: number
+      space_usage:
+        type: number
+      workspace_dir_size:
+        type: number
+      log_dir_size:
+        type: number
+      output_dir_size:
+        type: number
+      nr_customisations:
+        type: number
+    description: Report of user space occupation. Only works with valid input user-folder path.
+  Quicklook:
+    type: object
+    required:
+    - filter
+    - format
+    - id
+    - name
+    - product
+    - resample_method
+    - stretch_method
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      resample_method:
+        type: string
+      stretch_method:
+        type: string
+      product:
+        type: string
+      format:
+        type: string
+      nodatacolor:
+        type: string
+      filter:
+        type: object
+        properties: {}
+    description: Pre-configured quicklook configurations.
+  StretchMethod:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+    description: List of available stretch methods, if any.
+  QuicklookFormat:
+    type: object
+    required:
+    - ext
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      comment:
+        type: string
+      ext:
+        type: string
+    description: List of supported output formats for quicklook, if any.
+  QuicklookNodatacolor:
+    type: object
+    required:
+    - id
+    - name
+    - value
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      value:
+        type: array
+        items:
+          type: integer
+    description: List of supported colours to express <no data> in quicklook, if any.
+  QuicklookResampleMethod:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    description: List of supported resampling methods applicable to quicklooks, if any.
+  QuicklookStretchMethod:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+    description: List of supported stretch methods applicable to quicklooks, if any.
+  Log:
+    type: object
+    required:
+    - log_content
+    properties:
+      log_content:
+        type: string
+    description: Customisation log file.
+  Info:
+    type: object
+    required:
+    - epct_version
+    - installed_plugins
+    - registered_backends
+    properties:
+      epct_version:
+        type: string
+      installed_plugins:
+        type: array
+        items:
+          type: string
+      registered_backends:
+        type: array
+        items:
+          type: string
+    description: General information about the Data Tailor configuration.
+  User_info:
+    type: object
+    required:
+    - config
+    - etc_dir
+    - user_id
+    properties:
+      user_id:
+        type: string
+      etc_dir:
+        type: string
+      config:
+        type: array
+        items:
+          type: string
+    description: Information about the configuration for user of ID user_id.
+  Status:
+    type: object
+    properties:
+      status:
+        type: string
+    description: Status of the customisation.
+  Compression:
+    type: object
+    required:
+    - archiver
+    - description
+    - ext
+    - id
+    - name
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      ext:
+        type: string
+      archiver:
+        type: string
+    description: List of available types of output files compression.
+  Error:
+    type: object
+    required:
+    - message
+    properties:
+      message:
+        type: string
+    description: Error messages.
+    example:
+      message: path not found or not accessible

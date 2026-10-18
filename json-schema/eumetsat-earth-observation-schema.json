@@ -1,0 +1,727 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-earth-observation-schema.json",
+  "title": "EarthObservation",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/EarthObservation",
+  "required": [
+    "geometry",
+    "id",
+    "properties",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "type": {
+      "title": "type",
+      "type": "string",
+      "enum": [
+        "Feature"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "geometry": {
+      "type": "object"
+    },
+    "properties": {
+      "$ref": "#/$defs/EarthObservationProperties"
+    },
+    "bbox": {
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    }
+  },
+  "$defs": {
+    "AcquisitionAngles": {
+      "type": "object",
+      "properties": {
+        "illuminationAzimuthAngle": {
+          "type": "number"
+        },
+        "illuminationZenithAngle": {
+          "type": "number"
+        },
+        "illuminationElevationAngle": {
+          "type": "number"
+        },
+        "incidenceAngle": {
+          "type": "number"
+        },
+        "minimumIncidenceAngle": {
+          "type": "number"
+        },
+        "maximumIncidenceAngle": {
+          "type": "number"
+        },
+        "incidenceAngleVariation": {
+          "type": "number"
+        },
+        "acrossTrackIncidenceAngle": {
+          "type": "number"
+        },
+        "alongTrackIncidenceAngle": {
+          "type": "number"
+        },
+        "instrumentAzimuthAngle": {
+          "type": "number"
+        },
+        "instrumentZenithAngle": {
+          "type": "number"
+        },
+        "instrumentElevationAngle": {
+          "type": "number"
+        },
+        "pitch": {
+          "type": "number"
+        },
+        "roll": {
+          "type": "number"
+        },
+        "yaw": {
+          "type": "number"
+        }
+      }
+    },
+    "AcquisitionInformation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "AcquisitionInformation"
+          ]
+        },
+        "platform": {
+          "$ref": "#/$defs/Platform"
+        },
+        "instrument": {
+          "$ref": "#/$defs/Instrument"
+        },
+        "acquisitionParameters": {
+          "$ref": "#/$defs/AcquisitionParameters"
+        }
+      }
+    },
+    "AcquisitionParameters": {
+      "allOf": [
+        {
+          "required": [
+            "acquisitionType"
+          ],
+          "type": "object",
+          "properties": {
+            "acquisitionType": {
+              "type": "string",
+              "enum": [
+                "NOMINAL",
+                "CALIBRATION",
+                "OTHER"
+              ]
+            },
+            "acquisitionSubType": {
+              "type": "string"
+            },
+            "startTimeFromAscendingNode": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "completionTimeFromAscendingNode": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "relativePassNumber": {
+              "type": "integer"
+            },
+            "track": {
+              "type": "string"
+            },
+            "frame": {
+              "type": "string"
+            },
+            "tileId": {
+              "type": "string"
+            },
+            "groundTrackUncertainty": {
+              "type": "number"
+            },
+            "cycleNumber": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "antennaLookDirection": {
+              "type": "string",
+              "enum": [
+                "LEFT",
+                "RIGHT"
+              ]
+            },
+            "acquisitionStation": {
+              "type": "string"
+            },
+            "acquisitionAngles": {
+              "$ref": "#/$defs/AcquisitionAngles"
+            },
+            "mtgCoverage": {
+              "$ref": "#/definitions/MTGCoverage"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/TemporalInformation"
+        },
+        {
+          "$ref": "#/$defs/VerticalSpatialDomain"
+        },
+        {
+          "$ref": "#/$defs/OrbitParameters"
+        }
+      ]
+    },
+    "CoverageDescription": {
+      "type": "object",
+      "properties": {
+        "cloudCover": {
+          "type": "number"
+        },
+        "snowCover": {
+          "type": "number"
+        }
+      },
+      "description": "Subset of ProductInformation"
+    },
+    "DataIdentification": {
+      "required": [
+        "date",
+        "title",
+        "updated"
+      ],
+      "type": "object",
+      "properties": {
+        "parentIdentifier": {
+          "type": "string"
+        },
+        "doi": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Subset of Properties"
+    },
+    "EarthObservationProperties": {
+      "allOf": [
+        {
+          "required": [
+            "acquisitionInformation",
+            "links",
+            "status"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Properties"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "ARCHIVED",
+                "PLANNED",
+                "ACQUIRED",
+                "CANCELLED",
+                "FAILED",
+                "POTENTIAL",
+                "REJECTED",
+                "QUALITYDEGRADED"
+              ]
+            },
+            "acquisitionInformation": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/AcquisitionInformation"
+              }
+            },
+            "productInformation": {
+              "$ref": "#/$defs/ProductInformation"
+            },
+            "links": {
+              "$ref": "#/$defs/ProductLinks"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/DataIdentification"
+        }
+      ]
+    },
+    "Instrument": {
+      "required": [
+        "instrumentShortName"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Instrument"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sensorType": {
+          "type": "string",
+          "enum": [
+            "OPTICAL",
+            "RADAR",
+            "ATMOSPHERIC",
+            "ALTIMETRIC",
+            "LIMB"
+          ]
+        },
+        "instrumentShortName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "operationalMode": {
+          "type": "string"
+        },
+        "swathIdentifier": {
+          "type": "string"
+        },
+        "polarisationMode": {
+          "type": "string",
+          "description": "Sar",
+          "enum": [
+            "S",
+            "D",
+            "T",
+            "Q",
+            "UNDEFINED"
+          ]
+        },
+        "polarisationChannels": {
+          "type": "string",
+          "description": "Sar"
+        },
+        "resolution": {
+          "type": "number"
+        },
+        "verticalResolution": {
+          "type": "number",
+          "description": "Atm, Lmb"
+        },
+        "waveLengths": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WavelengthInformation"
+          }
+        },
+        "measurementType": {
+          "type": "string",
+          "enum": [
+            "ABSORPTION",
+            "EMISSION"
+          ]
+        },
+        "dopplerFrequency": {
+          "type": "string",
+          "description": "Sar"
+        },
+        "samplingRates": {
+          "type": "array",
+          "description": "Alt",
+          "items": {
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "type": "number"
+          }
+        }
+      }
+    },
+    "LinkType": {
+      "required": [
+        "href"
+      ],
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "format": "uri"
+        },
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "length": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "category": {
+          "type": "string",
+          "description": "Media category property defined by MediaRSS.",
+          "enum": [
+            "THUMBNAIL",
+            "QUICKLOOK",
+            "ALBUM",
+            "CLOUD",
+            "SNOW",
+            "QUALITY"
+          ]
+        },
+        "expression": {
+          "type": "string",
+          "description": "Media expression property defined by MediaRSS.",
+          "enum": [
+            "full",
+            "sample"
+          ]
+        },
+        "conformsTo": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "OrbitParameters": {
+      "type": "object",
+      "properties": {
+        "orbitDirection": {
+          "type": "string",
+          "enum": [
+            "ASCENDING",
+            "DESCENDING"
+          ]
+        },
+        "orbitDuration": {
+          "type": "integer"
+        },
+        "ascendingNodeDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ascendingNodeLongitude": {
+          "type": "number"
+        },
+        "orbitNumber": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "lastOrbitNumber": {
+          "type": "number"
+        }
+      },
+      "description": "Subset of AcquisitionParameters"
+    },
+    "Platform": {
+      "required": [
+        "platformShortName"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Platform"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uri"
+        },
+        "platformShortName": {
+          "type": "string"
+        },
+        "platformSerialIdentifier": {
+          "type": "string"
+        },
+        "orbitType": {
+          "type": "string",
+          "enum": [
+            "GEO",
+            "LEO"
+          ]
+        }
+      }
+    },
+    "ProcessingInformation": {
+      "type": "object",
+      "properties": {
+        "processorName": {
+          "type": "string"
+        },
+        "processingCenter": {
+          "type": "string",
+          "description": "Codelist"
+        },
+        "processingDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "processingLevel": {
+          "type": "string",
+          "enum": [
+            "1A",
+            "1B",
+            "2",
+            "3"
+          ]
+        },
+        "processingMode": {
+          "type": "string",
+          "description": "Codelist"
+        },
+        "compositeType": {
+          "type": "string"
+        },
+        "productContentsType": {
+          "type": "string"
+        },
+        "processingMethod": {
+          "type": "string"
+        },
+        "processingMethodVersion": {
+          "type": "string"
+        }
+      },
+      "description": "Subset of ProductInformation"
+    },
+    "ProductInformation": {
+      "allOf": [
+        {
+          "required": [
+            "availabilityTime"
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ProductInformation"
+              ]
+            },
+            "productType": {
+              "type": "string"
+            },
+            "size": {
+              "type": "integer"
+            },
+            "productVersion": {
+              "type": "string"
+            },
+            "statusSubType": {
+              "type": "string",
+              "enum": [
+                "ON-LINE",
+                "OFF-LINE"
+              ]
+            },
+            "qualityInformation": {
+              "$ref": "#/$defs/QualityInformation"
+            },
+            "statusDetail": {
+              "type": "string"
+            },
+            "availabilityTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "timeliness": {
+              "type": "string"
+            },
+            "productGroupId": {
+              "type": "string"
+            },
+            "archivingCenter": {
+              "type": "string"
+            },
+            "referenceSystemIdentifier": {
+              "type": "string"
+            },
+            "archivingDate": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/ProcessingInformation"
+        },
+        {
+          "$ref": "#/$defs/CoverageDescription"
+        }
+      ]
+    },
+    "ProductLinks": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "Links"
+          ]
+        },
+        "qualityReport": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        },
+        "alternates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        },
+        "via": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        },
+        "up": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        },
+        "previews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LinkType"
+          }
+        }
+      }
+    },
+    "QualityInformation": {
+      "type": "object",
+      "properties": {
+        "qualityStatus": {
+          "type": "string",
+          "enum": [
+            "NOMINAL",
+            "DEGRADED"
+          ]
+        },
+        "qualityDegradation": {
+          "type": "number",
+          "description": "Percentage"
+        },
+        "qualityDegradationTag": {
+          "type": "string"
+        },
+        "qualityDegradationQuotationMode": {
+          "type": "string",
+          "enum": [
+            "AUTOMATIC",
+            "MANUAL"
+          ]
+        }
+      }
+    },
+    "TemporalInformation": {
+      "required": [
+        "beginningDateTime",
+        "endingDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "beginningDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endingDateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Subset of AcquisitionParameters"
+    },
+    "VerticalSpatialDomain": {
+      "type": "object",
+      "properties": {
+        "highestLocation": {
+          "type": "string"
+        },
+        "lowestLocation": {
+          "type": "string"
+        },
+        "locationUnit": {
+          "type": "string",
+          "enum": [
+            "bar",
+            "m"
+          ]
+        }
+      },
+      "description": "Subset of AcquisitionParameters"
+    },
+    "WavelengthInformation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "WavelengthInformation"
+          ]
+        },
+        "discreteWavelengths": {
+          "type": "string"
+        },
+        "endWavelength": {
+          "type": "string"
+        },
+        "spectralRange": {
+          "type": "string",
+          "enum": [
+            "INFRARED",
+            "NEAR-INFRARED",
+            "UV",
+            "VISIBLE",
+            "OTHER"
+          ]
+        },
+        "startWavelength": {
+          "type": "string"
+        },
+        "wavelengthResolution": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

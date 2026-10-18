@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-polygon-schema.json",
+  "title": "Polygon",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Polygon",
+  "required": [
+    "coordinates",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "coordinates": {
+      "title": "gj:coordinates",
+      "minItems": 1,
+      "type": "array",
+      "description": "Array of linestrings",
+      "items": {
+        "minItems": 1,
+        "type": "array",
+        "description": "Linear ring, i.e. linestring or array of positions",
+        "items": {
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "description": "One position",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Polygon"
+      ]
+    }
+  }
+}

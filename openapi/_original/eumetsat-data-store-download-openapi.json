@@ -1,0 +1,1173 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "DS_DOWNLOAD_API",
+    "description" : "This is the EUMETSAT Data Store DOWNLOAD API.",
+    "termsOfService" : "https://www.eumetsat.int/terms/",
+    "license" : {
+      "name" : "License: not yet defined. For the time being: confidential and private",
+      "url" : "https://www.eumetsat.int"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://api.eumetsat.int/data/download/1.0.0"
+  }, {
+    "url" : "http://api.eumetsat.int/data/download/1.0.0"
+  } ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Download",
+    "description" : "Download EUMETSAT Online EO Data.",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "http://www.eumetsat.int"
+    }
+  } ],
+  "paths" : {
+    "/collections/{collID}/products/{prodID}" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product as compressed SIP",
+        "description" : "Downloads the product as compressed SIP",
+        "operationId" : "downloadProductByID",
+        "parameters" : [ {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "prodID",
+          "in" : "path",
+          "description" : "The ID of the product to download",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is a representation of the product.",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/products/{prodID}/browse" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download products browse graphic",
+        "description" : "Download products browse graphic",
+        "operationId" : "downloadProductsBrowseGraphicByID",
+        "parameters" : [ {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "prodID",
+          "in" : "path",
+          "description" : "The ID of the product which browseGraphic must be downloaded",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is a browseGraphic of the product.",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/products/{prodID}/metadata" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product´s metadata",
+        "description" : "Downloads product´s metadata",
+        "operationId" : "downloadProductsMetadataByID",
+        "parameters" : [ {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "prodID",
+          "in" : "path",
+          "description" : "The ID of the product which metadata must be downloaded",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "format",
+          "in" : "query",
+          "description" : "format of data representation to return: e.g. xml or json for metadata",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is metadata of the product.",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/products/{prodID}/entry" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Downloads a specific file of the product",
+        "description" : "Downloads a specific file of the product",
+        "operationId" : "downloadProductFileByID",
+        "parameters" : [ {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "prodID",
+          "in" : "path",
+          "description" : "The ID of the product from which a specific file must be downloaded",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "name a specific metadata file of the product",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation. The response is a specific file metadata of the product",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms/{platform}" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product",
+        "description" : "Downloads the product",
+        "operationId" : "downloadProductByPlatform",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "platform",
+          "in" : "path",
+          "description" : "platform/satellite/mission",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Downloads the product",
+        "description" : "Downloads the product",
+        "operationId" : "downloadProductByMinute",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms/{platform}/browse" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product´s browse image",
+        "description" : "Downloads the product browse image",
+        "operationId" : "downloadBrowseByPlatform",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "platform",
+          "in" : "path",
+          "description" : "platform/satellite/mission",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/browse" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product´s browse image",
+        "description" : "Downloads the product browse image",
+        "operationId" : "downloadBrowseByMinute",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms/{platform}/metadata" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product´s metadata",
+        "description" : "Downloads the product metadata",
+        "operationId" : "downloadMetadataByPlatform",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "platform",
+          "in" : "path",
+          "description" : "platform/satellite/mission",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/metadata" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Download product´s metadata",
+        "description" : "Downloads the product metadata",
+        "operationId" : "downloadMetadataByMinute",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms/{platform}/entry" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Downloads a specific file of the product",
+        "description" : "Downloads a specific file of the product",
+        "operationId" : "downloadProductFileByPlatform",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "platform",
+          "in" : "path",
+          "description" : "platform/satellite/mission",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "name a specific metadata file of the product",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/entry" : {
+      "get" : {
+        "tags" : [ "Download" ],
+        "summary" : "Downloads a specific file of the product",
+        "description" : "Downloads a specific file of the product",
+        "operationId" : "downloadProductFileByMinute",
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "path",
+          "description" : "year",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "month",
+          "in" : "path",
+          "description" : "month",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "day",
+          "in" : "path",
+          "description" : "day",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hour",
+          "in" : "path",
+          "description" : "hour",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "minute",
+          "in" : "path",
+          "description" : "minute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "collID",
+          "in" : "path",
+          "description" : "collection ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "name a specific metadata file of the product",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : { }
+          },
+          "400" : {
+            "description" : "The client request has errors.",
+            "content" : { }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "description" : "The client is not authorized to access the requested resource.",
+            "content" : { }
+          },
+          "404" : {
+            "description" : "The requested resource was not found.",
+            "content" : { }
+          },
+          "405" : {
+            "description" : "The HTTP method specified in the request is not allowed for this resource.",
+            "content" : { }
+          },
+          "500" : {
+            "description" : "The Download API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.",
+            "content" : { }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "UnauthorizedError" : {
+        "description" : "Authentication information is missing or invalid",
+        "headers" : {
+          "WWW_Authenticate" : {
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "default" : {
+        "type" : "oauth2",
+        "flows" : {
+          "implicit" : {
+            "authorizationUrl" : "https://api.eumetsat.int/authorize",
+            "scopes" : { }
+          }
+        }
+      }
+    }
+  }
+}

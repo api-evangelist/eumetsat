@@ -1,0 +1,385 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Chains API
+  version: '1.0'
+  description: 'Operations tagged Chains across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Chains
+paths:
+  /chains:
+    get:
+      description: Retrieves information on existing customisation chain configurations.
+      operationId: GET_chains
+      parameters:
+      - name: product
+        in: query
+        description: Only return chains corresponding to customisations of given product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return chains corresponding to customisations of given format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace an item ID with its configuration.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chain'
+                example:
+                  total: 4
+                  data:
+                  - id: sst_western_europe
+                    name: SST - Western Europe
+                    product: GLBSST
+                    format: geotiff
+                    projection: geographic
+                    roi: western_europe
+                    filter: 'bands: - sea_surface_temperature'
+                  - id: sea_surface_temperature
+                    name: Sea Surface Temperature
+                    product: GLBSST
+                    format: geotiff
+                    filter: 'bands: - sea_surface_temperature'
+                  - id: mhsl1_aggregation_orbit
+                    name: Aggregation Orbit
+                    product: MHSL1
+                    format: geotiff
+                    aggregation: orbit
+                  - id: ascatl1szf_aggregation_orbit
+                    name: Aggregation Orbit
+                    product: ASCATL1SZF
+                    format: geotiff
+                    aggregation: orbit
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Chains
+      summary: GET chains
+      x-summary-source: derived
+    post:
+      description: Allows the user to create new chains with custom desired configurations.
+      operationId: POST_chains
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chain'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Chain'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Chains
+      summary: POST chains
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /chains/{chainId}:
+    get:
+      description: Retrieves information on the existing customisation chain configuration with given chainId identifier.
+      operationId: GET_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chain'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Chains
+      summary: GET chains chain id
+      x-summary-source: derived
+    put:
+      description: Updates existing customisation chain configuration with given chainId identifier.
+      operationId: PUT_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Chain'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Chain'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Chains
+      summary: PUT chains chain id
+      x-summary-source: derived
+    delete:
+      description: Deletes all files and information on the existing customisation chain configuration with given chainId identifier.
+      operationId: DELETE_chains-chainId
+      parameters:
+      - name: chainId
+        in: path
+        description: Pre-configured customisation configuration chain ID (e.g. lst_western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Chains
+      summary: DELETE chains chain id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Filter:
+      required:
+      - bands
+      - id
+      - name
+      - product
+      type: object
+      properties:
+        product:
+          type: string
+          example: AVHRRL1
+        bands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Band'
+        id:
+          type: string
+          example: avhrrl1_natural_color
+        name:
+          type: string
+          example: Natural Color
+      description: List of available filters per product.
+    Chain:
+      required:
+      - format
+      - id
+      - name
+      - product
+      type: object
+      properties:
+        id:
+          type: string
+          example: sst_western_europe
+        name:
+          type: string
+          example: SST - Western Europe
+        description:
+          type: string
+          example: Sea Surface Temperature band with ROI over Western Europe and geographic projection
+        product:
+          type: string
+          example: GLBSST
+        format:
+          type: string
+          example: geotiff
+        aggregation:
+          type: string
+        projection:
+          type: string
+          example: geographic
+        roi:
+          $ref: '#/components/schemas/Roi'
+        filter:
+          $ref: '#/components/schemas/Filter'
+      description: Configurations of customisation processes.
+    Band:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: channel_1
+        name:
+          type: string
+          example: Channel 1
+        description:
+          type: string
+      description: List of bands.
+    Roi:
+      required:
+      - NSWE
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: western_europe
+        name:
+          type: string
+          example: Western Europe
+        NSWE:
+          type: array
+          items:
+            type: number
+        description:
+          type: string
+      description: List of available pre-configured Regions Of Interest (ROIs).
+    Chain_2:
+      type: object
+      required:
+      - format
+      - id
+      - name
+      - product
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        product:
+          type: string
+        format:
+          type: string
+        aggregation:
+          type: string
+        projection:
+          type: string
+        roi:
+          $ref: '#/components/schemas/Roi_2'
+        filter:
+          type: object
+          properties: {}
+      description: Configurations of customisation processes.
+    Roi_2:
+      type: object
+      required:
+      - NSWE
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        NSWE:
+          type: array
+          items:
+            type: number
+        description:
+          type: string
+      description: List of available pre-configured Regions Of Interest (ROIs).
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

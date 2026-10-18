@@ -1,0 +1,137 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Elastic CSW API definition",
+    "version" : "1.0.0",
+    "title" : "PN1_Elastic_CSW"
+  },
+  "host" : "api.eumetsat.int",
+  "basePath" : "/elastic-csw/1.0.0",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "paths" : {
+    "/service" : {
+      "get" : {
+        "summary" : "generic OGC API method",
+        "description" : "all KVP HTTP requests are send to this endpoint\n",
+        "produces" : [ "application/xml" ],
+        "parameters" : [ {
+          "name" : "request",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "GetCapabilities", "GetRecordById" ]
+        }, {
+          "name" : "service",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "CSW" ]
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "2.0.2" ]
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "elementsetname",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "outputSchema",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          },
+          "500" : {
+            "description" : "internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "post" : {
+        "summary" : "generic OGC API method",
+        "description" : "all XML/POX HTTP requests are send to this endpoint\n",
+        "consumes" : [ "application/xml" ],
+        "produces" : [ "application/xml" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "request",
+          "required" : true,
+          "schema" : {
+            "type" : "object"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK, including OGC specified exceptions"
+          },
+          "500" : {
+            "description" : "internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/download/{id}" : {
+      "get" : {
+        "summary" : "direct metadata record download",
+        "description" : "returns XML metadata without the CSW wrappers\n",
+        "produces" : [ "application/xml" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          },
+          "500" : {
+            "description" : "internal server error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "default" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://api.eumetsat.int/authorize",
+      "flow" : "implicit"
+    }
+  }
+}

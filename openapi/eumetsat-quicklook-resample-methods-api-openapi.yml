@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Quicklook Resample Methods API
+  version: '1.0'
+  description: 'Operations tagged Quicklook Resample Methods across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Quicklook Resample Methods
+paths:
+  /quicklook_resample_methods:
+    get:
+      description: Returns the list of supported resampling methods applicable to quicklook output images, if any.
+      operationId: GET_quicklook_resample_methods
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output product format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Resample Methods
+      summary: GET quicklook resample methods
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /quicklook_resample_methods/{resample_methodId}:
+    get:
+      description: Returns the resample method applicable to quicklook output images, corresponding to the given ID.
+      operationId: GET_quicklook_resample_methods-resample_methodId
+      parameters:
+      - name: resample_methodId
+        in: path
+        description: Pre-configured quicklook resampling method ID (e.g. bilinear).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookResampleMethod'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Resample Methods
+      summary: GET quicklook resample methods resample method id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    QuicklookResampleMethod:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: bilinear
+        name:
+          type: string
+          example: Bilinear resampling
+      description: List of supported resampling methods applicable to quicklooks, if any.
+    QuicklookResampleMethod_2:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      description: List of supported resampling methods applicable to quicklooks, if any.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

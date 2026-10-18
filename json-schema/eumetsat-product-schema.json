@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-product-schema.json",
+  "title": "Product",
+  "description": "List of supported input product types.",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Product",
+  "required": [
+    "id",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "bands": {
+      "type": "object",
+      "properties": {}
+    },
+    "pn_id": {
+      "type": "string"
+    }
+  }
+}

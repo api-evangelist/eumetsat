@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat UserPreference Entity API
+  version: 0.0.2
+  contact:
+    name: CGI EOSS
+    url: https://cgi.com/
+    email: address@cgi.com
+  license:
+    name: LICENSE TBD
+    url: LICENSE TBD
+  termsOfService: Terms of service TBD
+  description: 'Operations tagged UserPreference Entity across 2 of this provider''s published API definitions: eumetsat-user-preferences-openapi.json, eumetsat-user-preferences-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/userPreferences/0.0.2
+- url: http://api.eumetsat.int/userPreferences/0.0.2
+security:
+- default: []
+tags:
+- name: UserPreference Entity
+  description: $ Proxy 121
+paths:
+  /preferences:
+    get:
+      tags:
+      - UserPreference Entity
+      summary: findAllUserPreference
+      operationId: findAllUserPreferenceUsingGET_1
+      parameters:
+      - name: page
+        in: query
+        description: page
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: size
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: sort
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resources_UserPreference'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Resources_UserPreference'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/Resources_UserPreference'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/Resources_UserPreference'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+  /preferences/search/findById:
+    get:
+      tags:
+      - UserPreference Entity
+      summary: findOneUserPreference
+      operationId: findOneUserPreferenceUsingGET
+      parameters:
+      - name: id
+        in: query
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resource_UserPreference'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+  /preferences/{id}:
+    put:
+      tags:
+      - UserPreference Entity
+      summary: saveUserPreference
+      operationId: saveUserPreferenceUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resource_UserPreference'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreference'
+        description: body
+        required: true
+    delete:
+      tags:
+      - UserPreference Entity
+      summary: deleteUserPreference
+      operationId: deleteUserPreferenceUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        rel:
+          type: string
+        templated:
+          type: boolean
+    Resource_UserPreference:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        name:
+          type: string
+        ownerId:
+          type: string
+        preference:
+          type: string
+        shared:
+          type: boolean
+        type:
+          type: string
+        creationTime:
+          type: string
+        lastUpdate:
+          type: string
+        disabled:
+          type: boolean
+    UserPreference:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        ownerId:
+          type: string
+        preference:
+          type: string
+        shared:
+          type: boolean
+        type:
+          type: string
+        creationTime:
+          type: string
+        lastUpdate:
+          type: string
+        disabled:
+          type: boolean
+    Resources_UserPreference:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserPreference'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-user-preferences-openapi.json
+- eumetsat-user-preferences-openapi.yml

@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Subscription Controller API
+  version: 0.0.1
+  contact:
+    name: CGI EOSS
+    url: https://cgi.com/
+    email: address@cgi.com
+  license:
+    name: 'License: not yet defined. For the time being: confidential and private'
+    url: http://www.eumetsat.int
+  termsOfService: http://www.eumetsat.int/terms/
+  description: 'Operations tagged subscription-controller across 2 of this provider''s published API definitions: eumetsat-data-store-subscription-openapi.json, eumetsat-data-store-subscription-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/data/subscribe/0.0.1
+- url: http://api.eumetsat.int/data/subscribe/0.0.1
+security:
+- default: []
+tags:
+- name: subscription-controller
+  description: Subscription Controller
+paths:
+  /subscription:
+    get:
+      tags:
+      - subscription-controller
+      summary: Retrieve the user subscriptions
+      operationId: retrieveSubscriptionsUsingGET
+      responses:
+        '200':
+          description: Subscriptions found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriptionFilterDto'
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      tags:
+      - subscription-controller
+      summary: Create a new subscription
+      operationId: createNewSubscriptionUsingPOST
+      responses:
+        '201':
+          description: Subscription created
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad request - client responsibility
+        '500':
+          description: Subscription api internal error
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionFilterDto'
+        description: filterDto
+        required: true
+    servers:
+    - url: https://api.eumetsat.int/data/subscribe/0.0.1
+    - url: http://api.eumetsat.int/data/subscribe/0.0.1
+  /subscription/{subscriptionId}:
+    get:
+      tags:
+      - subscription-controller
+      summary: Retrieve a subscription
+      operationId: retrieveSubscriptionUsingGET
+      parameters:
+      - name: subscriptionId
+        in: path
+        description: subscriptionId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Subscription found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionFilterDto'
+        '404':
+          description: Not found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      tags:
+      - subscription-controller
+      summary: Delete a subscription
+      operationId: deleteSubscriptionUsingDELETE
+      parameters:
+      - name: subscriptionId
+        in: path
+        description: subscriptionId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '202':
+          description: Subscription cancelled
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          description: Not found
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/data/subscribe/0.0.1
+    - url: http://api.eumetsat.int/data/subscribe/0.0.1
+components:
+  schemas:
+    SubscriptionFilterDto:
+      type: object
+      properties:
+        aoi:
+          type: string
+        attempt:
+          type: integer
+          format: int32
+        collectionId:
+          type: string
+        delay:
+          type: integer
+          format: int32
+        hasInitialDelay:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - CANCELLED
+        url:
+          type: string
+        uuid:
+          type: string
+      title: SubscriptionFilterDto
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-data-store-subscription-openapi.json
+- eumetsat-data-store-subscription-openapi.yml

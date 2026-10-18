@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Service API
+  version: 1.0.0
+  description: 'Operations tagged Service across 2 of this provider''s published API definitions: eumetsat-product-navigator-csw-openapi.json, eumetsat-product-navigator-csw-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/elastic-csw/1.0.0
+- url: http://api.eumetsat.int/elastic-csw/1.0.0
+security:
+- default: []
+tags:
+- name: Service
+paths:
+  /service:
+    get:
+      summary: generic OGC API method
+      description: all KVP HTTP requests are send to this endpoint
+      parameters:
+      - name: request
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - GetCapabilities
+          - GetRecordById
+      - name: service
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - CSW
+      - name: version
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - 2.0.2
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: elementsetname
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: outputSchema
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: bad input parameter
+        '500':
+          description: internal server error
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Service
+      operationId: getService
+      x-operation-id-source: derived
+    post:
+      summary: generic OGC API method
+      description: all XML/POX HTTP requests are send to this endpoint
+      responses:
+        '200':
+          description: OK, including OGC specified exceptions
+        '500':
+          description: internal server error
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              type: object
+        required: true
+      tags:
+      - Service
+      operationId: postService
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/elastic-csw/1.0.0
+    - url: http://api.eumetsat.int/elastic-csw/1.0.0
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-product-navigator-csw-openapi.json
+- eumetsat-product-navigator-csw-openapi.yml

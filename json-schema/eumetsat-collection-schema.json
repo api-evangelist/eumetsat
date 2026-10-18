@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-collection-schema.json",
+  "title": "Collection",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Collection",
+  "required": [
+    "collection",
+    "links"
+  ],
+  "type": "object",
+  "properties": {
+    "collection": {
+      "$ref": "#/$defs/CollectionFeature"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LinkSchema"
+      }
+    }
+  },
+  "$defs": {
+    "CollectionFeature": {
+      "required": [
+        "id",
+        "properties",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "properties": {
+          "$ref": "#/$defs/CollectionProperties"
+        }
+      }
+    },
+    "CollectionLinks": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "alternates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "search": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "previews": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CollectionProperties": {
+      "required": [
+        "identifier",
+        "kind",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "abstract": {
+          "type": "string"
+        },
+        "links": {
+          "$ref": "#/$defs/CollectionLinks"
+        }
+      }
+    },
+    "LinkSchema": {
+      "required": [
+        "rel",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "mediaType": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "rel": {
+          "type": "string"
+        },
+        "datasetTitle": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

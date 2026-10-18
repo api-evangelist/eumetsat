@@ -1,0 +1,247 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Rois API
+  version: '1.0'
+  description: 'Operations tagged Rois across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Rois
+paths:
+  /rois:
+    get:
+      description: Retrieves information on pre-configured regions of interest.
+      operationId: GET_rois
+      parameters:
+      - name: product
+        in: query
+        description: only return ROIs which can be applied when customising given input product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: only return ROIs which can be applied when given output format is selected
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Roi'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Rois
+      summary: GET rois
+      x-summary-source: derived
+    post:
+      description: Allows the user to add and eventually use custom ROI boxes.
+      operationId: POST_rois
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roi'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Roi'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Rois
+      summary: POST rois
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /rois/{roiId}:
+    get:
+      description: Retrieves information on the pre-configured region of interest with given RoiId identifier.
+      operationId: GET_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Roi'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Rois
+      summary: GET rois roi id
+      x-summary-source: derived
+    put:
+      description: Updates the pre-configured region of interest with given RoiId identifier.
+      operationId: PUT_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roi'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Roi'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Rois
+      summary: PUT rois roi id
+      x-summary-source: derived
+    delete:
+      description: Deletes the pre-configured region of interest with given RoiId identifier.
+      operationId: DELETE_rois-roiId
+      parameters:
+      - name: roiId
+        in: path
+        description: Pre-configured Region of Interest ID (e.g. western_europe).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Rois
+      summary: DELETE rois roi id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Roi:
+      required:
+      - NSWE
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: western_europe
+        name:
+          type: string
+          example: Western Europe
+        NSWE:
+          type: array
+          items:
+            type: number
+        description:
+          type: string
+      description: List of available pre-configured Regions Of Interest (ROIs).
+    Roi_2:
+      type: object
+      required:
+      - NSWE
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        NSWE:
+          type: array
+          items:
+            type: number
+        description:
+          type: string
+      description: List of available pre-configured Regions Of Interest (ROIs).
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

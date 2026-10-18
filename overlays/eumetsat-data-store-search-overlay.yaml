@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: EUMETSAT Data Store OpenSearch API overlay
+  version: 1.0.0
+extends: ../openapi/_original/eumetsat-data-store-search-openapi.yml
+generated: '2026-10-18'
+method: generated
+source: openapi/eumetsat-data-store-search-openapi.yml
+actions:
+- target: $.info
+  description: Attach API Evangelist catalog metadata (derived from apis.yml)
+  update:
+    x-api-evangelist-provider: eumetsat
+    x-api-name: EUMETSAT Data Store OpenSearch API
+    x-base-url: https://api.eumetsat.int/data/search-products/1.0.0
+    x-human-url: https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide

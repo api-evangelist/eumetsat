@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: EUMETSAT User Info API overlay
+  version: 1.0.0
+extends: ../openapi/_original/eumetsat-user-info-openapi.yml
+generated: '2026-10-18'
+method: generated
+source: openapi/eumetsat-user-info-openapi.yml
+actions:
+- target: $.info
+  description: Attach API Evangelist catalog metadata (derived from apis.yml)
+  update:
+    x-api-evangelist-provider: eumetsat
+    x-api-name: EUMETSAT User Info API
+    x-base-url: https://api.eumetsat.int/userInfo/0.0.2
+    x-human-url: https://user.eumetsat.int/data-access

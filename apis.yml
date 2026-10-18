@@ -1,23 +1,1542 @@
 aid: eumetsat
+
 name: EUMETSAT
-description: 'EUMETSAT is a company surfaced via the API Evangelist harvest backlog (source: kin-score-markets)
-  and added to the network as a stub for full-pipeline profiling.'
+
+description: EUMETSAT, the European Organisation for the Exploitation of Meteorological Satellites, is an intergovernmental organisation that
+  operates Europe's meteorological satellites (Meteosat, Metop, MTG, Metop-SG) and Copernicus missions. Through its User Portal and Data Store
+  it provides satellite data to users via web interfaces and REST APIs on api.eumetsat.int (browse, search, download, Data Tailor customisation,
+  API key and token management), plus the EUMDAC Python data access client.
+
 url: https://raw.githubusercontent.com/api-evangelist/eumetsat/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:kin-score-markets
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-18 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-18'
+
 modified: '2026-10-18'
+
 tags:
 - Company
-apis: []
+- Earth Observation
+- Satellite
+- Meteorology
+- Weather
+- Climate
+- Open Data
+- Government
+
+tags_raw:
+- Company
+- Earth Observation
+- Satellites
+- Meteorology
+- Weather
+- Climate
+- Open Data
+- Government
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
+image: https://www-cdn.eumetsat.int/files/2026-01/EUM40_40%20-%20logo%20White%20Long.png
+
 common:
+- type: AgenticAccess
+  url: agentic-access/eumetsat-agentic-access.yml
+- type: RateLimits
+  url: rate-limits/eumetsat-rate-limits.yml
+- type: Spectral
+  url: rules/eumetsat-rules.yml
+- type: JSONLD
+  url: json-ld/eumetsat-context.jsonld
+- type: Vocabulary
+  url: vocabulary/eumetsat-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/eumetsat-data-model.yml
+- type: ChangeLog
+  url: changelog/eumetsat-changelog.yml
+- type: Lifecycle
+  url: lifecycle/eumetsat-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/eumetsat-problem-types.yml
+- type: Conformance
+  url: conformance/eumetsat-conformance.yml
+- type: Overlay
+  url: overlays/eumetsat-data-store-browse-overlay.yaml
+- type: LLMsTxt
+  url: llms/eumetsat-llms.txt
+- type: WellKnown
+  url: well-known/eumetsat-well-known.yml
+- type: Hosts
+  url: hosts/eumetsat-hosts.yml
+- type: SDKs
+  url: packages/eumetsat-packages.yml
+- type: Packages
+  url: packages/eumetsat-packages.yml
+- type: Authentication
+  url: authentication/eumetsat-authentication.yml
+- type: DomainSecurity
+  url: security/eumetsat-domain-security.yml
 - type: Website
-  url: https://eumetsat.int
+  url: https://www.eumetsat.int
+- type: DeveloperPortal
+  url: https://user.eumetsat.int/data-access
+- type: Documentation
+  url: https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide
+- type: GettingStarted
+  url: https://user.eumetsat.int/resources/user-guides/getting-started-using-data
+- type: FAQ
+  url: https://user.eumetsat.int/resources/user-guides/frequently-asked-questions-for-data-store
+- type: ChangeLog
+  url: https://user.eumetsat.int/resources/user-guides/data-store-release-changelog
+- type: Login
+  url: https://api.eumetsat.int/api-key/
+- type: Support
+  url: https://www.eumetsat.int/contact-us
+- type: Blog
+  url: https://www.eumetsat.int/news/latest-news
+- type: Newsroom
+  url: https://www.eumetsat.int/news/features
+- type: GitHubOrganization
+  url: https://github.com/eumetsat
+- type: GitLab
+  url: https://gitlab.eumetsat.int/
+- type: Twitter
+  url: https://twitter.com/eumetsat
+- type: TermsOfService
+  url: https://www.eumetsat.int/about-us/terms-use
+- type: PrivacyPolicy
+  url: https://www.eumetsat.int/privacy-policy
+
+apis:
+- name: EUMETSAT EUMETView OGC Web Services
+  description: >-
+    EUMETView GeoServer OGC services (WMS 1.3.0, WFS 2.0.0, WCS 2.0) publishing EUMETSAT satellite imagery
+    and products as map layers, features and coverages.
+  humanURL: https://view.eumetsat.int/
+  baseURL: https://view.eumetsat.int/geoserver/ows
+  tags:
+  - OGC
+  - WMS
+  - WFS
+  - WCS
+  - Maps
+  properties:
+  - type: GetCapabilities
+    url: openapi/eumetsat-eumetview-wms-capabilities.xml
+  - type: GetCapabilities
+    url: openapi/eumetsat-eumetview-wfs-capabilities.xml
+  - type: GetCapabilities
+    url: openapi/eumetsat-eumetview-wcs-capabilities.xml
+  - type: WMS
+    url: https://view.eumetsat.int/geoserver/ows?service=WMS&request=GetCapabilities
+  - type: WFS
+    url: https://view.eumetsat.int/geoserver/ows?service=WFS&request=GetCapabilities
+  - type: WCS
+    url: https://view.eumetsat.int/geoserver/ows?service=WCS&request=GetCapabilities
+  aid: eumetsat:eumetsat-eumetview-ogc-web-services
+- aid: eumetsat:eumetsat-aggregation-analyse-api
+  name: EUMETSAT Aggregation Analyse API
+  description: The Aggregation Analyse API from EUMETSAT — 1 operation(s) for aggregation analyse.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Aggregation Analyse
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-aggregation-analyse-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-aggregations-api
+  name: EUMETSAT Aggregations API
+  description: The Aggregations API from EUMETSAT — 1 operation(s) for aggregations.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Aggregations
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-aggregations-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-backends-api
+  name: EUMETSAT Backends API
+  description: The Backends API from EUMETSAT — 2 operation(s) for backends.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Backends
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-backends-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-body-selections-api
+  name: EUMETSAT Body Selections API
+  description: The Body Selections API from EUMETSAT — 2 operation(s) for body selections.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Body Selections
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-body-selections-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-callback-api
+  name: EUMETSAT Callback API
+  description: The Callback API from EUMETSAT — 1 operation(s) for callback.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Callback
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-callback-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-cart-controller-api
+  name: EUMETSAT Cart Controller API
+  description: Cart Controller
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - cart-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-cart-controller-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-chains-api
+  name: EUMETSAT Chains API
+  description: The Chains API from EUMETSAT — 2 operation(s) for chains.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Chains
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-chains-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-compressions-api
+  name: EUMETSAT Compressions API
+  description: The Compressions API from EUMETSAT — 1 operation(s) for compressions.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Compressions
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-compressions-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-csw-api
+  name: EUMETSAT Csw API
+  description: The Csw API from EUMETSAT — 2 operation(s) for csw.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Csw
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-csw-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-customisations-api
+  name: EUMETSAT Customisations API
+  description: The Customisations API from EUMETSAT — 4 operation(s) for customisations.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Customisations
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-customisations-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-description-document-api
+  name: EUMETSAT Description Document API
+  description: The Description Document API from EUMETSAT — 1 operation(s) for description document.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Description Document
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-description-document-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-dir-entries-api
+  name: EUMETSAT Dir Entries API
+  description: The Dir Entries API from EUMETSAT — 1 operation(s) for dir entries.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Dir Entries
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-dir-entries-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-discovery-api
+  name: EUMETSAT Discovery API
+  description: Search and discover EUMETSAT Data.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-discovery-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-download-api
+  name: EUMETSAT Download API
+  description: Download EUMETSAT Online EO Data.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Download
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-download-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-features-api
+  name: EUMETSAT Features API
+  description: The Features API from EUMETSAT — 1 operation(s) for features.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Features
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-features-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-filters-api
+  name: EUMETSAT Filters API
+  description: The Filters API from EUMETSAT — 2 operation(s) for filters.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Filters
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-filters-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-formats-api
+  name: EUMETSAT Formats API
+  description: The Formats API from EUMETSAT — 2 operation(s) for formats.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Formats
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-formats-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-info-api
+  name: EUMETSAT Info API
+  description: The Info API from EUMETSAT — 1 operation(s) for info.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Info
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-info-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-login-api
+  name: EUMETSAT Login API
+  description: The Login API from EUMETSAT — 1 operation(s) for login.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Login
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-login-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-logout-api
+  name: EUMETSAT Logout API
+  description: The Logout API from EUMETSAT — 1 operation(s) for logout.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Logout
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-logout-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-preferences-api
+  name: EUMETSAT Preferences API
+  description: The Preferences API from EUMETSAT — 4 operation(s) for preferences.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Preferences
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-preferences-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-products-api
+  name: EUMETSAT Products API
+  description: The Products API from EUMETSAT — 3 operation(s) for products.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-products-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-projections-api
+  name: EUMETSAT Projections API
+  description: The Projections API from EUMETSAT — 2 operation(s) for projections.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Projections
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-projections-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-quicklook-formats-api
+  name: EUMETSAT Quicklook Formats API
+  description: The Quicklook Formats API from EUMETSAT — 2 operation(s) for quicklook formats.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Quicklook Formats
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-quicklook-formats-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-quicklook-nodatacolors-api
+  name: EUMETSAT Quicklook Nodatacolors API
+  description: >-
+    The Quicklook Nodatacolors API from EUMETSAT — 2 operation(s) for quicklook nodatacolors.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Quicklook Nodatacolors
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-quicklook-nodatacolors-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-quicklook-resample-methods-api
+  name: EUMETSAT Quicklook Resample Methods API
+  description: >-
+    The Quicklook Resample Methods API from EUMETSAT — 2 operation(s) for quicklook resample methods.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Quicklook Resample Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-quicklook-resample-methods-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-quicklook-stretch-methods-api
+  name: EUMETSAT Quicklook Stretch Methods API
+  description: >-
+    The Quicklook Stretch Methods API from EUMETSAT — 2 operation(s) for quicklook stretch methods.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Quicklook Stretch Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-quicklook-stretch-methods-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-quicklooks-api
+  name: EUMETSAT Quicklooks API
+  description: The Quicklooks API from EUMETSAT — 2 operation(s) for quicklooks.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Quicklooks
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-quicklooks-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-report-quota-api
+  name: EUMETSAT Report Quota API
+  description: The Report Quota API from EUMETSAT — 1 operation(s) for report quota.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Report Quota
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-report-quota-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-resample-methods-api
+  name: EUMETSAT Resample Methods API
+  description: The Resample Methods API from EUMETSAT — 1 operation(s) for resample methods.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Resample Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-resample-methods-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-rois-api
+  name: EUMETSAT Rois API
+  description: The Rois API from EUMETSAT — 2 operation(s) for rois.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Rois
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-rois-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-search-api
+  name: EUMETSAT Search API
+  description: Search EUMETSAT Online EO Data
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-search-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-service-api
+  name: EUMETSAT Service API
+  description: The Service API from EUMETSAT — 1 operation(s) for service.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Service
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-service-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-status-api
+  name: EUMETSAT Status API
+  description: The Status API from EUMETSAT — 1 operation(s) for status.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-status-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-stretch-methods-api
+  name: EUMETSAT Stretch Methods API
+  description: The Stretch Methods API from EUMETSAT — 1 operation(s) for stretch methods.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Stretch Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-stretch-methods-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-subscription-controller-api
+  name: EUMETSAT Subscription Controller API
+  description: Subscription Controller
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - subscription-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-subscription-controller-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-swagger-json-api
+  name: EUMETSAT Swagger.json API
+  description: The Swagger.json API from EUMETSAT — 1 operation(s) for swagger.json.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - Swagger.json
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-swagger-json-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-user-info-api-controller-api
+  name: EUMETSAT User Info API Controller API
+  description: User Info Api Controller
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - user-info-api-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-user-info-api-controller-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-user-info-api
+  name: EUMETSAT User Info API
+  description: The User Info API from EUMETSAT — 1 operation(s) for user info.
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - User Info
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-user-info-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+- aid: eumetsat:eumetsat-userpreference-entity-api
+  name: EUMETSAT UserPreference Entity API
+  description: $ Proxy 121
+  humanURL: https://user.eumetsat.int/data-access
+  baseURL: https://api.eumetsat.int/epcs/0.1.0
+  tags:
+  - UserPreference Entity
+  properties:
+  - type: OpenAPI
+    url: openapi/eumetsat-userpreference-entity-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/eumetsat-backend-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-chain-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-product-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-quicklook-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-customisation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-report-quota-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-polygon-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-earth-observation-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-plus-products-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collection-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-collections-schema.json
+  - type: JSONSchema
+    url: json-schema/eumetsat-products-schema.json
+x-coverage:
+  state: covered
+  reason: identity-verified
+  detail: Website, description, tags, image and link pointers verified from eumetsat.int, user.eumetsat.int (rendered SPA and its Strapi content
+    API, which confirms each user-guide slug) and api.eumetsat.int.
+  evidence:
+  - url: https://www.eumetsat.int/
+    status: 200
+  - url: https://user.eumetsat.int/data-access
+    status: 200
+  - url: https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide
+    status: 200
+  - url: https://user.eumetsat.int/resources/user-guides/getting-started-using-data
+    status: 200
+  - url: https://api.eumetsat.int/api-key/
+    status: 200
+  - url: https://www.eumetsat.int/contact-us
+    status: 200
+  - url: https://www.eumetsat.int/news/latest-news
+    status: 200
+  - url: https://github.com/eumetsat
+    status: 200
+  - url: https://gitlab.eumetsat.int/
+    status: 200
+x-enrichment:
+  date: '2026-10-18'
+  status: enriched
+  artifacts_added: 81
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=deepseek,regulatory=anthropic

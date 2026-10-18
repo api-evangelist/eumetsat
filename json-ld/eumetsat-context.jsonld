@@ -1,0 +1,698 @@
+{
+  "@context": {
+    "@vocab": "https://eumetsat.int/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "eumetsat": "https://eumetsat.int/schema#",
+    "EarthObservation": "eumetsat:EarthObservation",
+    "type": {
+      "@id": "eumetsat:type",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "eumetsat:id",
+      "@type": "@id"
+    },
+    "geometry": {
+      "@id": "eumetsat:geometry"
+    },
+    "properties": {
+      "@id": "eumetsat:properties",
+      "@type": "@id"
+    },
+    "bbox": {
+      "@id": "eumetsat:bbox",
+      "@container": "@list"
+    },
+    "DataIdentification": "eumetsat:DataIdentification",
+    "parentIdentifier": {
+      "@id": "eumetsat:parentIdentifier",
+      "@type": "xsd:string"
+    },
+    "doi": {
+      "@id": "eumetsat:doi",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "eumetsat:title",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "eumetsat:date",
+      "@type": "xsd:string"
+    },
+    "updated": {
+      "@id": "eumetsat:updated",
+      "@type": "xsd:dateTime"
+    },
+    "ProductLinks": "eumetsat:ProductLinks",
+    "qualityReport": {
+      "@id": "eumetsat:qualityReport",
+      "@container": "@list"
+    },
+    "data": {
+      "@id": "eumetsat:data",
+      "@container": "@list"
+    },
+    "alternates": {
+      "@id": "eumetsat:alternates",
+      "@container": "@list"
+    },
+    "via": {
+      "@id": "eumetsat:via",
+      "@container": "@list"
+    },
+    "up": {
+      "@id": "eumetsat:up",
+      "@container": "@list"
+    },
+    "previews": {
+      "@id": "eumetsat:previews",
+      "@container": "@list"
+    },
+    "LinkType": "eumetsat:LinkType",
+    "href": {
+      "@id": "eumetsat:href",
+      "@type": "@id"
+    },
+    "length": {
+      "@id": "eumetsat:length",
+      "@type": "xsd:integer"
+    },
+    "category": {
+      "@id": "eumetsat:category",
+      "@type": "xsd:string"
+    },
+    "expression": {
+      "@id": "eumetsat:expression",
+      "@type": "xsd:string"
+    },
+    "conformsTo": {
+      "@id": "eumetsat:conformsTo",
+      "@type": "@id"
+    },
+    "Collections": "eumetsat:Collections",
+    "links": {
+      "@id": "eumetsat:links",
+      "@container": "@list"
+    },
+    "numberOfProducts": {
+      "@id": "eumetsat:numberOfProducts",
+      "@type": "xsd:integer"
+    },
+    "LinkSchema": "eumetsat:LinkSchema",
+    "mediaType": {
+      "@id": "eumetsat:mediaType",
+      "@type": "xsd:string"
+    },
+    "rel": {
+      "@id": "eumetsat:rel",
+      "@type": "xsd:string"
+    },
+    "datasetTitle": {
+      "@id": "eumetsat:datasetTitle",
+      "@type": "xsd:string"
+    },
+    "Collection": "eumetsat:Collection",
+    "collection": {
+      "@id": "eumetsat:collection",
+      "@type": "@id"
+    },
+    "CollectionFeature": "eumetsat:CollectionFeature",
+    "CollectionProperties": "eumetsat:CollectionProperties",
+    "kind": {
+      "@id": "eumetsat:kind",
+      "@type": "xsd:string"
+    },
+    "identifier": {
+      "@id": "eumetsat:identifier",
+      "@type": "xsd:string"
+    },
+    "abstract": {
+      "@id": "eumetsat:abstract",
+      "@type": "xsd:string"
+    },
+    "CollectionLinks": "eumetsat:CollectionLinks",
+    "search": {
+      "@id": "eumetsat:search",
+      "@container": "@list"
+    },
+    "CollectionPlusProducts": "eumetsat:CollectionPlusProducts",
+    "products": {
+      "@id": "eumetsat:products",
+      "@type": "@id"
+    },
+    "Products": "eumetsat:Products",
+    "Point": "eumetsat:Point",
+    "coordinates": {
+      "@id": "eumetsat:coordinates",
+      "@container": "@list"
+    },
+    "Polygon": "eumetsat:Polygon",
+    "MultiPolygon": "eumetsat:MultiPolygon",
+    "AcquisitionInformation": "eumetsat:AcquisitionInformation",
+    "platform": {
+      "@id": "eumetsat:platform",
+      "@type": "@id"
+    },
+    "instrument": {
+      "@id": "eumetsat:instrument",
+      "@type": "@id"
+    },
+    "acquisitionParameters": {
+      "@id": "eumetsat:acquisitionParameters",
+      "@type": "@id"
+    },
+    "Platform": "eumetsat:Platform",
+    "platformShortName": {
+      "@id": "eumetsat:platformShortName",
+      "@type": "xsd:string"
+    },
+    "platformSerialIdentifier": {
+      "@id": "eumetsat:platformSerialIdentifier",
+      "@type": "xsd:string"
+    },
+    "orbitType": {
+      "@id": "eumetsat:orbitType",
+      "@type": "xsd:string"
+    },
+    "Instrument": "eumetsat:Instrument",
+    "sensorType": {
+      "@id": "eumetsat:sensorType",
+      "@type": "xsd:string"
+    },
+    "instrumentShortName": {
+      "@id": "eumetsat:instrumentShortName",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "eumetsat:description",
+      "@type": "xsd:string"
+    },
+    "operationalMode": {
+      "@id": "eumetsat:operationalMode",
+      "@type": "xsd:string"
+    },
+    "swathIdentifier": {
+      "@id": "eumetsat:swathIdentifier",
+      "@type": "xsd:string"
+    },
+    "polarisationMode": {
+      "@id": "eumetsat:polarisationMode",
+      "@type": "xsd:string"
+    },
+    "polarisationChannels": {
+      "@id": "eumetsat:polarisationChannels",
+      "@type": "xsd:string"
+    },
+    "resolution": {
+      "@id": "eumetsat:resolution",
+      "@type": "xsd:decimal"
+    },
+    "verticalResolution": {
+      "@id": "eumetsat:verticalResolution",
+      "@type": "xsd:decimal"
+    },
+    "waveLengths": {
+      "@id": "eumetsat:waveLengths",
+      "@container": "@list"
+    },
+    "measurementType": {
+      "@id": "eumetsat:measurementType",
+      "@type": "xsd:string"
+    },
+    "dopplerFrequency": {
+      "@id": "eumetsat:dopplerFrequency",
+      "@type": "xsd:string"
+    },
+    "samplingRates": {
+      "@id": "eumetsat:samplingRates",
+      "@container": "@list"
+    },
+    "WavelengthInformation": "eumetsat:WavelengthInformation",
+    "discreteWavelengths": {
+      "@id": "eumetsat:discreteWavelengths",
+      "@type": "xsd:string"
+    },
+    "endWavelength": {
+      "@id": "eumetsat:endWavelength",
+      "@type": "xsd:string"
+    },
+    "spectralRange": {
+      "@id": "eumetsat:spectralRange",
+      "@type": "xsd:string"
+    },
+    "startWavelength": {
+      "@id": "eumetsat:startWavelength",
+      "@type": "xsd:string"
+    },
+    "wavelengthResolution": {
+      "@id": "eumetsat:wavelengthResolution",
+      "@type": "xsd:string"
+    },
+    "AcquisitionAngles": "eumetsat:AcquisitionAngles",
+    "illuminationAzimuthAngle": {
+      "@id": "eumetsat:illuminationAzimuthAngle",
+      "@type": "xsd:decimal"
+    },
+    "illuminationZenithAngle": {
+      "@id": "eumetsat:illuminationZenithAngle",
+      "@type": "xsd:decimal"
+    },
+    "illuminationElevationAngle": {
+      "@id": "eumetsat:illuminationElevationAngle",
+      "@type": "xsd:decimal"
+    },
+    "incidenceAngle": {
+      "@id": "eumetsat:incidenceAngle",
+      "@type": "xsd:decimal"
+    },
+    "minimumIncidenceAngle": {
+      "@id": "eumetsat:minimumIncidenceAngle",
+      "@type": "xsd:decimal"
+    },
+    "maximumIncidenceAngle": {
+      "@id": "eumetsat:maximumIncidenceAngle",
+      "@type": "xsd:decimal"
+    },
+    "incidenceAngleVariation": {
+      "@id": "eumetsat:incidenceAngleVariation",
+      "@type": "xsd:decimal"
+    },
+    "acrossTrackIncidenceAngle": {
+      "@id": "eumetsat:acrossTrackIncidenceAngle",
+      "@type": "xsd:decimal"
+    },
+    "alongTrackIncidenceAngle": {
+      "@id": "eumetsat:alongTrackIncidenceAngle",
+      "@type": "xsd:decimal"
+    },
+    "instrumentAzimuthAngle": {
+      "@id": "eumetsat:instrumentAzimuthAngle",
+      "@type": "xsd:decimal"
+    },
+    "instrumentZenithAngle": {
+      "@id": "eumetsat:instrumentZenithAngle",
+      "@type": "xsd:decimal"
+    },
+    "instrumentElevationAngle": {
+      "@id": "eumetsat:instrumentElevationAngle",
+      "@type": "xsd:decimal"
+    },
+    "pitch": {
+      "@id": "eumetsat:pitch",
+      "@type": "xsd:decimal"
+    },
+    "roll": {
+      "@id": "eumetsat:roll",
+      "@type": "xsd:decimal"
+    },
+    "yaw": {
+      "@id": "eumetsat:yaw",
+      "@type": "xsd:decimal"
+    },
+    "TemporalInformation": "eumetsat:TemporalInformation",
+    "beginningDateTime": {
+      "@id": "eumetsat:beginningDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "endingDateTime": {
+      "@id": "eumetsat:endingDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "VerticalSpatialDomain": "eumetsat:VerticalSpatialDomain",
+    "highestLocation": {
+      "@id": "eumetsat:highestLocation",
+      "@type": "xsd:string"
+    },
+    "lowestLocation": {
+      "@id": "eumetsat:lowestLocation",
+      "@type": "xsd:string"
+    },
+    "locationUnit": {
+      "@id": "eumetsat:locationUnit",
+      "@type": "xsd:string"
+    },
+    "OrbitParameters": "eumetsat:OrbitParameters",
+    "orbitDirection": {
+      "@id": "eumetsat:orbitDirection",
+      "@type": "xsd:string"
+    },
+    "orbitDuration": {
+      "@id": "eumetsat:orbitDuration",
+      "@type": "xsd:integer"
+    },
+    "ascendingNodeDate": {
+      "@id": "eumetsat:ascendingNodeDate",
+      "@type": "xsd:dateTime"
+    },
+    "ascendingNodeLongitude": {
+      "@id": "eumetsat:ascendingNodeLongitude",
+      "@type": "xsd:decimal"
+    },
+    "orbitNumber": {
+      "@id": "eumetsat:orbitNumber",
+      "@type": "xsd:integer"
+    },
+    "lastOrbitNumber": {
+      "@id": "eumetsat:lastOrbitNumber",
+      "@type": "xsd:decimal"
+    },
+    "MTGCoverage": "eumetsat:MTGCoverage",
+    "repeatCycleIdentifier": {
+      "@id": "eumetsat:repeatCycleIdentifier",
+      "@type": "xsd:string"
+    },
+    "majorRegionCoverage": {
+      "@id": "eumetsat:majorRegionCoverage",
+      "@type": "xsd:string"
+    },
+    "subRegionIdentifier": {
+      "@id": "eumetsat:subRegionIdentifier",
+      "@type": "xsd:string"
+    },
+    "ProcessingInformation": "eumetsat:ProcessingInformation",
+    "processorName": {
+      "@id": "eumetsat:processorName",
+      "@type": "xsd:string"
+    },
+    "processingCenter": {
+      "@id": "eumetsat:processingCenter",
+      "@type": "xsd:string"
+    },
+    "processingDate": {
+      "@id": "eumetsat:processingDate",
+      "@type": "xsd:dateTime"
+    },
+    "processingLevel": {
+      "@id": "eumetsat:processingLevel",
+      "@type": "xsd:string"
+    },
+    "processingMode": {
+      "@id": "eumetsat:processingMode",
+      "@type": "xsd:string"
+    },
+    "compositeType": {
+      "@id": "eumetsat:compositeType",
+      "@type": "xsd:string"
+    },
+    "productContentsType": {
+      "@id": "eumetsat:productContentsType",
+      "@type": "xsd:string"
+    },
+    "processingMethod": {
+      "@id": "eumetsat:processingMethod",
+      "@type": "xsd:string"
+    },
+    "processingMethodVersion": {
+      "@id": "eumetsat:processingMethodVersion",
+      "@type": "xsd:string"
+    },
+    "CoverageDescription": "eumetsat:CoverageDescription",
+    "cloudCover": {
+      "@id": "eumetsat:cloudCover",
+      "@type": "xsd:decimal"
+    },
+    "snowCover": {
+      "@id": "eumetsat:snowCover",
+      "@type": "xsd:decimal"
+    },
+    "QualityInformation": "eumetsat:QualityInformation",
+    "qualityStatus": {
+      "@id": "eumetsat:qualityStatus",
+      "@type": "xsd:string"
+    },
+    "qualityDegradation": {
+      "@id": "eumetsat:qualityDegradation",
+      "@type": "xsd:decimal"
+    },
+    "qualityDegradationTag": {
+      "@id": "eumetsat:qualityDegradationTag",
+      "@type": "xsd:string"
+    },
+    "qualityDegradationQuotationMode": {
+      "@id": "eumetsat:qualityDegradationQuotationMode",
+      "@type": "xsd:string"
+    },
+    "Info": "eumetsat:Info",
+    "epct_version": {
+      "@id": "eumetsat:epct_version",
+      "@type": "xsd:string"
+    },
+    "installed_plugins": {
+      "@id": "eumetsat:installed_plugins",
+      "@container": "@list"
+    },
+    "registered_backends": {
+      "@id": "eumetsat:registered_backends",
+      "@container": "@list"
+    },
+    "User_info": "eumetsat:User_info",
+    "user_id": {
+      "@id": "eumetsat:user_id",
+      "@type": "xsd:string"
+    },
+    "etc_dir": {
+      "@id": "eumetsat:etc_dir",
+      "@type": "xsd:string"
+    },
+    "config": {
+      "@id": "eumetsat:config",
+      "@container": "@list"
+    },
+    "Status": "eumetsat:Status",
+    "status": {
+      "@id": "eumetsat:status",
+      "@type": "xsd:string"
+    },
+    "ReportQuota": "eumetsat:ReportQuota",
+    "user_quota": {
+      "@id": "eumetsat:user_quota",
+      "@type": "xsd:decimal"
+    },
+    "space_user_percentage": {
+      "@id": "eumetsat:space_user_percentage",
+      "@type": "xsd:decimal"
+    },
+    "space_usage": {
+      "@id": "eumetsat:space_usage",
+      "@type": "xsd:decimal"
+    },
+    "workspace_dir_size": {
+      "@id": "eumetsat:workspace_dir_size",
+      "@type": "xsd:decimal"
+    },
+    "log_dir_size": {
+      "@id": "eumetsat:log_dir_size",
+      "@type": "xsd:decimal"
+    },
+    "output_dir_size": {
+      "@id": "eumetsat:output_dir_size",
+      "@type": "xsd:decimal"
+    },
+    "nr_customisations": {
+      "@id": "eumetsat:nr_customisations",
+      "@type": "xsd:decimal"
+    },
+    "Customisation": "eumetsat:Customisation",
+    "creation_time": {
+      "@id": "eumetsat:creation_time",
+      "@type": "xsd:string"
+    },
+    "backend_id": {
+      "@id": "eumetsat:backend_id",
+      "@type": "xsd:string"
+    },
+    "product_id": {
+      "@id": "eumetsat:product_id",
+      "@type": "xsd:string"
+    },
+    "required_processing_steps": {
+      "@id": "eumetsat:required_processing_steps",
+      "@container": "@list"
+    },
+    "processing_duration": {
+      "@id": "eumetsat:processing_duration",
+      "@type": "xsd:integer"
+    },
+    "DirEntry": "eumetsat:DirEntry",
+    "path": {
+      "@id": "eumetsat:path",
+      "@type": "xsd:string"
+    },
+    "is_dir": {
+      "@id": "eumetsat:is_dir",
+      "@type": "xsd:boolean"
+    },
+    "st_size": {
+      "@id": "eumetsat:st_size",
+      "@type": "xsd:integer"
+    },
+    "st_mtime": {
+      "@id": "eumetsat:st_mtime",
+      "@type": "xsd:decimal"
+    },
+    "Product": "eumetsat:Product",
+    "name": {
+      "@id": "eumetsat:name",
+      "@type": "xsd:string"
+    },
+    "bands": {
+      "@id": "eumetsat:bands"
+    },
+    "pn_id": {
+      "@id": "eumetsat:pn_id",
+      "@type": "xsd:string"
+    },
+    "Body_Selection": "eumetsat:Body_Selection",
+    "body_selection": {
+      "@id": "eumetsat:body_selection",
+      "@container": "@list"
+    },
+    "product": {
+      "@id": "eumetsat:product",
+      "@type": "xsd:string"
+    },
+    "Chain": "eumetsat:Chain",
+    "format": {
+      "@id": "eumetsat:format",
+      "@type": "xsd:string"
+    },
+    "aggregation": {
+      "@id": "eumetsat:aggregation",
+      "@type": "xsd:string"
+    },
+    "projection": {
+      "@id": "eumetsat:projection",
+      "@type": "xsd:string"
+    },
+    "roi": {
+      "@id": "eumetsat:roi",
+      "@type": "@id"
+    },
+    "filter": {
+      "@id": "eumetsat:filter",
+      "@type": "@id"
+    },
+    "Roi": "eumetsat:Roi",
+    "NSWE": {
+      "@id": "eumetsat:NSWE",
+      "@container": "@list"
+    },
+    "Format": "eumetsat:Format",
+    "ext": {
+      "@id": "eumetsat:ext",
+      "@type": "xsd:string"
+    },
+    "Filter": "eumetsat:Filter",
+    "Band": "eumetsat:Band",
+    "Aggregation": "eumetsat:Aggregation",
+    "Projection": "eumetsat:Projection",
+    "unit": {
+      "@id": "eumetsat:unit",
+      "@type": "xsd:string"
+    },
+    "Quicklook": "eumetsat:Quicklook",
+    "resample_method": {
+      "@id": "eumetsat:resample_method",
+      "@type": "xsd:string"
+    },
+    "stretch_method": {
+      "@id": "eumetsat:stretch_method",
+      "@type": "xsd:string"
+    },
+    "nodatacolor": {
+      "@id": "eumetsat:nodatacolor",
+      "@type": "xsd:string"
+    },
+    "QuicklookFormat": "eumetsat:QuicklookFormat",
+    "comment": {
+      "@id": "eumetsat:comment",
+      "@type": "xsd:string"
+    },
+    "QuicklookNodatacolor": "eumetsat:QuicklookNodatacolor",
+    "value": {
+      "@id": "eumetsat:value",
+      "@container": "@list"
+    },
+    "QuicklookResampleMethod": "eumetsat:QuicklookResampleMethod",
+    "QuicklookStretchMethod": "eumetsat:QuicklookStretchMethod",
+    "ResampleMethod": "eumetsat:ResampleMethod",
+    "StretchMethod": "eumetsat:StretchMethod",
+    "Log": "eumetsat:Log",
+    "log_content": {
+      "@id": "eumetsat:log_content",
+      "@type": "xsd:string"
+    },
+    "Compression": "eumetsat:Compression",
+    "archiver": {
+      "@id": "eumetsat:archiver",
+      "@type": "xsd:string"
+    },
+    "Feature": "eumetsat:Feature",
+    "Backend": "eumetsat:Backend",
+    "formats": {
+      "@id": "eumetsat:formats",
+      "@container": "@list"
+    },
+    "features": {
+      "@id": "eumetsat:features",
+      "@container": "@list"
+    },
+    "projections": {
+      "@id": "eumetsat:projections",
+      "@container": "@list"
+    },
+    "aggregations": {
+      "@id": "eumetsat:aggregations",
+      "@container": "@list"
+    },
+    "quicklook_formats": {
+      "@id": "eumetsat:quicklook_formats",
+      "@container": "@list"
+    },
+    "quicklook_nodatacolors": {
+      "@id": "eumetsat:quicklook_nodatacolors",
+      "@container": "@list"
+    },
+    "quicklook_stretch_methods": {
+      "@id": "eumetsat:quicklook_stretch_methods",
+      "@container": "@list"
+    },
+    "quicklook_resample_methods": {
+      "@id": "eumetsat:quicklook_resample_methods",
+      "@container": "@list"
+    },
+    "execute": {
+      "@id": "eumetsat:execute",
+      "@type": "xsd:string"
+    },
+    "Basket": "eumetsat:Basket",
+    "basket": {
+      "@id": "eumetsat:basket",
+      "@type": "xsd:string"
+    },
+    "Error": "eumetsat:Error",
+    "message": {
+      "@id": "eumetsat:message",
+      "@type": "xsd:string"
+    },
+    "Uuids": "eumetsat:Uuids",
+    "uuids": {
+      "@id": "eumetsat:uuids",
+      "@container": "@list"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "EUMETSAT API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects EUMETSAT's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-18) from openapi/eumetsat-data-store-browse-openapi.yml, openapi/eumetsat-data-store-cart-openapi.yml, openapi/eumetsat-data-store-download-openapi.yml.",
+  "dcterms:created": "2026-10-18",
+  "dcterms:source": [
+    "openapi/eumetsat-data-store-browse-openapi.yml",
+    "openapi/eumetsat-data-store-cart-openapi.yml",
+    "openapi/eumetsat-data-store-download-openapi.yml",
+    "openapi/eumetsat-data-store-search-openapi.yml",
+    "openapi/eumetsat-data-store-subscription-openapi.yml"
+  ]
+}

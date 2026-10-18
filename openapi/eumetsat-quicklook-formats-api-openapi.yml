@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Quicklook Formats API
+  version: '1.0'
+  description: 'Operations tagged Quicklook Formats across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Quicklook Formats
+paths:
+  /quicklook_formats:
+    get:
+      description: Retrieves the list of available quicklook formats.
+      operationId: GET_quicklook_formats
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Formats
+      summary: GET quicklook formats
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /quicklook_formats/{formatId}:
+    get:
+      description: Retrieves information on the available quicklook format with given formatId identifier.
+      operationId: GET_quicklook_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Quicklook format ID (e.g. jpeg_rgb).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookFormat'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Formats
+      summary: GET quicklook formats format id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    QuicklookFormat:
+      required:
+      - ext
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: jpeg_rgb
+        name:
+          type: string
+          example: JPEG (RGB)
+        comment:
+          type: string
+          example: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+        ext:
+          type: string
+          example: .jpg
+      description: List of supported output formats for quicklook, if any.
+    QuicklookFormat_2:
+      type: object
+      required:
+      - ext
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        comment:
+          type: string
+        ext:
+          type: string
+      description: List of supported output formats for quicklook, if any.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

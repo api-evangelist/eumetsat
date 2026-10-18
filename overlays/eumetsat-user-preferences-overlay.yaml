@@ -1,0 +1,16 @@
+overlay: 1.0.0
+info:
+  title: EUMETSAT User Preferences API overlay
+  version: 1.0.0
+extends: ../openapi/_original/eumetsat-user-preferences-openapi.yml
+generated: '2026-10-18'
+method: generated
+source: openapi/eumetsat-user-preferences-openapi.yml
+actions:
+- target: $.info
+  description: Attach API Evangelist catalog metadata (derived from apis.yml)
+  update:
+    x-api-evangelist-provider: eumetsat
+    x-api-name: EUMETSAT User Preferences API
+    x-base-url: https://api.eumetsat.int/userPreferences/0.0.2
+    x-human-url: https://user.eumetsat.int/data-access

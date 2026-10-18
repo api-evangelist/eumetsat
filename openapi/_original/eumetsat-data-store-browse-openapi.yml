@@ -1,0 +1,2661 @@
+# x-archived-from: eumetsat-data-store-browse-openapi.yml
+# x-archived-on: 2026-10-18
+openapi: 3.0.1
+info:
+  title: EDS_BROWSE_API
+  description: This is the EUMETSAT Data Store (EDS) Browse API.
+  termsOfService: https://www.eumetsat.int/terms/
+  license:
+    name: 'License: not yet defined. For the time being: confidential and private'
+    url: https://www.eumetsat.int
+  version: 1.0.0
+servers:
+- url: https://api.eumetsat.int/data/browse/1.0.0
+- url: http://api.eumetsat.int/data/browse/1.0.0
+security:
+- default: []
+tags:
+- name: Discovery
+  description: Search and discover EUMETSAT Data.
+  externalDocs:
+    description: Find out more
+    url: https://www.eumetsat.int
+paths:
+  /swagger.json:
+    get:
+      responses:
+        '200':
+          description: Success
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /login:
+    get:
+      responses:
+        '200':
+          description: Success
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /logout:
+    get:
+      responses:
+        '200':
+          description: Success
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /callback:
+    get:
+      responses:
+        '200':
+          description: Success
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /:
+    get:
+      tags:
+      - Discovery
+      summary: Show overview
+      description: Provides the metadata for every Collection available in Data-Store in GeoJSON- or HTML-format depending on the requested format
+      operationId: getOverview
+      responses:
+        '200':
+          description: successful operation. Here only the reference to the GeoJSON response schema is given
+          content: {}
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /footprints/{sensorMode}/{subSatelliteLongitude}:
+    get:
+      tags:
+      - Discovery
+      summary: Returns the footprint for a GEO product.
+      description: GEO products do not have an individual footprint. Instead, this resource represents a GEO footprint for the respective sensor mode and sub satellite longitude.
+      operationId: getFootprint
+      parameters:
+      - name: sensorMode
+        in: path
+        description: sensor mode
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - ALTHRV
+          - REDSCN
+          - NOMSCN
+      - name: subSatelliteLongitude
+        in: path
+        description: sub satellite longitude
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Polygon'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /footprint-features/{sensorMode}/{subSatelliteLongitude}:
+    get:
+      tags:
+      - Discovery
+      summary: Returns the footprint for a GEO product.
+      description: GEO products do not have an individual footprint. Instead, this resource represents a GEO footprint for the respective sensor mode and sub satellite longitude.
+      operationId: getFootprintFeatures
+      parameters:
+      - name: sensorMode
+        in: path
+        description: sensor mode
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - ALTHRV
+          - REDSCN
+          - NOMSCN
+          - FDSS
+          - RSS-Hn
+          - RSS-Tn
+          - RSS-Qn
+      - name: subSatelliteLongitude
+        in: path
+        description: sub satellite longitude
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Polygon'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections:
+    get:
+      tags:
+      - Discovery
+      summary: Show all collections that are available for Data-Store
+      description: Provides the metadata for every Collection available in Data-Store in GeoJSON- or HTML-format depending on the requested format
+      operationId: getCollections
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      responses:
+        '200':
+          description: successful operation. Here only the reference to the GeoJSON response schema is given
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Collections'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Collections'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}:
+    get:
+      tags:
+      - Discovery
+      summary: Show details for a single collection.
+      description: Provides the basic Collection metadata in GeoJSON- or HTML-format depending on the requested format
+      operationId: getCollectionByID
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/products/{prodID}:
+    get:
+      tags:
+      - Discovery
+      summary: Show product metadata
+      description: Returns the product metadata
+      operationId: getProductByID
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html. If the requested format is JSON, a GeoJSON encoding of the product metadata is returned'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: prodID
+        in: path
+        description: The ID of the product that must be returned
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation. The response is a detailed representation of the product’s metadata. Here only the reference to the GeoJSON response schema is given
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/EarthObservation'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/EarthObservation'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates:
+    get:
+      tags:
+      - Discovery
+      summary: Show available years for collection
+      description: Returns the available years for collection
+      operationId: getCollectionByIDDates
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Collections'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Collections'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available months (of year) for collection
+      description: Returns the available months (of year) for a collection
+      operationId: getCollectionByIDDatesYear
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Collections'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Collections'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available days, tiles and products for month (of a year) for collection
+      description: Returns the available days, tiles and products for a month (of a year) for collection
+      operationId: getCollectionByIDDatesYearMonth
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products for a month (of a year) for collection
+      description: Returns the available products for a month (of a year) for collection
+      operationId: getCollectionByIDDatesYearMonthProducts
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available tiles and product counts for a day for collection
+      description: Returns the available tiles and product counts for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDay
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products for a day for collection
+      description: Returns the available products for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayProducts
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times:
+    get:
+      tags:
+      - Discovery
+      summary: Show available hours and products for the hour of day
+      description: Returns the available hours and products for the hour of day
+      operationId: getCollectionByIDDatesYearMonthDayTimes
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available minutes and products related for hour of day
+      description: Returns the available hours and products related to hour of day
+      operationId: getCollectionByIDDatesYearMonthDayTimesHour
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products for hour of day
+      description: Returns the available products related to hour of day
+      operationId: getCollectionByIDDatesYearMonthDayTimesHourProducts
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}:
+    get:
+      tags:
+      - Discovery
+      summary: Show platforms and product counts for a minute
+      description: Returns the platforms and product counts for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTimesHourMinute
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: minute
+        in: path
+        description: minute
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show products for a minute
+      description: Returns the products for a minute
+      operationId: getCollectionByIDDatesYearMonthDayTimesHourMinuteProducts
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: minute
+        in: path
+        description: minute
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms:
+    get:
+      tags:
+      - Discovery
+      summary: Show all platforms and product counts for a the minute
+      description: Returns the platforms and product counts for a minute
+      operationId: getCollectionByIDDatesYearMonthDayTimesHourMinutePlatforms
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: minute
+        in: path
+        description: minute
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/times/{hour}/{minute}/platforms/{platform}:
+    get:
+      tags:
+      - Discovery
+      summary: Show products for a minute and platform
+      description: Returns the products for a minute and platform
+      operationId: getCollectionByIDDatesYearMonthDayTimesHourMinutePlatform
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: hour
+        in: path
+        description: hour
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: minute
+        in: path
+        description: minute
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: platform
+        in: path
+        description: platform/satellite/mission
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles:
+    get:
+      tags:
+      - Discovery
+      summary: Show available zones (e.g. EU) and products for a day for collection
+      description: Returns the available zones (e.g. EU) and products for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTiles
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles/{zone}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available subGrids and products related to zone for a day of a zone for collection
+      description: Returns the available subGrids and products related to zone for a day of a zone for collection
+      operationId: getCollectionByIDDatesYearMonthDayTilesZone
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day (can also be "all")
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: zone
+        in: path
+        description: zone
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles/{zone}/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products related to a zone for a day for collection
+      description: Returns the available tproducts related to a zone for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTilesZoneProducts
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: zone
+        in: path
+        description: zone
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles/{zone}/t6:
+    get:
+      tags:
+      - Discovery
+      summary: Show available tiles for subGrid T6 and products for a day for collection
+      description: Returns the available tiles for subGrid T6 and products for day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTilesZoneT6
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: zone
+        in: path
+        description: zone
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CollectionPlusProducts'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles/{zone}/t6/products:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products for all T6 tiles for a day for collection
+      description: Returns the available products for all T6 tiles for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTilesZoneT6Products
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: zone
+        in: path
+        description: zone
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+  /collections/{collID}/dates/{year}/{month}/{day}/tiles/{zone}/t6/{t6Tile}:
+    get:
+      tags:
+      - Discovery
+      summary: Show available products for a t6Tile for a day for collection
+      description: Returns the available products for a t6Tile for a day for collection
+      operationId: getCollectionByIDDatesYearMonthDayTilesZoneT6Tiles
+      parameters:
+      - name: format
+        in: query
+        description: 'format of representation to return: json or html'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - json
+          - html
+      - name: year
+        in: path
+        description: year
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: month
+        in: path
+        description: month
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: day
+        in: path
+        description: day
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: zone
+        in: path
+        description: zone
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: t6Tile
+        in: path
+        description: t6Tile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: collID
+        in: path
+        description: collection ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/geo+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+components:
+  schemas:
+    EarthObservation:
+      required:
+      - geometry
+      - id
+      - properties
+      - type
+      type: object
+      properties:
+        type:
+          title: type
+          type: string
+          enum:
+          - Feature
+        id:
+          type: string
+          format: uri
+        geometry:
+          type: object
+        properties:
+          $ref: '#/components/schemas/EarthObservationProperties'
+        bbox:
+          maxItems: 4
+          minItems: 4
+          type: array
+          items:
+            type: number
+    EarthObservationProperties:
+      allOf:
+      - required:
+        - acquisitionInformation
+        - links
+        - status
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - Properties
+          status:
+            type: string
+            enum:
+            - ARCHIVED
+            - PLANNED
+            - ACQUIRED
+            - CANCELLED
+            - FAILED
+            - POTENTIAL
+            - REJECTED
+            - QUALITYDEGRADED
+          acquisitionInformation:
+            type: array
+            items:
+              $ref: '#/components/schemas/AcquisitionInformation'
+          productInformation:
+            $ref: '#/components/schemas/ProductInformation'
+          links:
+            $ref: '#/components/schemas/ProductLinks'
+      - $ref: '#/components/schemas/DataIdentification'
+    DataIdentification:
+      required:
+      - date
+      - title
+      - updated
+      type: object
+      properties:
+        parentIdentifier:
+          type: string
+        doi:
+          type: string
+        title:
+          type: string
+        date:
+          type: string
+        updated:
+          type: string
+          format: date-time
+      description: Subset of Properties
+    ProductLinks:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Links
+        qualityReport:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+        alternates:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+        via:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+        up:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+        previews:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkType'
+    LinkType:
+      required:
+      - href
+      type: object
+      properties:
+        href:
+          type: string
+          format: uri
+        type:
+          type: string
+        title:
+          type: string
+        length:
+          minimum: 0
+          type: integer
+        category:
+          type: string
+          description: Media category property defined by MediaRSS.
+          enum:
+          - THUMBNAIL
+          - QUICKLOOK
+          - ALBUM
+          - CLOUD
+          - SNOW
+          - QUALITY
+        expression:
+          type: string
+          description: Media expression property defined by MediaRSS.
+          enum:
+          - full
+          - sample
+        conformsTo:
+          type: string
+          format: uri
+    Collections:
+      required:
+      - links
+      - numberOfProducts
+      type: object
+      properties:
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+        numberOfProducts:
+          type: integer
+          format: int32
+    LinkSchema:
+      required:
+      - rel
+      - title
+      type: object
+      properties:
+        type:
+          type: string
+          example: Link
+        href:
+          type: string
+          example: collections/EO%3AEUM%3ADAT%3AMSG%3AHRSEVIRI?format=json
+        mediaType:
+          type: string
+          example: application/json
+        title:
+          type: string
+          example: EO:EUM:DAT:MSG:HRSEVIRI
+        rel:
+          type: string
+          example: collection/details
+        datasetTitle:
+          type: string
+          example: High Rate SEVIRI Level 1.5 Image Data - MSG - 0 degree
+    Collection:
+      required:
+      - collection
+      - links
+      type: object
+      properties:
+        collection:
+          $ref: '#/components/schemas/CollectionFeature'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+    CollectionFeature:
+      required:
+      - id
+      - properties
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+          format: int64
+        properties:
+          $ref: '#/components/schemas/CollectionProperties'
+    CollectionProperties:
+      required:
+      - identifier
+      - kind
+      - type
+      type: object
+      properties:
+        kind:
+          type: string
+        type:
+          type: string
+        identifier:
+          type: string
+        title:
+          type: string
+        date:
+          type: string
+          format: date-time
+        abstract:
+          type: string
+        links:
+          $ref: '#/components/schemas/CollectionLinks'
+    CollectionLinks:
+      type: object
+      properties:
+        type:
+          type: string
+        alternates:
+          type: array
+          items:
+            type: string
+        data:
+          type: array
+          items:
+            type: string
+        search:
+          type: array
+          items:
+            type: string
+        previews:
+          type: array
+          items:
+            type: string
+    CollectionPlusProducts:
+      required:
+      - links
+      - numberOfProducts
+      type: object
+      properties:
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+        numberOfProducts:
+          type: integer
+          format: int32
+        products:
+          $ref: '#/components/schemas/LinkSchema'
+    Products:
+      required:
+      - id
+      - links
+      type: object
+      properties:
+        id:
+          type: string
+          format: uri
+        date:
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkSchema'
+    Point:
+      title: Point
+      required:
+      - coordinates
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Point
+        coordinates:
+          minItems: 2
+          type: array
+          items:
+            type: number
+    Polygon:
+      title: Polygon
+      required:
+      - coordinates
+      - type
+      type: object
+      properties:
+        coordinates:
+          title: gj:coordinates
+          minItems: 1
+          type: array
+          description: Array of linestrings
+          items:
+            minItems: 1
+            type: array
+            description: Linear ring, i.e. linestring or array of positions
+            items:
+              maxItems: 2
+              minItems: 2
+              type: array
+              description: One position
+              items:
+                type: number
+        type:
+          type: string
+          enum:
+          - Polygon
+    MultiPolygon:
+      title: MultiPolygon
+      required:
+      - coordinates
+      - type
+      type: object
+      properties:
+        coordinates:
+          title: gj:coordinates
+          type: array
+          description: One position (longitude, lattitude)
+          items:
+            type: number
+        type:
+          type: string
+          enum:
+          - MultiPolygon
+    AcquisitionInformation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - AcquisitionInformation
+        platform:
+          $ref: '#/components/schemas/Platform'
+        instrument:
+          $ref: '#/components/schemas/Instrument'
+        acquisitionParameters:
+          $ref: '#/components/schemas/AcquisitionParameters'
+    Platform:
+      required:
+      - platformShortName
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Platform
+        id:
+          type: string
+          format: uri
+        platformShortName:
+          type: string
+        platformSerialIdentifier:
+          type: string
+        orbitType:
+          type: string
+          enum:
+          - GEO
+          - LEO
+    Instrument:
+      required:
+      - instrumentShortName
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - Instrument
+        id:
+          type: string
+          format: uri
+        sensorType:
+          type: string
+          enum:
+          - OPTICAL
+          - RADAR
+          - ATMOSPHERIC
+          - ALTIMETRIC
+          - LIMB
+        instrumentShortName:
+          type: string
+        description:
+          type: string
+        operationalMode:
+          type: string
+        swathIdentifier:
+          type: string
+        polarisationMode:
+          type: string
+          description: Sar
+          enum:
+          - S
+          - D
+          - T
+          - Q
+          - UNDEFINED
+        polarisationChannels:
+          type: string
+          description: Sar
+        resolution:
+          type: number
+        verticalResolution:
+          type: number
+          description: Atm, Lmb
+        waveLengths:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/WavelengthInformation'
+        measurementType:
+          type: string
+          enum:
+          - ABSORPTION
+          - EMISSION
+        dopplerFrequency:
+          type: string
+          description: Sar
+        samplingRates:
+          type: array
+          description: Alt
+          items:
+            minimum: 0
+            exclusiveMinimum: true
+            type: number
+    WavelengthInformation:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - WavelengthInformation
+        discreteWavelengths:
+          type: string
+        endWavelength:
+          type: string
+        spectralRange:
+          type: string
+          enum:
+          - INFRARED
+          - NEAR-INFRARED
+          - UV
+          - VISIBLE
+          - OTHER
+        startWavelength:
+          type: string
+        wavelengthResolution:
+          type: string
+    AcquisitionParameters:
+      allOf:
+      - required:
+        - acquisitionType
+        type: object
+        properties:
+          acquisitionType:
+            type: string
+            enum:
+            - NOMINAL
+            - CALIBRATION
+            - OTHER
+          acquisitionSubType:
+            type: string
+          startTimeFromAscendingNode:
+            minimum: 0
+            type: integer
+          completionTimeFromAscendingNode:
+            minimum: 0
+            type: integer
+          relativePassNumber:
+            type: integer
+          track:
+            type: string
+          frame:
+            type: string
+          tileId:
+            type: string
+          groundTrackUncertainty:
+            type: number
+          cycleNumber:
+            minimum: 0
+            type: integer
+          antennaLookDirection:
+            type: string
+            enum:
+            - LEFT
+            - RIGHT
+          acquisitionStation:
+            type: string
+          acquisitionAngles:
+            $ref: '#/components/schemas/AcquisitionAngles'
+          mtgCoverage:
+            $ref: '#/definitions/MTGCoverage'
+      - $ref: '#/components/schemas/TemporalInformation'
+      - $ref: '#/components/schemas/VerticalSpatialDomain'
+      - $ref: '#/components/schemas/OrbitParameters'
+    AcquisitionAngles:
+      type: object
+      properties:
+        illuminationAzimuthAngle:
+          type: number
+        illuminationZenithAngle:
+          type: number
+        illuminationElevationAngle:
+          type: number
+        incidenceAngle:
+          type: number
+        minimumIncidenceAngle:
+          type: number
+        maximumIncidenceAngle:
+          type: number
+        incidenceAngleVariation:
+          type: number
+        acrossTrackIncidenceAngle:
+          type: number
+        alongTrackIncidenceAngle:
+          type: number
+        instrumentAzimuthAngle:
+          type: number
+        instrumentZenithAngle:
+          type: number
+        instrumentElevationAngle:
+          type: number
+        pitch:
+          type: number
+        roll:
+          type: number
+        yaw:
+          type: number
+    TemporalInformation:
+      required:
+      - beginningDateTime
+      - endingDateTime
+      type: object
+      properties:
+        beginningDateTime:
+          type: string
+          format: date-time
+        endingDateTime:
+          type: string
+          format: date-time
+      description: Subset of AcquisitionParameters
+    VerticalSpatialDomain:
+      type: object
+      properties:
+        highestLocation:
+          type: string
+        lowestLocation:
+          type: string
+        locationUnit:
+          type: string
+          enum:
+          - bar
+          - m
+      description: Subset of AcquisitionParameters
+    OrbitParameters:
+      type: object
+      properties:
+        orbitDirection:
+          type: string
+          enum:
+          - ASCENDING
+          - DESCENDING
+        orbitDuration:
+          type: integer
+        ascendingNodeDate:
+          type: string
+          format: date-time
+        ascendingNodeLongitude:
+          type: number
+        orbitNumber:
+          minimum: 0
+          type: integer
+        lastOrbitNumber:
+          type: number
+      description: Subset of AcquisitionParameters
+    MTGCoverage:
+      type: object
+      properties:
+        repeatCycleIdentifier:
+          type: string
+        majorRegionCoverage:
+          type: string
+        subRegionIdentifier:
+          type: string
+    ProductInformation:
+      allOf:
+      - required:
+        - availabilityTime
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - ProductInformation
+          productType:
+            type: string
+          size:
+            type: integer
+          productVersion:
+            type: string
+          statusSubType:
+            type: string
+            enum:
+            - ON-LINE
+            - OFF-LINE
+          qualityInformation:
+            $ref: '#/components/schemas/QualityInformation'
+          statusDetail:
+            type: string
+          availabilityTime:
+            type: string
+            format: date-time
+          timeliness:
+            type: string
+          productGroupId:
+            type: string
+          archivingCenter:
+            type: string
+          referenceSystemIdentifier:
+            type: string
+          archivingDate:
+            type: string
+            format: date-time
+      - $ref: '#/components/schemas/ProcessingInformation'
+      - $ref: '#/components/schemas/CoverageDescription'
+    ProcessingInformation:
+      type: object
+      properties:
+        processorName:
+          type: string
+        processingCenter:
+          type: string
+          description: Codelist
+        processingDate:
+          type: string
+          format: date-time
+        processingLevel:
+          type: string
+          enum:
+          - 1A
+          - 1B
+          - '2'
+          - '3'
+        processingMode:
+          type: string
+          description: Codelist
+        compositeType:
+          type: string
+        productContentsType:
+          type: string
+        processingMethod:
+          type: string
+        processingMethodVersion:
+          type: string
+      description: Subset of ProductInformation
+    CoverageDescription:
+      type: object
+      properties:
+        cloudCover:
+          type: number
+        snowCover:
+          type: number
+      description: Subset of ProductInformation
+    QualityInformation:
+      type: object
+      properties:
+        qualityStatus:
+          type: string
+          enum:
+          - NOMINAL
+          - DEGRADED
+        qualityDegradation:
+          type: number
+          description: Percentage
+        qualityDegradationTag:
+          type: string
+        qualityDegradationQuotationMode:
+          type: string
+          enum:
+          - AUTOMATIC
+          - MANUAL
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          style: simple
+          explode: false
+          schema:
+            type: string
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}

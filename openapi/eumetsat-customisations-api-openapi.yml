@@ -1,0 +1,446 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Customisations API
+  version: '1.0'
+  description: 'Operations tagged Customisations across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Customisations
+paths:
+  /customisations:
+    get:
+      description: Retrieves information on the customisations corresponding to the given list of Uuid identifiers.
+      operationId: GET_customisations
+      parameters:
+      - name: user_id
+        in: query
+        description: Only return the customisations executed by the corresponding user.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: backend
+        in: query
+        description: Only show customisations with backend of given ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only show customisations with input product of given product ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Only show customisations in given status.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: return_size
+        in: query
+        description: Also return disk size occupied by customisation products and logs.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: start_time
+        in: query
+        description: Only show customisations starting at given time.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: stop_time
+        in: query
+        description: Only show customisations ending at given time
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: today
+        in: query
+        description: Only show customisations which were run today
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: step
+        in: query
+        description: Only show customisations which included the given step
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: maximum number of results returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Customisation'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: GET customisations
+      x-summary-source: derived
+    post:
+      description: Launches a customisation with the given chain configuration. If successful, returns a corresponding Uuid identifier.
+      operationId: POST_customisations
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - product_paths
+              properties:
+                shapefile_stream:
+                  type: string
+                  description: Shapefile describing a Region of Interest (ROI).
+                  format: binary
+                product_paths:
+                  type: string
+                  description: list of product paths separated by |||.
+                chain_config:
+                  type: string
+                  description: Serialised JSON representation of the configuration of a customisation chain.
+                basket_config:
+                  type: string
+                  description: Serialised JSON representation of a Data Store Basket.
+                chain_name:
+                  type: string
+                  description: Key name of an existing functional chain.
+                sensing_start:
+                  type: string
+                  description: Desired sensing start time (YYYYMMDDThhmmssZ).
+                sensing_stop:
+                  type: string
+                  description: Desired sensing stop time (YYYYMMDDThhmmssZ).
+        required: true
+      responses:
+        '200':
+          description: customisation identifier (uuid)
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: POST customisations
+      x-summary-source: derived
+    delete:
+      description: Deletes all information pertaining to the customisations corresponding to the given list of Uuid identifiers.
+      operationId: DELETE_customisations
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: DELETE customisations
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /customisations/delete:
+    patch:
+      description: Patch API method to delete output products and logs of customisations corresponding to the given list of Uuid identifiers.
+      operationId: PATCH_customisations_delete
+      requestBody:
+        description: list of customisation IDs of which products and logs will be deleted.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Uuids'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Uuids'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: PATCH customisations delete
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /customisations/{customisationId}:
+    get:
+      description: Retrieves information on the customisation corresponding to the given Uuid identifier.
+      operationId: GET_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customisation'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: GET customisations customisation id
+      x-summary-source: derived
+    put:
+      description: Updates information on the customisation corresponding to the given Uuid identifier.
+      operationId: PUT_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customisation'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Customisation'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: PUT customisations customisation id
+      x-summary-source: derived
+    delete:
+      description: Deletes information on the customisation corresponding to the given Uuid identifier.
+      operationId: DELETE_customisations-customisationId
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: DELETE customisations customisation id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /customisations/{customisationId}/log:
+    get:
+      description: Returns log of the customisation corresponding to the given Uuid identifier.
+      operationId: GET_customisations-customisationId-log
+      parameters:
+      - name: customisationId
+        in: path
+        description: 8-digit alphanumeric customisation ID (e.g. a638f29l).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Customisations
+      summary: GET customisations customisation id log
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Customisation:
+      required:
+      - backend_id
+      - creation_time
+      - id
+      - product_id
+      - status
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: john
+        creation_time:
+          type: string
+          example: 20220518T084016Z
+        backend_id:
+          type: string
+          example: epct_eps_native
+        product_id:
+          type: string
+          example: AMSAL1
+        required_processing_steps:
+          type: array
+          items:
+            type: string
+            example: format
+        processing_duration:
+          type: integer
+        status:
+          type: string
+          example: KILLED
+        id:
+          type: string
+          example: 3f94e79d
+      description: List of customisations
+    Log:
+      required:
+      - log_content
+      type: object
+      properties:
+        log_content:
+          type: string
+      description: Customisation log file.
+    Uuids:
+      required:
+      - uuids
+      type: object
+      properties:
+        uuids:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+      description: List of customisation uuids.
+    Customisation_2:
+      type: object
+      required:
+      - backend_id
+      - creation_time
+      - id
+      - product_id
+      - status
+      - user_id
+      properties:
+        user_id:
+          type: string
+        creation_time:
+          type: string
+        backend_id:
+          type: string
+        product_id:
+          type: string
+        required_processing_steps:
+          type: array
+          items:
+            type: string
+        processing_duration:
+          type: integer
+        status:
+          type: string
+        id:
+          type: string
+      description: List of customisations
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

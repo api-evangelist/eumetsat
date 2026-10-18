@@ -1,0 +1,116 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Report Quota API
+  version: '1.0'
+  description: 'Operations tagged Report Quota across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Report Quota
+paths:
+  /report_quota:
+    get:
+      description: Provides a report of user space occupation. The information returned includes (a) the current user quota; (b) the space occupied by the user folder; (c) the percentage of space occupied by the user folder with respect to the set quota; (d) user workspace directory size; (e) user log directory size; (f) output directory size. The user can choose the units this information will be displayed in.
+      operationId: GET_report_quota
+      parameters:
+      - name: unit_size
+        in: query
+        description: The report will express sizes in the chosen units. Defaults to 'GB', can be set to either 'B', 'MB' and 'GB'.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportQuota'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Report Quota
+      summary: GET report quota
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    ReportQuota:
+      required:
+      - log_dir_size
+      - output_dir_size
+      - space_usage
+      - space_user_percentage
+      - user_quota
+      - workspace_dir_size
+      type: object
+      properties:
+        user_quota:
+          type: number
+        space_user_percentage:
+          type: number
+        space_usage:
+          type: number
+        workspace_dir_size:
+          type: number
+        log_dir_size:
+          type: number
+        output_dir_size:
+          type: number
+        nr_customisations:
+          type: number
+          example: 1
+      description: Report of user space occupation. Only works with valid input user-folder path.
+    ReportQuota_2:
+      type: object
+      required:
+      - log_dir_size
+      - output_dir_size
+      - space_usage
+      - space_user_percentage
+      - user_quota
+      - workspace_dir_size
+      properties:
+        user_quota:
+          type: number
+        space_user_percentage:
+          type: number
+        space_usage:
+          type: number
+        workspace_dir_size:
+          type: number
+        log_dir_size:
+          type: number
+        output_dir_size:
+          type: number
+        nr_customisations:
+          type: number
+      description: Report of user space occupation. Only works with valid input user-folder path.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Preferences API
+  version: 0.0.2
+  contact:
+    name: CGI EOSS
+    url: https://cgi.com/
+    email: address@cgi.com
+  license:
+    name: LICENSE TBD
+    url: LICENSE TBD
+  termsOfService: Terms of service TBD
+  description: 'Operations tagged Preferences across 2 of this provider''s published API definitions: eumetsat-user-preferences-openapi.json, eumetsat-user-preferences-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/userPreferences/0.0.2
+- url: http://api.eumetsat.int/userPreferences/0.0.2
+security:
+- default: []
+tags:
+- name: Preferences
+paths:
+  /preferences:
+    post:
+      summary: saveUserPreference
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+        description: Request Body
+        required: true
+      tags:
+      - Preferences
+      operationId: postPreferences
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+  /preferences/{id}:
+    patch:
+      summary: updateUserPreference
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+        description: Request Body
+        required: true
+      tags:
+      - Preferences
+      operationId: patchPreferencesById
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+  /preferences/search/findByType:
+    get:
+      summary: findByTypeUserPreference
+      parameters:
+      - name: type
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: disabled
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: lastUpdate
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: page
+        required: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: size
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: sort
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Preferences
+      operationId: getPreferencesSearchFindByType
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+  /preferences/shared/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Preferences
+      summary: Get preferences shared by id
+      x-summary-source: derived
+      operationId: getPreferencesSharedById
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/userPreferences/0.0.2
+    - url: http://api.eumetsat.int/userPreferences/0.0.2
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-user-preferences-openapi.json
+- eumetsat-user-preferences-openapi.yml

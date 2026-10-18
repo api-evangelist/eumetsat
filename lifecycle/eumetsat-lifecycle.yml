@@ -1,0 +1,16 @@
+generated: '2026-10-18'
+method: searched
+generator: extract-docs-artifacts.py (deepseek)
+source: https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-August-2026
+sources:
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-August-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Release-date-11-August-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-July-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Release-date-9-July-2026
+versioning:
+  scheme: semantic
+  current: 1.0.0
+  how_selected: path
+deprecation: {}
+status_page: null
+docs: https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-August-2026

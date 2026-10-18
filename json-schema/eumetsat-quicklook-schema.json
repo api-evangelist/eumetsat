@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-quicklook-schema.json",
+  "title": "Quicklook",
+  "description": "Pre-configured quicklook configurations.",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Quicklook",
+  "required": [
+    "filter",
+    "format",
+    "id",
+    "name",
+    "product",
+    "resample_method",
+    "stretch_method"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "resample_method": {
+      "type": "string"
+    },
+    "stretch_method": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "nodatacolor": {
+      "type": "string"
+    },
+    "filter": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+}

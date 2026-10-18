@@ -1,0 +1,78 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Description Document API
+  version: 1.0.0
+  license:
+    name: 'License: not yet defined. For the time being: confidential and private'
+    url: https://www.eumetsat.int
+  termsOfService: https://www.eumetsat.int/terms/
+  description: 'Operations tagged Description Document across 2 of this provider''s published API definitions: eumetsat-data-store-search-openapi.json, eumetsat-data-store-search-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/data/search-products/1.0.0
+- url: http://api.eumetsat.int/data/search-products/1.0.0
+security:
+- default: []
+tags:
+- name: Description Document
+paths:
+  /osdd:
+    get:
+      tags:
+      - Description Document
+      summary: OpenSearch Description Document
+      description: Get the OSDD, either for the complete catalogue or for one specific collection
+      operationId: descriptionDocument
+      parameters:
+      - name: pi
+        in: query
+        description: 'eo:parentIdentifier: the collection identifier'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation. The response is a representation of the search.
+          content: {}
+        '400':
+          description: The client request has errors.
+          content: {}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: The requested resource was not found.
+          content: {}
+        '405':
+          description: The HTTP method specified in the request is not allowed for this resource.
+          content: {}
+        '500':
+          description: The REST API encountered an internal error that was not foreseen, e.g. because a backend service is down. Error details will be contained in the log files and not be returned to the client.
+          content: {}
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/data/search-products/1.0.0
+    - url: http://api.eumetsat.int/data/search-products/1.0.0
+components:
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          style: simple
+          explode: false
+          schema:
+            type: string
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+x-refined-from:
+- eumetsat-data-store-search-openapi.json
+- eumetsat-data-store-search-openapi.yml

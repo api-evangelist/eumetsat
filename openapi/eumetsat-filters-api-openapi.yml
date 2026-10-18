@@ -1,0 +1,311 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Filters API
+  version: '1.0'
+  description: 'Operations tagged Filters across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Filters
+paths:
+  /filters:
+    get:
+      description: Retrieves information on currently available band filters.
+      operationId: GET_filters
+      parameters:
+      - name: format
+        in: query
+        description: Only return filters corresponding to given output format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return filters corresponding to product of given name
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace each item ID with its configuration
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Filter'
+                example:
+                  total: 2
+                  data:
+                  - product: AVHRRL1
+                    bands:
+                    - channel_1
+                    - channel_2
+                    - channel_3
+                    id: avhrrl1_natural_color
+                    name: Natural color
+                  - product: HRSEVIRI
+                    bands:
+                    - channel_1
+                    - channel_2
+                    - channel_3
+                    id: hrseviri_natural_color
+                    name: Natural color
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Filters
+      summary: GET filters
+      x-summary-source: derived
+    post:
+      description: Allows the user to add custom filters.
+      operationId: POST_filters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Filters
+      summary: POST filters
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /filters/{filterId}:
+    get:
+      description: Retrieves information on the available band filter with given filterId identifier.
+      operationId: GET_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: expanded
+        in: query
+        description: Replace item ID with its configuration
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Filters
+      summary: GET filters filter id
+      x-summary-source: derived
+    put:
+      description: Updates available band filter with given filterId identifier.
+      operationId: PUT_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+          form/multipart:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-codegen-request-body-name: body
+      x-auth-type: Application & Application User
+      x-throttling-tier: null
+      tags:
+      - Filters
+      summary: PUT filters filter id
+      x-summary-source: derived
+    delete:
+      description: Deletes available band filter with given filterId identifier.
+      operationId: DELETE_filters-filterId
+      parameters:
+      - name: filterId
+        in: path
+        description: Pre-configured filter ID (e.g. hrseviri_natural_color).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          content: {}
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Filters
+      summary: DELETE filters filter id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Filter:
+      required:
+      - bands
+      - id
+      - name
+      - product
+      type: object
+      properties:
+        product:
+          type: string
+          example: AVHRRL1
+        bands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Band'
+        id:
+          type: string
+          example: avhrrl1_natural_color
+        name:
+          type: string
+          example: Natural Color
+      description: List of available filters per product.
+    Band:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          example: channel_1
+        name:
+          type: string
+          example: Channel 1
+        description:
+          type: string
+      description: List of bands.
+    Filter_2:
+      type: object
+      required:
+      - bands
+      - id
+      - name
+      - product
+      properties:
+        product:
+          type: string
+        bands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Band_2'
+        id:
+          type: string
+        name:
+          type: string
+      description: List of available filters per product.
+    Band_2:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      description: List of bands.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

@@ -1,0 +1,71 @@
+generated: '2026-10-18'
+method: none
+source: openapi/eumetsat-data-store-browse-openapi.yml, openapi/eumetsat-data-store-cart-openapi.yml,
+  openapi/eumetsat-data-store-download-openapi.yml, openapi/eumetsat-data-store-search-openapi.yml,
+  openapi/eumetsat-data-store-subscription-openapi.yml, openapi/eumetsat-data-tailor-openapi.yml,
+  openapi/eumetsat-dtws-openapi.yml, openapi/eumetsat-health-check-openapi.yml, openapi/eumetsat-product-navigator-csw-openapi.yml,
+  openapi/eumetsat-product-navigator-openapi.yml, openapi/eumetsat-user-info-openapi.yml, openapi/eumetsat-user-preferences-openapi.yml
+schemes:
+- name: default
+  source: openapi/eumetsat-data-store-browse-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-data-store-cart-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-data-store-download-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-data-store-search-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-data-store-subscription-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-data-tailor-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-dtws-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-health-check-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-product-navigator-csw-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-product-navigator-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-user-info-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+- name: default
+  source: openapi/eumetsat-user-preferences-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+scopes: []
+note: The OAuth2 security scheme(s) in the OpenAPI declare no scopes, and no security requirement
+  references one.

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-backend-schema.json",
+  "title": "Backend",
+  "description": "List of available backends.",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Backend",
+  "required": [
+    "aggregations",
+    "execute",
+    "features",
+    "formats",
+    "id",
+    "name",
+    "products",
+    "projections",
+    "quicklook_formats",
+    "quicklook_nodatacolors",
+    "quicklook_resample_methods",
+    "quicklook_stretch_methods"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "formats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "projections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "aggregations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quicklook_formats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quicklook_nodatacolors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quicklook_stretch_methods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quicklook_resample_methods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execute": {
+      "type": "string"
+    }
+  }
+}

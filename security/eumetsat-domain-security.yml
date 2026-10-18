@@ -1,0 +1,18 @@
+generated: '2026-10-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.eumetsat.int
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Apr 15 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 31535999
+domains:
+- domain: eumetsat.int
+  dnssec: false
+  caa:
+  - 0 issue "digicert.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: none

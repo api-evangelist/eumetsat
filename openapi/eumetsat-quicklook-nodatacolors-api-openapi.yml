@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Quicklook Nodatacolors API
+  version: '1.0'
+  description: 'Operations tagged Quicklook Nodatacolors across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Quicklook Nodatacolors
+paths:
+  /quicklook_nodatacolors:
+    get:
+      description: Retrieves the list of supported colours to express in quicklook, if any.
+      operationId: GET_quicklook_nodatacolors
+      parameters:
+      - name: product
+        in: query
+        description: Only return results supported for given input product type
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: Only return results supported for given output format
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Nodatacolors
+      summary: GET quicklook nodatacolors
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /quicklook_nodatacolors/{nodatacolorId}:
+    get:
+      description: Retrieves information on the supported colour to express in quicklook, with given nodatacolorId identifier.
+      operationId: GET_quicklook_nodatacolors-nodatacolorId
+      parameters:
+      - name: nodatacolorId
+        in: path
+        description: ID of the color to be used to express 'no data' in quicklooks (e.g. red).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuicklookNodatacolor'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Quicklook Nodatacolors
+      summary: GET quicklook nodatacolors nodatacolor id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    QuicklookNodatacolor:
+      required:
+      - id
+      - name
+      - value
+      type: object
+      properties:
+        id:
+          type: string
+          example: white
+        name:
+          type: string
+          example: white
+        description:
+          type: string
+          example: Nodata values are plotted in white color in the quick-look
+        value:
+          type: array
+          items:
+            type: integer
+      description: List of supported colours to express <no data> in quicklook, if any.
+    QuicklookNodatacolor_2:
+      type: object
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        value:
+          type: array
+          items:
+            type: integer
+      description: List of supported colours to express <no data> in quicklook, if any.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

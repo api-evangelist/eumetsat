@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Dir Entries API
+  version: '1.0'
+  description: 'Operations tagged Dir Entries across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Dir Entries
+paths:
+  /dir_entries:
+    get:
+      description: Returns the list of files in a directory and its size.
+      operationId: GET_dir_entries
+      parameters:
+      - name: dir_path
+        in: query
+        description: Path of directory from which to query entries.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: maximum number of entries shown
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 1000
+      - name: offset
+        in: query
+        description: directory sub-levels shown
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - dir_size
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DirEntry'
+                  dir_size:
+                    type: integer
+                example:
+                  total: 2
+                  dir_size: 2
+                  data:
+                  - path: ./Documents
+                    is_dir: true
+                    st_size: 345
+                    st_mtime: 1560168369.1
+                  - path: ./README.txt
+                    is_dir: false
+                    st_size: 345
+                    st_mtime: 1560168369.1
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Dir Entries
+      summary: GET dir entries
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    DirEntry:
+      required:
+      - is_dir
+      - path
+      type: object
+      properties:
+        path:
+          type: string
+        is_dir:
+          type: boolean
+        st_size:
+          type: integer
+        st_mtime:
+          type: number
+      description: List files in directory.
+      example:
+        path: ./README.txt
+        is_dir: false
+        st_size: 345
+        st_mtime: 1560168369.1
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+      description: Error messages.
+      example:
+        message: path not found or not accessible
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

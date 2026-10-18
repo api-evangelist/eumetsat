@@ -1,0 +1,665 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Cart Controller API
+  version: 0.0.1
+  contact:
+    name: CGI EOSS
+    url: https://cgi.com/
+    email: address@cgi.com
+  license:
+    name: LICENSE TBD
+    url: LICENSE TBD
+  termsOfService: Terms of service TBD
+  description: 'Operations tagged cart-controller across 2 of this provider''s published API definitions: eumetsat-data-store-cart-openapi.json, eumetsat-data-store-cart-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/cart-api/0.0.1
+- url: http://api.eumetsat.int/cart-api/0.0.1
+security:
+- default: []
+tags:
+- name: cart-controller
+  description: Cart Controller
+paths:
+  /carts/{username}:
+    get:
+      tags:
+      - cart-controller
+      summary: Retrieve the cart content in XML-Metalink format
+      operationId: retrieveCartAsMetalinkUsingGET
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request completed successfully
+          content:
+            application/metalink4+xml;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/Metalink'
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to get items from the cart
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+  /carts/{username}/items:
+    get:
+      tags:
+      - cart-controller
+      summary: Retrieve a paginated view of the cart items in JSON format
+      operationId: retrieveCartItemsUsingGET
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request completed successfully
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/PagedResources_CartItemResource'
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to get items from the cart
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    post:
+      tags:
+      - cart-controller
+      summary: Create a new cart item
+      operationId: addCartItemUsingPOST
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/CartItemResource'
+        '201':
+          description: Cart item created
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/CartItemResource'
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to modify the cart
+        '403':
+          description: Can't add item on the cart (quota limit reached)
+        '404':
+          description: Not Found
+        '409':
+          description: Item already present on the cart
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/CartItemDto'
+        description: cartItem
+        required: true
+    delete:
+      tags:
+      - cart-controller
+      summary: Remove all the items from the cart
+      operationId: emptyCartUsingDELETE_1
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: All the items were dropped from the cart
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to modify the cart content
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    patch:
+      tags:
+      - cart-controller
+      summary: Create multiple cart items, if they do not already exist
+      operationId: addCartItemsUsingPATCH
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The items not already on the cart have been created
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/Resources_CartItemResource'
+        '204':
+          description: No Content
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to modify the cart
+        '403':
+          description: Can't add item on the cart (quota limit reached)
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CartItemDto'
+        description: cartItemsDto
+        required: true
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+  /carts/{username}/items/deleted:
+    patch:
+      tags:
+      - cart-controller
+      summary: Delete a set of cart items identified by their IDs
+      operationId: deleteCartItemsUsingPATCH
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: The items have been removed from the cart
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to modify the cart
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+        description: idsToDelete
+        required: true
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+  /carts/{username}/items/search:
+    post:
+      tags:
+      - cart-controller
+      summary: Check whether a set of cart items, identified by their download URLs, are…
+      operationId: getItemsByDownloadUrlUsingPOST
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The search completed successfully
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/Resources_CartItemResource'
+        '201':
+          description: Created
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to search items on the cart
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/SearchCriteriaDto'
+        description: urisDto
+        required: true
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+  /carts/{username}/items/{itemId}:
+    get:
+      tags:
+      - cart-controller
+      summary: Retrieve a single cart item
+      operationId: retrieveCartItemUsingGET
+      parameters:
+      - name: itemId
+        in: path
+        description: itemId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The search completed successfully
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/CartItemResource'
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to search items on the cart
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    delete:
+      tags:
+      - cart-controller
+      summary: Remove a single item from the cart
+      operationId: emptyCartUsingDELETE
+      parameters:
+      - name: itemId
+        in: path
+        description: itemId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: The item was dropped from the cart
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to modify the cart content
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+  /carts/{username}/summary:
+    get:
+      tags:
+      - cart-controller
+      summary: Retrieve a summary of the cart
+      operationId: computeCartSummaryUsingGET
+      parameters:
+      - name: username
+        in: path
+        description: username
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request completed successfully
+          content:
+            application/hal+json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/CartSummaryResource'
+        '400':
+          description: The request is not valid
+        '401':
+          description: User is not authorized to get the summary of the cart
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal server error
+      security:
+      - default: []
+      deprecated: false
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+    servers:
+    - url: https://api.eumetsat.int/cart-api/0.0.1
+    - url: http://api.eumetsat.int/cart-api/0.0.1
+components:
+  schemas:
+    CartSummaryDto:
+      type: object
+      properties:
+        cartCapacity:
+          type: integer
+          format: int32
+        homogeneousProductTypes:
+          type: boolean
+        numberOfItems:
+          type: integer
+          format: int32
+      title: CartSummaryDto
+    Metalink:
+      type: object
+      properties:
+        fileOrGeneratorOrOrigin:
+          type: array
+          items:
+            type: object
+            properties: {}
+      title: Metalink
+      xml:
+        name: metalink
+        attribute: false
+        wrapped: false
+    CartItemResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: '#/components/schemas/Link'
+        cartItem:
+          $ref: '#/components/schemas/CartItemDto'
+      title: CartItemResource
+    PagedResources_CartItemResource:
+      type: object
+      properties:
+        _embedded:
+          type: array
+          xml:
+            name: embedded
+            attribute: false
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/CartItemResource'
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: '#/components/schemas/Link'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+      title: PagedResources«CartItemResource»
+      xml:
+        name: pagedEntities
+        attribute: false
+        wrapped: false
+    Link:
+      type: object
+      properties:
+        deprecation:
+          type: string
+          xml:
+            name: deprecation
+            attribute: true
+            wrapped: false
+        href:
+          type: string
+          xml:
+            name: href
+            attribute: true
+            wrapped: false
+        hreflang:
+          type: string
+          xml:
+            name: hreflang
+            attribute: true
+            wrapped: false
+        media:
+          type: string
+          xml:
+            name: media
+            attribute: true
+            wrapped: false
+        rel:
+          type: string
+          xml:
+            name: rel
+            attribute: true
+            wrapped: false
+        templated:
+          type: boolean
+        title:
+          type: string
+          xml:
+            name: title
+            attribute: true
+            wrapped: false
+        type:
+          type: string
+          xml:
+            name: type
+            attribute: true
+            wrapped: false
+      title: Link
+    CartItemDto:
+      type: object
+      properties:
+        downloadUri:
+          type: string
+        fileChecksum:
+          type: string
+        fileName:
+          type: string
+        itemId:
+          type: integer
+          format: int64
+        productType:
+          type: string
+        satellite:
+          type: string
+        sensingStart:
+          type: string
+          format: date-time
+        sensingStop:
+          type: string
+          format: date-time
+      title: CartItemDto
+    PageMetadata:
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int64
+          xml:
+            name: number
+            attribute: true
+            wrapped: false
+        size:
+          type: integer
+          format: int64
+          xml:
+            name: size
+            attribute: true
+            wrapped: false
+        totalElements:
+          type: integer
+          format: int64
+          xml:
+            name: totalElements
+            attribute: true
+            wrapped: false
+        totalPages:
+          type: integer
+          format: int64
+          xml:
+            name: totalPages
+            attribute: true
+            wrapped: false
+      title: PageMetadata
+    CartSummaryResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: '#/components/schemas/Link'
+        cartSummary:
+          $ref: '#/components/schemas/CartSummaryDto'
+      title: CartSummaryResource
+    Resources_CartItemResource:
+      type: object
+      properties:
+        _embedded:
+          type: array
+          xml:
+            name: embedded
+            attribute: false
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/CartItemResource'
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: '#/components/schemas/Link'
+      title: Resources«CartItemResource»
+    SearchCriteriaDto:
+      type: object
+      properties:
+        downloadUris:
+          type: array
+          items:
+            $ref: '#/components/schemas/URI'
+      title: SearchCriteriaDto
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-data-store-cart-openapi.json
+- eumetsat-data-store-cart-openapi.yml

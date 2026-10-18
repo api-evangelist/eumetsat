@@ -1,0 +1,156 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Formats API
+  version: '1.0'
+  description: 'Operations tagged Formats across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Formats
+paths:
+  /formats:
+    get:
+      description: Retrieves information on supported output formats.
+      operationId: GET_formats
+      parameters:
+      - name: product
+        in: query
+        description: Only return formats to which the given product can be converted.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return info from offset^th result.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: maximum number of results to be returned.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Format'
+                example:
+                  total: 3
+                  data:
+                  - id: netcdf4
+                    name: NetCDF4
+                    ext: .nc
+                    description: NetCDF is an abstraction that supports a view of data as a collection of self-describing, portable objects that can be accessed through a simple interface. Array values may be accessed directly, without knowing details of how the data are stored.
+                  - id: jpeg_rgb
+                    name: JPEG (RGB)
+                    ext: .jpg
+                    description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+                  - id: png_grayscale
+                    name: PNG (grayscale multi-file)
+                    ext: .png
+                    description: PNG files are represented as one band (greyscale) datasets with Byte valued bands.
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Formats
+      summary: GET formats
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /formats/{formatId}:
+    get:
+      description: Retrieves information on the supported output format with given formatId identifier.
+      operationId: GET_formats-formatId
+      parameters:
+      - name: formatId
+        in: path
+        description: Format ID (e.g. BUFR).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Format'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Formats
+      summary: GET formats format id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Format:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        ext:
+          type: string
+        description:
+          type: string
+      description: List of supported output formats.
+      example:
+        id: jpeg_rgb
+        name: JPEG (RGB)
+        ext: .jpg
+        description: JPEG files are represented as three band (RGB) datasets with Byte valued bands.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

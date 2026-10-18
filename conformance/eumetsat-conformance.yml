@@ -1,0 +1,58 @@
+generated: '2026-10-18'
+method: searched
+source: https://user.eumetsat.int/api-definitions/data-store-rest-api, openapi/eumetsat-data-store-search-openapi.yml, openapi/eumetsat-product-navigator-csw-openapi.yml
+standards:
+- id: OGC-OpenSearch-13-026r9
+  conforms: true
+  evidence: 'OpenAPI description states: ''It implements OGC 13-026r9, OGC 17-047, OGC 17-003, and OGC 17-084. It adheres to the CEOS OpenSearch
+    Best Practices v1.2.'''
+- id: OGC-CSW
+  conforms: true
+  evidence: Product Navigator CSW API implements OGC Catalogue Service for the Web standard
+- id: OGC-WMS-1.3.0
+  conforms: true
+  evidence: EUMETView provides WMS 1.3.0 services for satellite imagery
+- id: OGC-WFS-2.0.0
+  conforms: true
+  evidence: EUMETView provides WFS 2.0.0 services for feature data
+- id: OGC-WCS-2.0
+  conforms: true
+  evidence: EUMETView provides WCS 2.0 services for coverage data
+- id: OAuth2
+  conforms: true
+  evidence: OpenAPI specs declare OAuth2 security schemes with implicit flow
+- id: OpenAPI-3.0.1
+  conforms: true
+  evidence: Multiple APIs use OpenAPI 3.0.1 specification
+- id: Swagger-2.0
+  conforms: true
+  evidence: Some APIs use Swagger 2.0 specification
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.1
+- id: swagger-2.0
+  conforms: true
+  evidence: the document declares swagger-2.0
+- id: oauth2
+  conforms: true
+  evidence: 'securitySchemes: Bearer (apiKey), bearerAuth (http), default (oauth2)'
+- id: rfc9457
+  conforms: false
+  evidence: no response declares application/problem+json
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key parameter on mutating operations
+- id: pagination
+  conforms: true
+  evidence: list operations take limit, offset, page
+domain_standard_conformance:
+  geospatial:
+    standards:
+    - OGC-OpenSearch
+    - OGC-CSW
+    - OGC-WMS
+    - OGC-WFS
+    - OGC-WCS
+    evidence: EUMETSAT implements multiple OGC standards for geospatial data access and discovery
+note: EUMETSAT demonstrates strong conformance to OGC (Open Geospatial Consortium) standards for geospatial data services, which is appropriate
+  for a meteorological satellite data provider.

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-chain-schema.json",
+  "title": "Chain",
+  "description": "Configurations of customisation processes.",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Chain",
+  "required": [
+    "format",
+    "id",
+    "name",
+    "product"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "aggregation": {
+      "type": "string"
+    },
+    "projection": {
+      "type": "string"
+    },
+    "roi": {
+      "$ref": "#/$defs/Roi"
+    },
+    "filter": {
+      "$ref": "#/$defs/Filter"
+    }
+  },
+  "$defs": {
+    "Band": {
+      "required": [
+        "id",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "description": "List of bands."
+    },
+    "Filter": {
+      "required": [
+        "bands",
+        "id",
+        "name",
+        "product"
+      ],
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "string"
+        },
+        "bands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Band"
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "description": "List of available filters per product."
+    },
+    "Roi": {
+      "required": [
+        "NSWE",
+        "id",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "NSWE": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "description": "List of available pre-configured Regions Of Interest (ROIs)."
+    }
+  }
+}

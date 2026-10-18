@@ -1,0 +1,12 @@
+name: EUMETSAT agent skills
+generated: '2026-10-18'
+method: generated
+source: openapi/
+note: No provider-published skills or AGENTS.md were found (https://user.eumetsat.int/.well-known/agent-skills/index.json returns the HTML site shell). These skills are generated from real operationIds.
+skills:
+- name: eumetsat-search-and-download-products
+  path: skills/eumetsat-search-and-download-products.md
+- name: eumetsat-customise-products-with-data-tailor
+  path: skills/eumetsat-customise-products-with-data-tailor.md
+- name: eumetsat-manage-data-subscriptions
+  path: skills/eumetsat-manage-data-subscriptions.md

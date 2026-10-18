@@ -1,0 +1,122 @@
+generated: '2026-10-18'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 8
+  own: 6
+  other_domain: 0
+  platform: 2
+  roles:
+  - identity
+  - other
+  - portal
+  - source
+  - website
+hosts:
+- host: api.eumetsat.int
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types:
+  - Login
+  serves:
+  - api
+  registrable_domain: eumetsat.int
+  role: identity
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: gitlab.eumetsat.int
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - GitLab
+  serves: []
+  registrable_domain: eumetsat.int
+  role: other
+  relation: own
+- host: pics.eumetsat.int
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: eumetsat.int
+  role: other
+  relation: own
+- host: twitter.com
+  found_by:
+  - pointer
+  types:
+  - Twitter
+  serves: []
+  registrable_domain: twitter.com
+  role: other
+  relation: platform
+- host: user.eumetsat.int
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - DeveloperPortal
+  - Documentation
+  - GettingStarted
+  - FAQ
+  - ChangeLog
+  serves:
+  - docs
+  registrable_domain: eumetsat.int
+  role: portal
+  relation: own
+- host: view.eumetsat.int
+  found_by:
+  - apis[]
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves:
+  - api
+  - docs
+  registrable_domain: eumetsat.int
+  role: other
+  relation: own
+- host: www.eumetsat.int
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Website
+  - Support
+  - Blog
+  - Newsroom
+  - TermsOfService
+  - PrivacyPolicy
+  serves: []
+  registrable_domain: eumetsat.int
+  role: website
+  relation: own

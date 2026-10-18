@@ -1,0 +1,82 @@
+generated: '2026-10-18'
+method: searched
+generator: extract-docs-artifacts.py (deepseek)
+source: https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-August-2026
+sources:
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-August-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Release-date-11-August-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Data-Store-July-2026
+- https://user.eumetsat.int/resources/user-guides/data-store-release-changelog#ID-Release-date-9-July-2026
+entries:
+- date: '2026-08-11'
+  highlights:
+  - Improvements in enforcing throttling mechanism on Data Access Services APIs.
+  - Fixes high frequency of failures on the MQTT-based DSN service.
+  - Fixes corruption of data when performing HTTP range requests to download individual SIP entries.
+  - Unauthenticated users are now redirected to the login page when attempting to download products from the DS.
+  breaking: false
+- date: '2026-07-09'
+  highlights:
+  - Download API endpoints with date and time now provide more reliable HTTP response codes.
+  breaking: false
+- date: '2026-06-30'
+  highlights:
+  - Authentication using OAuth 2.0 framework introduced in version 2 of Data Access Services APIs.
+  breaking: false
+- date: '2026-03-19'
+  highlights:
+  - Security improvements for DSN service.
+  - Improvements added to configurable links to documentation for collection-specific filters.
+  - The behaviour of Data Store cart for unauthenticated users is now more reliable.
+  - Disabled 'Show Results' button in the UI is accessible again.
+  breaking: false
+- date: '2026-02-05'
+  highlights:
+  - Security patch added to Data Store Notification (DSN) service.
+  - Notifications for newly ingested products are now more complete and reliable.
+  - Now uses Quorum Queues for better fault tolerance.
+  - Fixes issue related to incomplete files for products downloaded from the Data Store.
+  breaking: false
+- date: '2025-12-04'
+  highlights:
+  - Improves security and fixes issues related to connectivity drops from MQTT clients for the Data Store Notifications (DSN) service.
+  breaking: false
+- date: '2025-11-05'
+  highlights:
+  - Help links have now been added to collection-specific filters.
+  - Cosmetic changes in the API Access menu.
+  breaking: false
+- date: '2025-10-30'
+  highlights:
+  - Data Store Notifications (DSN) service that broadcasts notifications about newly published products in the collections available on Data Store
+    now available to users as a pilot project.
+  - Implemented contextual help throughout the user interface (UI).
+  breaking: false
+- date: '2025-09-08'
+  highlights:
+  - Throttling limits relaxed to allow higher frequency of requests (40 requests/second), number of parallel connections (15) and bandwidth (10TB/day)
+    for users.
+  - Minor update to fix text.
+  breaking: false
+- date: '2025-07-17'
+  highlights:
+  - Improved response times for the Search and Browse APIs.
+  - My Profile link on the API Key page now points to the User Portal
+  breaking: false
+- date: '2025-04-03'
+  highlights:
+  - Fixes the reported access issues for users with special characters in the username.
+  - Added clarification regarding licence requests, which might take up to one hour to take effect.
+  breaking: false
+- date: '2025-02-20'
+  highlights:
+  - Significant download speed and throughput improvements.
+  - Back-end storage management optimisations implemented to ensure increased service reliability.
+  - Enhanced user interface aligned with the EUMETSAT User Portal for improved consistency and navigation.
+  - Download API now responds with HTTP 404 when searching for non-existent products on the MSG HRSEVIRI collection.
+  breaking: false
+scheme: monthly release naming
+current_version: V3.3
+docs: https://user.eumetsat.int/resources/user-guides/data-store-release-changelog
+note: The changelog shows monthly releases with dates in YYYY-MM-DD format. The page header shows "V3.3, 14 Aug 2026" indicating the current version.
+  Entries are organized by month-year with specific release dates.

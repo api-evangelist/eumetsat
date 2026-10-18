@@ -1,0 +1,50 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Status API
+  version: 1.0.0
+  description: 'Operations tagged Status across 2 of this provider''s published API definitions: eumetsat-health-check-openapi.json, eumetsat-health-check-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/health/1.0.0
+- url: http://api.eumetsat.int/health/1.0.0
+security:
+- default: []
+tags:
+- name: Status
+paths:
+  /status:
+    get:
+      summary: Health status endpoint
+      description: Returns a static JSON payload used for Gateway health checking.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+      security:
+      - default: []
+      x-auth-type: None
+      x-throttling-tier: Unlimited
+      tags:
+      - Status
+      operationId: getStatus
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/health/1.0.0
+    - url: http://api.eumetsat.int/health/1.0.0
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          scopes: {}
+          authorizationUrl: https://api.eumetsat.int/authorize
+x-refined-from:
+- eumetsat-health-check-openapi.json
+- eumetsat-health-check-openapi.yml

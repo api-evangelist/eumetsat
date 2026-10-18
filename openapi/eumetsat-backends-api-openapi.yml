@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Backends API
+  version: '1.0'
+  description: 'Operations tagged Backends across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Backends
+paths:
+  /backends:
+    get:
+      description: Retrieves the list of available backends.
+      operationId: GET_backends
+      parameters:
+      - name: format
+        in: query
+        description: Only return backends relevant to given format
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Only return backends relevant to given product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Only return results starting from offset^th result
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Maximum number of results to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                required:
+                - data
+                - total
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Backend'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Backends
+      summary: GET backends
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+  /backends/{backendId}:
+    get:
+      description: Retrieves information on the available backend with given backendId identifier.
+      operationId: GET_backends-backendId
+      parameters:
+      - name: backendId
+        in: path
+        description: Registered backend ID (e.g. epct_plugin_gis).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Backend'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Backends
+      summary: GET backends backend id
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Backend:
+      required:
+      - aggregations
+      - execute
+      - features
+      - formats
+      - id
+      - name
+      - products
+      - projections
+      - quicklook_formats
+      - quicklook_nodatacolors
+      - quicklook_resample_methods
+      - quicklook_stretch_methods
+      type: object
+      properties:
+        id:
+          type: string
+          example: epct_plugin_umarf_openmtp
+        name:
+          type: string
+          example: epct_plugin_umarf_openmtp
+        products:
+          type: array
+          items:
+            type: string
+            example: MVIRI
+        formats:
+          type: array
+          items:
+            type: string
+            example: open_mtp
+        features:
+          type: array
+          items:
+            type: string
+            example: filter
+        projections:
+          type: array
+          items:
+            type: string
+            example: mollweide
+        aggregations:
+          type: array
+          items:
+            type: string
+            example: disk
+        quicklook_formats:
+          type: array
+          items:
+            type: string
+            example: jpeg_rgb
+        quicklook_nodatacolors:
+          type: array
+          items:
+            type: string
+            example: black
+        quicklook_stretch_methods:
+          type: array
+          items:
+            type: string
+            example: min_max
+        quicklook_resample_methods:
+          type: array
+          items:
+            type: string
+            example: bilinear
+        execute:
+          type: string
+          example: epct_plugin_umarf.executable:run
+      description: List of available backends.
+    Backend_2:
+      type: object
+      required:
+      - aggregations
+      - execute
+      - features
+      - formats
+      - id
+      - name
+      - products
+      - projections
+      - quicklook_formats
+      - quicklook_nodatacolors
+      - quicklook_resample_methods
+      - quicklook_stretch_methods
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        products:
+          type: array
+          items:
+            type: string
+        formats:
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: string
+        projections:
+          type: array
+          items:
+            type: string
+        aggregations:
+          type: array
+          items:
+            type: string
+        quicklook_formats:
+          type: array
+          items:
+            type: string
+        quicklook_nodatacolors:
+          type: array
+          items:
+            type: string
+        quicklook_stretch_methods:
+          type: array
+          items:
+            type: string
+        quicklook_resample_methods:
+          type: array
+          items:
+            type: string
+        execute:
+          type: string
+      description: List of available backends.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

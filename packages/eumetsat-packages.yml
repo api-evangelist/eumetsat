@@ -1,0 +1,29 @@
+generated: '2026-10-18'
+method: searched
+source: https://pypi.org/pypi/eumdac/json, https://gitlab.eumetsat.int/eumetlab/data-services/eumdac_data_store
+packages:
+- name: eumdac
+  registry: pypi
+  url: https://pypi.org/project/eumdac/
+  language: python
+  official: true
+  version: '3.1.1'
+  published: '2026-09-25'
+  note: EUMETSAT Data Access Client - Python library and CLI for accessing EUMETSAT data services
+- name: eumdac_data_store
+  registry: gitlab
+  url: https://gitlab.eumetsat.int/eumetlab/data-services/eumdac_data_store
+  language: python
+  official: true
+  version: null
+  published: null
+  note: Training module for using EUMDAC to interface with EUMETSAT Data Store (Jupyter notebooks)
+- name: eumdac
+  registry: gitlab
+  url: https://gitlab.eumetsat.int/eumetlab/data-services/eumdac
+  language: python
+  official: true
+  version: null
+  published: null
+  note: Main EUMDAC repository with source code
+note: EUMETSAT provides official Python client libraries through PyPI (eumdac package) and GitLab repositories. No npm/JavaScript packages found.

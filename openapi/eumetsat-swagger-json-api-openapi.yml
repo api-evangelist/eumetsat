@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Swagger.json API
+  version: 1.0.0
+  license:
+    name: 'License: not yet defined. For the time being: confidential and private'
+    url: https://www.eumetsat.int
+  termsOfService: https://www.eumetsat.int/terms/
+  description: 'Operations tagged Swagger.json across 2 of this provider''s published API definitions: eumetsat-data-store-browse-openapi.json, eumetsat-data-store-browse-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/data/browse/1.0.0
+- url: http://api.eumetsat.int/data/browse/1.0.0
+security:
+- default: []
+tags:
+- name: Swagger.json
+paths:
+  /swagger.json:
+    get:
+      responses:
+        '200':
+          description: Success
+      security:
+      - default: []
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+      tags:
+      - Swagger.json
+      summary: Get swagger json
+      x-summary-source: derived
+      operationId: getSwaggerJson
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.eumetsat.int/data/browse/1.0.0
+    - url: http://api.eumetsat.int/data/browse/1.0.0
+components:
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+x-refined-from:
+- eumetsat-data-store-browse-openapi.json
+- eumetsat-data-store-browse-openapi.yml

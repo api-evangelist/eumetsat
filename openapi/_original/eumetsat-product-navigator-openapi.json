@@ -1,0 +1,78 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "0.0.1",
+    "title" : "PN1_Elastic_Reader"
+  },
+  "host" : "api.eumetsat.int",
+  "basePath" : "/product-navigator/0.0.1",
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "paths" : {
+    "/csw/_search" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "post" : {
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "Payload",
+          "description" : "Request Body",
+          "required" : false,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "payload" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/csw/*" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "default" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://api.eumetsat.int/authorize",
+      "flow" : "implicit"
+    }
+  }
+}

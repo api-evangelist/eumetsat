@@ -1,0 +1,339 @@
+generated: '2026-10-18'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/eumetsat-data-store-browse-openapi.yml
+- openapi/eumetsat-data-store-cart-openapi.yml
+- openapi/eumetsat-data-store-download-openapi.yml
+- openapi/eumetsat-data-store-search-openapi.yml
+- openapi/eumetsat-data-store-subscription-openapi.yml
+vocabulary:
+  name: EUMETSAT Domain Vocabulary
+  description: 'Terms declared by EUMETSAT''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-18'
+  terms:
+  - term: Discovery
+    definition: Search and discover EUMETSAT Data.
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-browse-openapi.yml
+  - term: cart-controller
+    definition: Cart Controller
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-cart-openapi.yml
+  - term: Download
+    definition: Download EUMETSAT Online EO Data.
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-download-openapi.yml
+  - term: Search
+    definition: Search EUMETSAT Online EO Data
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-search-openapi.yml
+  - term: subscription-controller
+    definition: Subscription Controller
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-subscription-openapi.yml
+  - term: user-info-api-controller
+    definition: User Info Api Controller
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-user-info-openapi.yml
+  - term: UserPreference Entity
+    definition: $ Proxy 121
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-user-preferences-openapi.yml
+  - term: EarthObservation
+    definition: 'Object declared by the contract with fields: type, id, geometry, properties, bbox.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/EarthObservation
+  - term: DataIdentification
+    definition: Subset of Properties
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/DataIdentification
+  - term: ProductLinks
+    definition: 'Object declared by the contract with fields: type, qualityReport, data, alternates, via, up, previews.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/ProductLinks
+  - term: LinkType
+    definition: 'Object declared by the contract with fields: href, type, title, length, category, expression, conformsTo.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/LinkType
+  - term: Collections
+    definition: 'Object declared by the contract with fields: links, numberOfProducts.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Collections
+  - term: LinkSchema
+    definition: 'Object declared by the contract with fields: type, href, mediaType, title, rel, datasetTitle.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/LinkSchema
+  - term: Collection
+    definition: 'Object declared by the contract with fields: collection, links.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Collection
+  - term: CollectionFeature
+    definition: 'Object declared by the contract with fields: type, id, properties.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CollectionFeature
+  - term: CollectionProperties
+    definition: 'Object declared by the contract with fields: kind, type, identifier, title, date, abstract, links.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CollectionProperties
+  - term: CollectionLinks
+    definition: 'Object declared by the contract with fields: type, alternates, data, search, previews.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CollectionLinks
+  - term: CollectionPlusProducts
+    definition: 'Object declared by the contract with fields: links, numberOfProducts, products.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CollectionPlusProducts
+  - term: Products
+    definition: 'Object declared by the contract with fields: id, date, links.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Products
+  - term: Point
+    definition: 'Object declared by the contract with fields: type, coordinates.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Point
+  - term: Polygon
+    definition: 'Object declared by the contract with fields: coordinates, type.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Polygon
+  - term: MultiPolygon
+    definition: 'Object declared by the contract with fields: coordinates, type.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/MultiPolygon
+  - term: AcquisitionInformation
+    definition: 'Object declared by the contract with fields: type, platform, instrument, acquisitionParameters.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/AcquisitionInformation
+  - term: Platform
+    definition: 'Object declared by the contract with fields: type, id, platformShortName, platformSerialIdentifier, orbitType.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Platform
+  - term: Instrument
+    definition: 'Object declared by the contract with fields: type, id, sensorType, instrumentShortName, description, operationalMode, swathIdentifier,
+      polarisationMode, polarisationChannels, resolution, verticalResolution, waveLengths. (3 more)'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/Instrument
+  - term: WavelengthInformation
+    definition: 'Object declared by the contract with fields: type, discreteWavelengths, endWavelength, spectralRange, startWavelength, wavelengthResolution.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/WavelengthInformation
+  - term: AcquisitionAngles
+    definition: 'Object declared by the contract with fields: illuminationAzimuthAngle, illuminationZenithAngle, illuminationElevationAngle, incidenceAngle,
+      minimumIncidenceAngle, maximumIncidenceAngle, incidenceAngleVariation, acrossTrackIncidenceAngle, alongTrackIncidenceAngle, instrumentAzimuthAngle,
+      instrumentZenithAngle, instrumentElevationAngle. (3 more)'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/AcquisitionAngles
+  - term: TemporalInformation
+    definition: Subset of AcquisitionParameters
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/TemporalInformation
+  - term: VerticalSpatialDomain
+    definition: Subset of AcquisitionParameters
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/VerticalSpatialDomain
+  - term: OrbitParameters
+    definition: Subset of AcquisitionParameters
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/OrbitParameters
+  - term: MTGCoverage
+    definition: 'Object declared by the contract with fields: repeatCycleIdentifier, majorRegionCoverage, subRegionIdentifier.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/MTGCoverage
+  - term: ProcessingInformation
+    definition: Subset of ProductInformation
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/ProcessingInformation
+  - term: CoverageDescription
+    definition: Subset of ProductInformation
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CoverageDescription
+  - term: QualityInformation
+    definition: 'Object declared by the contract with fields: qualityStatus, qualityDegradation, qualityDegradationTag, qualityDegradationQuotationMode.'
+    tags:
+    - Object
+    source: openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/QualityInformation
+  - term: Info
+    definition: General information about the Data Tailor configuration.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Info
+  - term: User_info
+    definition: Information about the configuration for user of ID user_id.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/User_info
+  - term: Status
+    definition: Status of the customisation.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Status
+  - term: ReportQuota
+    definition: Report of user space occupation. Only works with valid input user-folder path.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/ReportQuota
+  - term: Customisation
+    definition: List of customisations
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Customisation
+  - term: DirEntry
+    definition: List files in directory.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/DirEntry
+  - term: Product
+    definition: List of supported input product types.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Product
+  - term: Body_Selection
+    definition: Body segments selection
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Body_Selection
+  - term: Chain
+    definition: Configurations of customisation processes.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Chain
+  - term: Roi
+    definition: List of available pre-configured Regions Of Interest (ROIs).
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Roi
+  - term: Format
+    definition: List of supported output formats.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Format
+  - term: Filter
+    definition: List of available filters per product.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Filter
+  - term: Band
+    definition: List of bands.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Band
+  - term: Aggregation
+    definition: List of supported aggregation types, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Aggregation
+  - term: Projection
+    definition: List of available projections.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Projection
+  - term: Quicklook
+    definition: Pre-configured quicklook configurations.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Quicklook
+  - term: QuicklookFormat
+    definition: List of supported output formats for quicklook, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/QuicklookFormat
+  - term: QuicklookNodatacolor
+    definition: List of supported colours to express in quicklook, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/QuicklookNodatacolor
+  - term: QuicklookResampleMethod
+    definition: List of supported resampling methods applicable to quicklooks, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/QuicklookResampleMethod
+  - term: QuicklookStretchMethod
+    definition: List of supported stretch methods applicable to quicklooks, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/QuicklookStretchMethod
+  - term: ResampleMethod
+    definition: List of available resampling methods, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/ResampleMethod
+  - term: StretchMethod
+    definition: List of available stretch methods, if any.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/StretchMethod
+  - term: Log
+    definition: Customisation log file.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Log
+  - term: Compression
+    definition: List of available types of output files compression.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Compression
+  - term: Feature
+    definition: List of supported customisation functions (excluding re-format).
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Feature
+  - term: Backend
+    definition: List of available backends.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Backend
+  - term: Basket
+    definition: XML Basket from Data Store
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Basket
+  - term: Error
+    definition: Error messages.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Error
+  - term: Uuids
+    definition: List of customisation uuids.
+    tags:
+    - Object
+    source: openapi/eumetsat-data-tailor-openapi.yml#/components/schemas/Uuids
+  - term: Description Document
+    definition: 'Resource group in the contract; its operation GET /osdd: Get the OSDD, either for the complete catalogue or for one specific
+      collection'
+    tags:
+    - Resource Group
+    source: openapi/eumetsat-data-store-search-openapi.yml

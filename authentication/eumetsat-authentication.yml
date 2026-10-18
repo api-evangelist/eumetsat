@@ -1,0 +1,47 @@
+generated: '2026-10-18'
+method: derived
+source: openapi/eumetsat-data-store-browse-openapi.yml, openapi/eumetsat-data-store-cart-openapi.yml,
+  openapi/eumetsat-data-store-download-openapi.yml, openapi/eumetsat-data-store-search-openapi.yml,
+  openapi/eumetsat-data-store-subscription-openapi.yml, openapi/eumetsat-data-tailor-openapi.yml,
+  openapi/eumetsat-dtws-openapi.yml, openapi/eumetsat-health-check-openapi.yml, openapi/eumetsat-product-navigator-csw-openapi.yml,
+  openapi/eumetsat-product-navigator-openapi.yml, openapi/eumetsat-user-info-openapi.yml, openapi/eumetsat-user-preferences-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - implicit
+schemes:
+- name: default
+  type: oauth2
+  flows:
+  - flow: implicit
+    authorizationUrl: https://api.eumetsat.int/authorize
+    scopes: 0
+  sources:
+  - openapi/eumetsat-data-store-browse-openapi.yml
+  - openapi/eumetsat-data-store-cart-openapi.yml
+  - openapi/eumetsat-data-store-download-openapi.yml
+  - openapi/eumetsat-data-store-search-openapi.yml
+  - openapi/eumetsat-data-store-subscription-openapi.yml
+  - openapi/eumetsat-data-tailor-openapi.yml
+  - openapi/eumetsat-dtws-openapi.yml
+  - openapi/eumetsat-health-check-openapi.yml
+  - openapi/eumetsat-product-navigator-csw-openapi.yml
+  - openapi/eumetsat-product-navigator-openapi.yml
+  - openapi/eumetsat-user-info-openapi.yml
+  - openapi/eumetsat-user-preferences-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/eumetsat-data-tailor-openapi.yml
+- name: Bearer
+  type: apiKey
+  in: header
+  parameter: Authorization
+  sources:
+  - openapi/eumetsat-dtws-openapi.yml

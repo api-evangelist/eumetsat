@@ -1,0 +1,632 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Data-Store Subscription API",
+    "version" : "0.0.1",
+    "title" : "DS_Subscription_API",
+    "termsOfService" : "http://www.eumetsat.int/terms/",
+    "contact" : {
+      "name" : "CGI EOSS",
+      "url" : "https://cgi.com/",
+      "email" : "address@cgi.com"
+    },
+    "license" : {
+      "name" : "License: not yet defined. For the time being: confidential and private",
+      "url" : "http://www.eumetsat.int"
+    }
+  },
+  "host" : "api.eumetsat.int",
+  "basePath" : "/data/subscribe/0.0.1",
+  "tags" : [ {
+    "name" : "subscription-controller",
+    "description" : "Subscription Controller"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "security" : [ {
+    "default" : [ ]
+  } ],
+  "paths" : {
+    "/subscription" : {
+      "get" : {
+        "tags" : [ "subscription-controller" ],
+        "summary" : "Retrieve the user subscriptions.",
+        "operationId" : "retrieveSubscriptionsUsingGET",
+        "produces" : [ "*/*" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Subscriptions found",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/SubscriptionFilterDto"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "post" : {
+        "tags" : [ "subscription-controller" ],
+        "summary" : "Create a new subscription.",
+        "operationId" : "createNewSubscriptionUsingPOST",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "filterDto",
+          "description" : "filterDto",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SubscriptionFilterDto"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Subscription created",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Bad request - client responsibility"
+          },
+          "500" : {
+            "description" : "Subscription api internal error"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    },
+    "/subscription/{subscriptionId}" : {
+      "get" : {
+        "tags" : [ "subscription-controller" ],
+        "summary" : "Retrieve a subscription.",
+        "operationId" : "retrieveSubscriptionUsingGET",
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "description" : "subscriptionId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Subscription found",
+            "schema" : {
+              "$ref" : "#/definitions/SubscriptionFilterDto"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      },
+      "delete" : {
+        "tags" : [ "subscription-controller" ],
+        "summary" : "Delete a subscription.",
+        "operationId" : "deleteSubscriptionUsingDELETE",
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "description" : "subscriptionId",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "202" : {
+            "description" : "Subscription cancelled",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        },
+        "security" : [ {
+          "default" : [ ]
+        } ],
+        "x-auth-type" : "Application & Application User",
+        "x-throttling-tier" : "Unlimited"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "default" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://api.eumetsat.int/authorize",
+      "flow" : "implicit"
+    }
+  },
+  "definitions" : {
+    "Coordinate" : {
+      "type" : "object",
+      "properties" : {
+        "coordinate" : {
+          "$ref" : "#/definitions/Coordinate"
+        },
+        "m" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "x" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "y" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "z" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      },
+      "title" : "Coordinate"
+    },
+    "CoordinateSequence" : {
+      "type" : "object",
+      "properties" : {
+        "dimension" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "measures" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "title" : "CoordinateSequence"
+    },
+    "CoordinateSequenceFactory" : {
+      "type" : "object",
+      "title" : "CoordinateSequenceFactory"
+    },
+    "Envelope" : {
+      "type" : "object",
+      "properties" : {
+        "area" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "height" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "maxX" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "maxY" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "minX" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "minY" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "null" : {
+          "type" : "boolean"
+        },
+        "width" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      },
+      "title" : "Envelope"
+    },
+    "Geometry" : {
+      "type" : "object",
+      "properties" : {
+        "area" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "boundary" : {
+          "$ref" : "#/definitions/Geometry"
+        },
+        "boundaryDimension" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "centroid" : {
+          "$ref" : "#/definitions/Point"
+        },
+        "coordinate" : {
+          "$ref" : "#/definitions/Coordinate"
+        },
+        "coordinates" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Coordinate"
+          }
+        },
+        "dimension" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "empty" : {
+          "type" : "boolean"
+        },
+        "envelope" : {
+          "$ref" : "#/definitions/Envelope"
+        },
+        "envelopeInternal" : {
+          "$ref" : "#/definitions/Envelope"
+        },
+        "factory" : {
+          "$ref" : "#/definitions/GeometryFactory"
+        },
+        "geometryType" : {
+          "type" : "string"
+        },
+        "interiorPoint" : {
+          "$ref" : "#/definitions/Point"
+        },
+        "length" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "numGeometries" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "numPoints" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "precisionModel" : {
+          "$ref" : "#/definitions/PrecisionModel"
+        },
+        "rectangle" : {
+          "type" : "boolean"
+        },
+        "simple" : {
+          "type" : "boolean"
+        },
+        "srid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userData" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "valid" : {
+          "type" : "boolean"
+        }
+      },
+      "title" : "Geometry"
+    },
+    "GeometryFactory" : {
+      "type" : "object",
+      "properties" : {
+        "coordinateSequenceFactory" : {
+          "$ref" : "#/definitions/CoordinateSequenceFactory"
+        },
+        "precisionModel" : {
+          "$ref" : "#/definitions/PrecisionModel"
+        },
+        "srid" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "title" : "GeometryFactory"
+    },
+    "Pageable" : {
+      "type" : "object",
+      "properties" : {
+        "offset" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "pageNumber" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "paged" : {
+          "type" : "boolean"
+        },
+        "sort" : {
+          "$ref" : "#/definitions/Sort"
+        },
+        "unpaged" : {
+          "type" : "boolean"
+        }
+      },
+      "title" : "Pageable"
+    },
+    "Page«SubscriptionFilterShortDto»" : {
+      "type" : "object",
+      "properties" : {
+        "content" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SubscriptionFilterShortDto"
+          }
+        },
+        "empty" : {
+          "type" : "boolean"
+        },
+        "first" : {
+          "type" : "boolean"
+        },
+        "last" : {
+          "type" : "boolean"
+        },
+        "number" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "numberOfElements" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pageable" : {
+          "$ref" : "#/definitions/Pageable"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "sort" : {
+          "$ref" : "#/definitions/Sort"
+        },
+        "totalElements" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "totalPages" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "title" : "Page«SubscriptionFilterShortDto»"
+    },
+    "Point" : {
+      "type" : "object",
+      "properties" : {
+        "area" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "boundary" : {
+          "$ref" : "#/definitions/Geometry"
+        },
+        "boundaryDimension" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "centroid" : {
+          "$ref" : "#/definitions/Point"
+        },
+        "coordinate" : {
+          "$ref" : "#/definitions/Coordinate"
+        },
+        "coordinateSequence" : {
+          "$ref" : "#/definitions/CoordinateSequence"
+        },
+        "coordinates" : {
+          "$ref" : "#/definitions/CoordinateSequence"
+        },
+        "dimension" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "empty" : {
+          "type" : "boolean"
+        },
+        "envelope" : {
+          "$ref" : "#/definitions/Envelope"
+        },
+        "envelopeInternal" : {
+          "$ref" : "#/definitions/Envelope"
+        },
+        "factory" : {
+          "$ref" : "#/definitions/GeometryFactory"
+        },
+        "geometryType" : {
+          "type" : "string"
+        },
+        "interiorPoint" : {
+          "$ref" : "#/definitions/Point"
+        },
+        "length" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "numGeometries" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "numPoints" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "precisionModel" : {
+          "$ref" : "#/definitions/PrecisionModel"
+        },
+        "rectangle" : {
+          "type" : "boolean"
+        },
+        "simple" : {
+          "type" : "boolean"
+        },
+        "srid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "userData" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "valid" : {
+          "type" : "boolean"
+        },
+        "x" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "y" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      },
+      "title" : "Point"
+    },
+    "PrecisionModel" : {
+      "type" : "object",
+      "properties" : {
+        "floating" : {
+          "type" : "boolean"
+        },
+        "maximumSignificantDigits" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "offsetX" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "offsetY" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "scale" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "type" : {
+          "$ref" : "#/definitions/Type"
+        }
+      },
+      "title" : "PrecisionModel"
+    },
+    "Sort" : {
+      "type" : "object",
+      "properties" : {
+        "empty" : {
+          "type" : "boolean"
+        },
+        "sorted" : {
+          "type" : "boolean"
+        },
+        "unsorted" : {
+          "type" : "boolean"
+        }
+      },
+      "title" : "Sort"
+    },
+    "SubscriptionFilterDto" : {
+      "type" : "object",
+      "properties" : {
+        "aoi" : {
+          "type" : "string"
+        },
+        "attempt" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "collectionId" : {
+          "type" : "string"
+        },
+        "delay" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "hasInitialDelay" : {
+          "type" : "boolean"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "ACTIVE", "CANCELLED" ]
+        },
+        "url" : {
+          "type" : "string"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      },
+      "title" : "SubscriptionFilterDto"
+    },
+    "SubscriptionFilterShortDto" : {
+      "type" : "object",
+      "properties" : {
+        "collectionId" : {
+          "type" : "string"
+        },
+        "failedNotifications" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "failedNotificationsRate" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "notifications" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      },
+      "title" : "SubscriptionFilterShortDto"
+    },
+    "SubscriptionRequestDto" : {
+      "type" : "object",
+      "properties" : {
+        "collectionId" : {
+          "type" : "string"
+        },
+        "maxUpdateTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "geometry" : {
+          "$ref" : "#/definitions/Geometry"
+        }
+      },
+      "title" : "SubscriptionRequestDto"
+    },
+    "Type" : {
+      "type" : "object",
+      "title" : "Type"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+# x-archived-from: eumetsat-health-check-openapi.yml
+# x-archived-on: 2026-10-18
+swagger: '2.0'
+info:
+  description: Simple health check endpoint for WSO2 Gateway probes.
+  version: 1.0.0
+  title: Health Check API
+host: api.eumetsat.int
+basePath: /health/1.0.0
+schemes:
+- https
+- http
+security:
+- default: []
+paths:
+  /status:
+    get:
+      summary: Health status endpoint
+      description: Returns a static JSON payload used for Gateway health checking.
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: ok
+      security:
+      - default: []
+      x-auth-type: None
+      x-throttling-tier: Unlimited
+securityDefinitions:
+  default:
+    type: oauth2
+    authorizationUrl: https://api.eumetsat.int/authorize
+    flow: implicit

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/eumetsat/main/json-schema/eumetsat-collection-plus-products-schema.json",
+  "title": "CollectionPlusProducts",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/eumetsat-data-store-browse-openapi.yml#/components/schemas/CollectionPlusProducts",
+  "required": [
+    "links",
+    "numberOfProducts"
+  ],
+  "type": "object",
+  "properties": {
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LinkSchema"
+      }
+    },
+    "numberOfProducts": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "products": {
+      "$ref": "#/$defs/LinkSchema"
+    }
+  },
+  "$defs": {
+    "LinkSchema": {
+      "required": [
+        "rel",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "mediaType": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "rel": {
+          "type": "string"
+        },
+        "datasetTitle": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

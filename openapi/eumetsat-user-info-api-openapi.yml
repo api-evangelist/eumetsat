@@ -1,0 +1,90 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat User Info API
+  version: '1.0'
+  description: 'Operations tagged User Info across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: User Info
+paths:
+  /user_info:
+    get:
+      description: Returns information about the configuration for user with user_id identifier.
+      operationId: GET_user_info
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_info'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - User Info
+      summary: GET user info
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    User_info:
+      required:
+      - config
+      - etc_dir
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: data_tailor
+        etc_dir:
+          type: string
+          example: /home/data_tailor/miniconda3/envs/my_env/etc/epct
+        config:
+          type: array
+          items:
+            type: string
+      description: Information about the configuration for user of ID user_id.
+    User_info_2:
+      type: object
+      required:
+      - config
+      - etc_dir
+      - user_id
+      properties:
+        user_id:
+          type: string
+        etc_dir:
+          type: string
+        config:
+          type: array
+          items:
+            type: string
+      description: Information about the configuration for user of ID user_id.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml

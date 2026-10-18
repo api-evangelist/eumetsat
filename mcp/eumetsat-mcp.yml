@@ -1,0 +1,205 @@
+name: EUMETSAT MCP server (candidate)
+type: MCPServer
+generated: '2026-10-18'
+method: derived
+source: openapi/
+status: candidate
+description: No official EUMETSAT MCP server was found (web search 2026-10-18 returned
+  nothing; https://api.eumetsat.int/mcp -> 404). This is a candidate tool list derived
+  from EUMETSAT Data Store, Data Tailor and User Info OpenAPI operations.
+deployment:
+  mode: none
+  auth: oauth
+  verified: derived
+auth_note: The EUMETSAT gateway specs declare an OAuth2 security scheme (implicit
+  flow, authorizationUrl https://api.eumetsat.int/authorize); any server built on
+  them would need EUMETSAT account credentials.
+evidence:
+- url: https://api.eumetsat.int/mcp
+  status: 404
+- url: https://data.eumetsat.int/mcp
+  status: 200
+  note: text/html Data Store SPA shell, not an MCP endpoint; not adopted
+tools:
+- name: data_store_opensearch_api_searchproducts
+  description: Search products
+  operationId: searchProducts
+  method: GET
+  path: /os
+  spec: openapi/eumetsat-data-store-search-openapi.yml
+  readOnly: true
+- name: data_store_opensearch_api_descriptiondocument
+  description: OpenSearch Description Document
+  operationId: descriptionDocument
+  method: GET
+  path: /osdd
+  spec: openapi/eumetsat-data-store-search-openapi.yml
+  readOnly: true
+- name: data_store_browse_api_getcollections
+  description: Show all collections that are available for Data-Store
+  operationId: getCollections
+  method: GET
+  path: /collections
+  spec: openapi/eumetsat-data-store-browse-openapi.yml
+  readOnly: true
+- name: data_store_browse_api_getcollectionbyid
+  description: Show details for a single collection.
+  operationId: getCollectionByID
+  method: GET
+  path: /collections/{collID}
+  spec: openapi/eumetsat-data-store-browse-openapi.yml
+  readOnly: true
+- name: data_store_browse_api_getproductbyid
+  description: Show product metadata
+  operationId: getProductByID
+  method: GET
+  path: /collections/{collID}/products/{prodID}
+  spec: openapi/eumetsat-data-store-browse-openapi.yml
+  readOnly: true
+- name: data_store_browse_api_getcollectionbyiddates
+  description: Show available years for collection
+  operationId: getCollectionByIDDates
+  method: GET
+  path: /collections/{collID}/dates
+  spec: openapi/eumetsat-data-store-browse-openapi.yml
+  readOnly: true
+- name: data_store_download_api_downloadproductbyid
+  description: Download product as compressed SIP
+  operationId: downloadProductByID
+  method: GET
+  path: /collections/{collID}/products/{prodID}
+  spec: openapi/eumetsat-data-store-download-openapi.yml
+  readOnly: true
+- name: data_store_download_api_downloadproductsmetadatabyid
+  description: "Download product\xB4s metadata"
+  operationId: downloadProductsMetadataByID
+  method: GET
+  path: /collections/{collID}/products/{prodID}/metadata
+  spec: openapi/eumetsat-data-store-download-openapi.yml
+  readOnly: true
+- name: data_store_download_api_downloadproductfilebyid
+  description: Downloads a specific file of the product
+  operationId: downloadProductFileByID
+  method: GET
+  path: /collections/{collID}/products/{prodID}/entry
+  spec: openapi/eumetsat-data-store-download-openapi.yml
+  readOnly: true
+- name: data_store_subscription_api_retrievesubscriptionsusingget
+  description: Retrieve the user subscriptions.
+  operationId: retrieveSubscriptionsUsingGET
+  method: GET
+  path: /subscription
+  spec: openapi/eumetsat-data-store-subscription-openapi.yml
+  readOnly: true
+- name: data_store_subscription_api_createnewsubscriptionusingpost
+  description: Create a new subscription.
+  operationId: createNewSubscriptionUsingPOST
+  method: POST
+  path: /subscription
+  spec: openapi/eumetsat-data-store-subscription-openapi.yml
+  readOnly: false
+- name: data_store_subscription_api_retrievesubscriptionusingget
+  description: Retrieve a subscription.
+  operationId: retrieveSubscriptionUsingGET
+  method: GET
+  path: /subscription/{subscriptionId}
+  spec: openapi/eumetsat-data-store-subscription-openapi.yml
+  readOnly: true
+- name: data_store_subscription_api_deletesubscriptionusingdelete
+  description: Delete a subscription.
+  operationId: deleteSubscriptionUsingDELETE
+  method: DELETE
+  path: /subscription/{subscriptionId}
+  spec: openapi/eumetsat-data-store-subscription-openapi.yml
+  readOnly: false
+- name: data_tailor_web_service_epcs_get_info
+  description: Returns general information about the Data Tailor configuration in
+    its currently installed version.
+  operationId: GET_info
+  method: GET
+  path: /info
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_report_quota
+  description: Provides a report of user space occupation. The information returned
+    includes (a) the current user quota; (b) the space occupied by the user folder;
+    (c) the per
+  operationId: GET_report_quota
+  method: GET
+  path: /report_quota
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_products
+  description: Retrieves information on currently supported input product types.
+  operationId: GET_products
+  method: GET
+  path: /products
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_chains
+  description: Retrieves information on existing customisation chain configurations.
+  operationId: GET_chains
+  method: GET
+  path: /chains
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_formats
+  description: Retrieves information on supported output formats.
+  operationId: GET_formats
+  method: GET
+  path: /formats
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_post_customisations
+  description: Launches a customisation with the given chain configuration. If successful,
+    returns a corresponding Uuid identifier.
+  operationId: POST_customisations
+  method: POST
+  path: /customisations
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: false
+- name: data_tailor_web_service_epcs_get_customisations
+  description: Retrieves information on the customisations corresponding to the given
+    list of Uuid identifiers.
+  operationId: GET_customisations
+  method: GET
+  path: /customisations
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_customisations_customisationid
+  description: Retrieves information on the customisation corresponding to the given
+    Uuid identifier.
+  operationId: GET_customisations-customisationId
+  method: GET
+  path: /customisations/{customisationId}
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_customisations_customisationid_log
+  description: Returns log of the customisation corresponding to the given Uuid identifier.
+  operationId: GET_customisations-customisationId-log
+  method: GET
+  path: /customisations/{customisationId}/log
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_get_download
+  description: Allows users to download an output file from a given path.
+  operationId: GET_download
+  method: GET
+  path: /download
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: true
+- name: data_tailor_web_service_epcs_delete_customisations_customisationid
+  description: Deletes information on the customisation corresponding to the given
+    Uuid identifier.
+  operationId: DELETE_customisations-customisationId
+  method: DELETE
+  path: /customisations/{customisationId}
+  spec: openapi/eumetsat-data-tailor-openapi.yml
+  readOnly: false
+- name: user_info_api_userinfousingget
+  description: Retrieves user info
+  operationId: userInfoUsingGET
+  method: GET
+  path: /user
+  spec: openapi/eumetsat-user-info-openapi.yml
+  readOnly: true

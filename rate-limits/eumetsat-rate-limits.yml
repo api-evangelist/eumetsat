@@ -1,0 +1,34 @@
+generated: '2026-10-18'
+method: searched
+generator: extract-docs-artifacts.py (deepseek)
+source: https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide#ID-Throttling
+sources:
+- https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide#ID-Throttling
+name: EUMETSAT rate limits
+limits:
+- name: unauthenticated_requests_per_second
+  limit_text: 'Maximum number of unauthenticated requests (per second): 10'
+  max: 10
+  window: second
+  scope: unauthenticated
+- name: authenticated_requests_per_second
+  limit_text: 'Maximum number of authenticated requests (per second): 40'
+  max: 40
+  window: second
+  scope: authenticated
+- name: authenticated_parallel_connections
+  limit_text: 'Maximum number of parallel connections for authenticated users: 15'
+  max: 15
+  scope: authenticated
+- name: unauthenticated_parallel_connections
+  limit_text: 'Maximum number of parallel connections for unauthenticated users: 3'
+  max: 3
+  scope: unauthenticated
+- name: daily_data_volume
+  limit_text: 'Maximum volume of data (per day): 10TB'
+  window: day
+exhaustion_status: 429
+note: The page mentions "retryAfter" field in the response when exceeding daily data volume, but doesn't specify response headers like X-RateLimit-*
+  or RateLimit-*
+retry_after: '86400'
+docs: https://user.eumetsat.int/resources/user-guides/data-store-detailed-guide#ID-Throttling

@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  title: Eumetsat Info API
+  version: '1.0'
+  description: 'Operations tagged Info across 3 of this provider''s published API definitions: eumetsat-data-tailor-openapi.json, eumetsat-data-tailor-openapi.yml, eumetsat-dtws-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.eumetsat.int/epcs/0.1.0
+- url: http://api.eumetsat.int/epcs/0.1.0
+- url: https://api.eumetsat.int/dtws/1.0.0
+- url: http://api.eumetsat.int/dtws/1.0.0
+security:
+- default: []
+tags:
+- name: Info
+paths:
+  /info:
+    get:
+      description: Returns general information about the Data Tailor configuration in its currently installed version.
+      operationId: GET_info
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+      security:
+      - default: []
+      x-auth-type: null
+      x-throttling-tier: null
+      tags:
+      - Info
+      summary: GET info
+      x-summary-source: derived
+    servers:
+    - url: https://api.eumetsat.int/epcs/0.1.0
+    - url: http://api.eumetsat.int/epcs/0.1.0
+components:
+  schemas:
+    Info:
+      required:
+      - epct_version
+      - installed_plugins
+      - registered_backends
+      type: object
+      properties:
+        epct_version:
+          type: string
+          example: 3.0.0
+        installed_plugins:
+          type: array
+          items:
+            type: string
+            example: epct-plugin-gis, 3.0.0
+        registered_backends:
+          type: array
+          items:
+            type: string
+      description: General information about the Data Tailor configuration.
+    Info_2:
+      type: object
+      required:
+      - epct_version
+      - installed_plugins
+      - registered_backends
+      properties:
+        epct_version:
+          type: string
+        installed_plugins:
+          type: array
+          items:
+            type: string
+        registered_backends:
+          type: array
+          items:
+            type: string
+      description: General information about the Data Tailor configuration.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.eumetsat.int/authorize
+          scopes: {}
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+x-refined-from:
+- eumetsat-data-tailor-openapi.json
+- eumetsat-data-tailor-openapi.yml
+- eumetsat-dtws-openapi.yml
