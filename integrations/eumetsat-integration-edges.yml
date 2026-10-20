@@ -1,16 +1,99 @@
 generated: '2026-10-18'
-method: none
+method: searched
 source:
 - https://zapier.com/apps/eumetsat/integrations
 - https://n8n.io/integrations/eumetsat/
 - https://composio.dev/toolkits/eumetsat
 - https://monid.ai/tools/eumetsat
 checked:
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/eumetsat
+- https://crates.io/api/v1
 - https://monid.ai/tools/eumetsat
 - https://n8n.io/integrations/eumetsat/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://zapier.com/apps/eumetsat/integrations
 summary: null
 marketplace_apps: []
-edges: []
+edges:
+- partner_name: Open Geospatial Consortium
+  partner: ogc
+  detected_by: sweep-geospatial.py
+  first_seen: '2026-10-19'
+  partner_match: register
+  type: register
+  direction: partner-built
+  channel: standard-directory
+  relationship: standard-participant
+  evidence: https://portal.ogc.org/public_ogc/compliance/implementing.php?org_match=EUMETSAT
+  conformance:
+    organization: EUMETSAT
+    domain: eumetsat.int
+    products: 2
+    compliant_specs: []
+    implementing_specs:
+    - 'CSW-ebRIM Registry Service - Part 1: ebRIM profile of CSW 1.0.1'
+    - 'Catalogue Services Standard 2.0 Extension Package for ebRIM Application Profile: Earth Observation Products
+      1.0.0'
+    - Filter Encoding Implementation Specification 1.1
+    - KML 2.2.0
+    - Web Service Common Implementation Specification 1.0
+    products_list:
+    - name: EO Portal Clearinghouse
+      version: '1.0'
+      type: Server
+      pid: '962'
+      valid_until: null
+      compliant: []
+    - name: ProductNavigator
+      version: '2.0'
+      type: Client and Server
+      pid: '963'
+      valid_until: null
+      compliant: []
+  match:
+    method: domain
+    domain: eumetsat.int
+  contract_reference:
+    register: portal.ogc.org/public_ogc/compliance
+    spec_file: null
+    role: implementation-registration
+    registered_name: EUMETSAT
+    register_id: EUMETSAT
+    detected_by: sweep-geospatial.py
+    detected: '2026-10-19'
+- partner_name: PyPI
+  partner: pypi
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Python)
+  evidence: https://pypi.org/project/eumdac/
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: eumdac
+      version: 3.1.1
+      released: '2025-12-11'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/eumdac/
+      repo_leg: domain:eumetsat.int
+      publisher_leg: email:eumetsat.int
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-20'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-20'
 templates: []
