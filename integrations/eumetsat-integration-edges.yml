@@ -17,6 +17,12 @@ checked:
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
 - https://zapier.com/apps/eumetsat/integrations
+- https://ckan.org/showcase (marketing showcase, not a register; not read)
+- https://data.europa.eu/api/hub/search/catalogues
+- https://dataportals.org/api/data.json
+- 'https://interoperable-europe.ec.europa.eu/collection/semic-support-centre/dcat-ap (no implementations or conformance
+  register: the ''SEMIC map'' link redirects to the collection home)'
+- https://raw.githubusercontent.com/ckan/ckan-instances/gh-pages/config/instances.json
 summary: null
 marketplace_apps: []
 edges:
@@ -96,4 +102,35 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-20'
+- partner_name: data.europa.eu (European data portal)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://data.europa.eu/data/catalogues/pn
+  category: 'open data portal: DCAT-AP harvest network'
+  contract_reference:
+    register: data.europa.eu catalogue registry (data.europa.eu/api/hub/search/catalogues)
+    standard: DCAT-AP (DCAT Application Profile for data portals in Europe)
+    spec_file: null
+    role: harvested-catalogue
+    registered_name: European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)
+    register_id: pn
+    matched_domain: eumetsat.int
+    matched_by: domain
+    listings:
+    - catalogue: pn
+      title: EUMETSAT Product Navigator
+      publisher: European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT)
+      country: EUROPE
+      source_type: geospatial
+      datasets: 0
+    signal_note: 'participation only: the catalogue is harvested by data.europa.eu (DCAT-AP metadata); no conformance
+      test is published; dataset counts are context, never counted'
+    detected_by: sweep-open-data-portals.py
+    detected: '2026-10-21'
+  detected_by: sweep-open-data-portals.py
+  first_seen: '2026-10-21'
 templates: []
